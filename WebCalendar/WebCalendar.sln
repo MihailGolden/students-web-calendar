@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCalendar", "WebCalendar\WebCalendar.csproj", "{0D1B6671-08D2-468A-8D61-4FDBC503F238}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCalendar.Tests", "WebCalendar.Tests\WebCalendar.Tests.csproj", "{4540B8D3-1E40-4FA4-8F0F-F1FCA2B5BC44}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{2182FA9F-4E1B-464D-B8F7-16FD3439AED1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{36CC77C9-6F45-49CC-8CD7-016D7F05B51D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{AB406704-EBF0-4BDA-93C7-41639FC54687}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCalendar.DAL", "WebCalendar.DAL\WebCalendar.DAL.csproj", "{32B19CA8-AA71-4576-9596-FADFFB8B93B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{08DE69C3-8738-4715-A17E-88D2BC61859A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCalendar.Domain", "WebCalendar.Domain\WebCalendar.Domain.csproj", "{0E0EF9E7-0B1C-410A-9338-28544E1C822B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D1B6671-08D2-468A-8D61-4FDBC503F238}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D1B6671-08D2-468A-8D61-4FDBC503F238}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D1B6671-08D2-468A-8D61-4FDBC503F238}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D1B6671-08D2-468A-8D61-4FDBC503F238}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4540B8D3-1E40-4FA4-8F0F-F1FCA2B5BC44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4540B8D3-1E40-4FA4-8F0F-F1FCA2B5BC44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4540B8D3-1E40-4FA4-8F0F-F1FCA2B5BC44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4540B8D3-1E40-4FA4-8F0F-F1FCA2B5BC44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32B19CA8-AA71-4576-9596-FADFFB8B93B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32B19CA8-AA71-4576-9596-FADFFB8B93B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32B19CA8-AA71-4576-9596-FADFFB8B93B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32B19CA8-AA71-4576-9596-FADFFB8B93B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E0EF9E7-0B1C-410A-9338-28544E1C822B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E0EF9E7-0B1C-410A-9338-28544E1C822B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E0EF9E7-0B1C-410A-9338-28544E1C822B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E0EF9E7-0B1C-410A-9338-28544E1C822B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0D1B6671-08D2-468A-8D61-4FDBC503F238} = {2182FA9F-4E1B-464D-B8F7-16FD3439AED1}
+		{4540B8D3-1E40-4FA4-8F0F-F1FCA2B5BC44} = {AB406704-EBF0-4BDA-93C7-41639FC54687}
+		{32B19CA8-AA71-4576-9596-FADFFB8B93B7} = {36CC77C9-6F45-49CC-8CD7-016D7F05B51D}
+		{0E0EF9E7-0B1C-410A-9338-28544E1C822B} = {08DE69C3-8738-4715-A17E-88D2BC61859A}
+	EndGlobalSection
+EndGlobal

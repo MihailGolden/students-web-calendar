@@ -1,0 +1,276 @@
+﻿@model IEnumerable<WebCalendar.Domain.Aggregate.Calendar.Calendar>
+@{
+    ViewBag.Title = "Index";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="view-port" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/custom.css" rel="stylesheet">
+    <script src="~/Scripts/respond.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+</head>
+
+<body>
+    <nav clas="navbar navbar-default">
+        <!--Calendar navbar-->
+        <div class="row">
+            <div class="col-lg-2">
+                <span class="calendarword">Calendar</span>
+            </div>
+            <div class="col-lg-2">
+
+            </div>
+            <div class="col-lg-2">
+                <p class="navbar-text navbar-left"><h6 id="month"></h6>March, 2017</p>
+            </div>
+            <div class="col-lg-6">
+                <div class="btn-group" role="group" aria-label="...">
+                    <button class="btn btn-default">Today</button>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button type="button" class="btn btn-default"><</button>
+                        <button type="button" class="btn btn-default">></button>
+                    </div>
+                    <button type="button" class="btn btn-default">Day</button>
+                    <button type="button" class="btn btn-default">Week</button>
+                    <button type="button" class="btn btn-default">Month</button>
+                </div>
+                <button type="submit" class="btn btn-default">Notification</button>
+            </div>
+        </div><!--Calendar bar-->
+    </nav>
+
+    <div class="content">
+        <div class="left-content">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <button class="btn btn-default">Create</button>
+                </div>
+                <div class="col-md-2"></div>
+            </div><!--End Row-->
+            <div class="row">
+                <div class="col-sm-10">
+                    @*<h5 class="month">March 2017</h5>*@
+                    <h5 class="month"></h5>
+
+                </div>
+            </div>
+            <!--SMALL CALENDAR-->
+            <div class="row">
+                <!--Calender-->
+                <div class="col-md-1 table-bordered">
+                    <div class="row">
+                        <div class="col-md-1 table-bordered">S</div>
+                        <div class="col-md-1 table-bordered grey">25</div>
+                        <div class="col-md-1 table-bordered">1</div>
+                        <div class="col-md-1 table-bordered">8</div>
+                        <div class="col-md-1 table-bordered">15</div>
+                        <div class="col-md-1 table-bordered">22</div>
+                        <div class="col-md-1 table-bordered">29</div>
+                    </div>
+                </div>
+                <div class="col-md-1 table-bordered">
+                    <div class="row">
+                        <div class="col-md-1 table-bordered">M</div>
+                        <div class="col-md-1 table-bordered grey">26</div>
+                        <div class="col-md-1 table-bordered">2</div>
+                        <div class="col-md-1 table-bordered">9</div>
+                        <div class="col-md-1 table-bordered">16</div>
+                        <div class="col-md-1 table-bordered">23</div>
+                        <div class="col-md-1 table-bordered">30</div>
+                    </div>
+                </div>
+                <div class="col-md-1 table-bordered">
+                    <div class="row">
+                        <div class="col-md-1 table-bordered">T</div>
+                        <div class="col-md-1 table-bordered grey">27</div>
+                        <div class="col-md-1 table-bordered">3</div>
+                        <div class="col-md-1 table-bordered">10</div>
+                        <div class="col-md-1 table-bordered">17</div>
+                        <div class="col-md-1 table-bordered">24</div>
+                        <div class="col-md-1 table-bordered grey">1</div>
+                    </div>
+                </div>
+                <div class="col-md-1 table-bordered">
+                    <div class="row">
+                        <div class="col-md-1 table-bordered">W</div>
+                        <div class="col-md-1 table-bordered grey">28</div>
+                        <div class="col-md-1 table-bordered">4</div>
+                        <div class="col-md-1 table-bordered">11</div>
+                        <div class="col-md-1 table-bordered">18</div>
+                        <div class="col-md-1 table-bordered">25</div>
+                        <div class="col-md-1 table-bordered grey">2</div>
+                    </div>
+                </div>
+                <div class="col-md-1 table-bordered">
+                    <div class="row">
+                        <div class="col-md-1 table-bordered">TH</div>
+                        <div class="col-md-1 table-bordered grey">29</div>
+                        <div class="col-md-1 table-bordered">5</div>
+                        <div class="col-md-1 table-bordered">12</div>
+                        <div class="col-md-1 table-bordered">19</div>
+                        <div class="col-md-1 table-bordered">26</div>
+                        <div class="col-md-1 table-bordered grey">3</div>
+                    </div>
+                </div>
+                <div class="col-md-1 table-bordered">
+                    <div class="row">
+                        <div class="col-md-1 table-bordered">F</div>
+                        <div class="col-md-1 table-bordered grey">30</div>
+                        <div class="col-md-1 table-bordered">6</div>
+                        <div class="col-md-1 table-bordered">13</div>
+                        <div class="col-md-1 table-bordered">20</div>
+                        <div class="col-md-1 table-bordered">27</div>
+                        <div class="col-md-1 table-bordered grey">4</div>
+                    </div>
+                </div>
+                <div class="col-md-1 table-bordered">
+                    <div class="row">
+                        <div class="col-md-1 table-bordered">S</div>
+                        <div class="col-md-1 table-bordered grey">31</div>
+                        <div class="col-md-1 table-bordered">7</div>
+                        <div class="col-md-1 table-bordered">14</div>
+                        <div class="col-md-1 table-bordered">21</div>
+                        <div class="col-md-1 table-bordered">28</div>
+                        <div class="col-md-1 table-bordered grey">5</div>
+                    </div>
+                </div>
+            </div>
+
+            <!--END SMALL CALNDER-->
+
+            <div class="row">
+                <div class="col-sm-10">
+                    <h5>My Calendars</h5>
+                    @foreach (var item in Model)
+                    {
+                        <h6 class="h6pad"><a href="#">@item.Title</a></h6>
+                    }
+                </div>
+            </div>
+        </div><!--End left-content-->
+
+    <!--BIG CALENDAR--->
+        <div id="main-calendar" class="right-content">
+            <div class="row">
+                <div class="col-lg-1 table-bordered">GMT-05</div>
+                <div class="col-lg-2 table-bordered">Sun 9/8<br><br></div>
+                <div class="col-lg-2 table-bordered">Mon 9/10<br><br></div>
+                <div class="col-lg-2 table-bordered">Tues 9/11<br><br></div>
+                <div class="col-lg-2 table-bordered">Wed 9/12<br><br></div>
+                <div class="col-lg-1 table-bordered">TH 9/13</div>
+                <div class="col-lg-1 table-bordered">Fri 9/14</div>
+                <div class="col-lg-1 table-bordered">Sat 9/15</div>
+            </div>
+            <div class="row">
+                <div class="col-lg-1 table-bordered">12am-8am</div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+
+            </div><!--End Row-->
+            <div class="row">
+                <div class="col-lg-1 table-bordered">9am<br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+            </div><!--End Row-->
+            <div class="row">
+                <div class="col-lg-1 table-bordered">10am<br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+            </div><!--End Row-->
+            <div class="row">
+                <div class="col-lg-1 table-bordered">11am<br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+            </div><!--End Row-->
+            <div class="row">
+                <div class="col-lg-1 table-bordered">12pm<br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+            </div><!--End Row-->
+            <div class="row">
+                <div class="col-lg-1 table-bordered">1pm<br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+            </div><!--End Row-->
+            <div class="row">
+                <div class="col-lg-1 table-bordered">2pm<br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+            </div><!--End Row-->
+            <div class="row">
+                <div class="col-lg-1 table-bordered">3pm<br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+            </div><!--End Row-->
+            <div class="row">
+                <div class="col-lg-1 table-bordered">4pm<br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+            </div><!--End Row-->
+            <div class="row">
+                <div class="col-lg-1 table-bordered">5pm-12am</div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-2 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+                <div class="col-lg-1 table-bordered"><br><br></div>
+            </div><!--End Row-->
+        </div><!--end right-content-->
+    </div><!--End Content-->
+</body>
+
+
+</html>
+<script src="~/Scripts/app.js"></script>
