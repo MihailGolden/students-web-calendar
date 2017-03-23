@@ -27,7 +27,7 @@ namespace WebCalendar
                       "~/Scripts/app.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      //"~/Content/bootstrap.css",
+                      "~/Content/bootstrap.css",
                       "~/Content/bootstrap-datetimepicker.css",
                       "~/Content/site.css",
                       "~/Content/custom.css"));
