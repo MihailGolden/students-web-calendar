@@ -1,0 +1,12 @@
+﻿<div class="row">
+    <div style="text-align: center" class="col-lg-12 table-bordered"
+         ng-bind-template="{{calendar.getDayName()}}, {{calendar.getMonth()}}/{{calendar.getDate()}}">
+    </div>
+</div>
+
+<!--<div style="overflow: scroll; width: 760px; height: 450px;">-->
+<div class="row" ng-repeat="h in hours">
+    <div class="col-lg-2 table-bordered">{{h}}<br><br></div>
+    <div data-hour="{{h}}" class="col-lg-10 table-bordered selectable-cell"><br><br></div>
+</div>
+<!--</div>-->

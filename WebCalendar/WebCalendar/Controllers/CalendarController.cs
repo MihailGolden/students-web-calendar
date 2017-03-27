@@ -17,5 +17,12 @@ namespace WebCalendar.Controllers
             var calendars = this.repository.Entities.ToList();
             return View(calendars);
         }
+        public ActionResult GridHtml(string fileName)
+        {
+            string pathToFile = string.Format("~/Views/Calendar/{0}", fileName);
+
+            var result = new FilePathResult(pathToFile, "text/html");
+            return result;
+        }
     }
 }
