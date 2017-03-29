@@ -2,8 +2,7 @@
 
 namespace WebCalendar.DAL.Context
 {
-    //To-Do change class to internal and contex too.
-    public class UnitOfWork : IUnitOfWork
+    internal class UnitOfWork : IUnitOfWork
     {
         private readonly WebCalendarContext context;
         public UnitOfWork()

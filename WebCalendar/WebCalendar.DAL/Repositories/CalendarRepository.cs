@@ -76,43 +76,5 @@ namespace WebCalendar.DAL.Concrete
             }
             this.unitOfWork.Commit();
         }
-
-        //public IQueryable<Calendar> Entities
-        //{
-        //    get
-        //    {
-        //        return this.context.Calendars;
-        //    }
-        //}
-
-        //public void Delete(int id)
-        //{
-        //    CalendarEntity entity = this.context.Calendars.Find(id);
-        //    if (entity != null)
-        //    {
-        //        context.Calendars.Add(entity);
-        //        context.SaveChanges();
-        //    }
-        //}
-
-        //public void Save(CalendarEntity entity)
-        //{
-        //    if (entity.ID == 0)
-        //    {
-        //        context.Calendars.Add(entity);
-        //    }
-        //    else
-        //    {
-        //        CalendarEntity cal = context.Calendars.Find(entity.ID);
-        //        if (cal != null)
-        //        {
-        //            cal.Title = entity.Title;
-        //        }
-        //    }
-        //    context.SaveChanges();
-        //}
-
-
-
     }
 }
