@@ -1,4 +1,7 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
+using System.Linq;
 using WebCalendar.DAL.Entities;
 
 namespace WebCalendar.DAL.Context
@@ -18,8 +21,33 @@ namespace WebCalendar.DAL.Context
         {
             // relationship 1 to many 
             modelBuilder.Entity<EventEntity>().HasRequired(c => c.Calendar).WithMany(e => e.Events);
-            modelBuilder.Entity<NotificationEntity>().HasRequired(e => e.Event).WithMany(n => n.Notifications);
-            modelBuilder.Entity<OccurrenceEntity>().HasRequired(e => e.Event).WithMany(o => o.Occurrences);
+            modelBuilder.Entity<NotificationEntity>().HasOptional(e => e.Event).WithMany(n => n.Notifications);
+            modelBuilder.Entity<OccurrenceEntity>().HasOptional(e => e.Event).WithMany(o => o.Occurrences);
+        }
+
+        public override int SaveChanges()
+        {
+            try
+            {
+                return base.SaveChanges();
+            }
+            catch (DbEntityValidationException exception)
+            {
+                foreach (var validationErrors in exception.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Class: {0}, Property: {1}, Error: {2}",
+                            validationErrors.Entry.Entity.GetType().FullName,
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                    }
+                }
+
+                string errorMessages = string.Join("; ", exception.EntityValidationErrors.SelectMany(x => x.ValidationErrors).Select(x => x.ErrorMessage));
+                throw new DbEntityValidationException(errorMessages);
+            }
         }
     }
 }
+

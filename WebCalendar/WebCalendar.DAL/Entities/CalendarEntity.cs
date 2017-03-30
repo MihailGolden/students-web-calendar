@@ -15,6 +15,7 @@ namespace WebCalendar.DAL.Entities
         }
         [Required(ErrorMessage = "Enter a start date!")]
         public string Title { get; set; }
+        public string Description { get; set; }
         public virtual List<EventEntity> Events { get; set; }
     }
 }

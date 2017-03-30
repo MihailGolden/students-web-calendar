@@ -9,7 +9,7 @@ namespace WebCalendar.DAL.Entities
         [Key]
         public int ID { get; set; }
         public int Count { get; set; }
-        public int EventID { get; set; }
+        public int? EventID { get; set; }
         public virtual EventEntity Event { get; set; }
     }
 }
