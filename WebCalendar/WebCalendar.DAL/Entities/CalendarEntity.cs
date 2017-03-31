@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,7 +9,7 @@ namespace WebCalendar.DAL.Entities
     public class CalendarEntity
     {
         [Key]
-        public int ID { get; set; }
+        public int CalendarID { get; set; }
         public CalendarEntity()
         {
             this.Events = new List<EventEntity>();
@@ -16,6 +17,8 @@ namespace WebCalendar.DAL.Entities
         [Required(ErrorMessage = "Enter a start date!")]
         public string Title { get; set; }
         public string Description { get; set; }
+        public string UserID { get; set; }
+        public DateTime? Date { get; set; }
         public virtual List<EventEntity> Events { get; set; }
     }
 }

@@ -30,7 +30,7 @@ namespace WebCalendar.DAL.Concrete
             DomainToDal.Map(entity, ev);
             this.dal.Add(entity);
             this.unitOfWork.Commit();
-            ev.ID = entity.ID;
+            ev.ID = entity.EventID;
         }
 
         public IQueryable<Event> Entities
@@ -72,8 +72,8 @@ namespace WebCalendar.DAL.Concrete
                 if (ev != null)
                 {
                     ev.Description = entity.Description;
-                    ev.StartDate = entity.StartDate;
-                    ev.EndDate = entity.EndDate;
+                    ev.BeginTime = entity.BeginTime;
+                    ev.EndTime = entity.EndTime;
                     ev.CalendarID = entity.CalendarID;
                 }
             }

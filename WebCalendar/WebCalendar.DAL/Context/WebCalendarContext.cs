@@ -22,7 +22,8 @@ namespace WebCalendar.DAL.Context
             // relationship 1 to many 
             modelBuilder.Entity<EventEntity>().HasRequired(c => c.Calendar).WithMany(e => e.Events);
             modelBuilder.Entity<NotificationEntity>().HasOptional(e => e.Event).WithMany(n => n.Notifications);
-            modelBuilder.Entity<OccurrenceEntity>().HasOptional(e => e.Event).WithMany(o => o.Occurrences);
+            modelBuilder.Entity<EventEntity>().HasOptional(e => e.Occurrence).WithMany(o => o.Events);
+            modelBuilder.Entity<CalendarEntity>().Property(c => c.UserID).HasMaxLength(128);
         }
 
         public override int SaveChanges()

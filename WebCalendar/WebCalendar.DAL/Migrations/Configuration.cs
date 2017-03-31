@@ -13,8 +13,8 @@ namespace WebCalendar.DAL.Migrations
 
         protected override void Seed(WebCalendar.DAL.Context.WebCalendarContext context)
         {
-            CalendarEntity cal = new CalendarEntity { ID = 1, Title = "My First Calendar" };
-            EventEntity ev = new EventEntity { ID = 1, Description = "First Event", StartDate = new DateTime(2017, 02, 03), EndDate = new DateTime(2017, 03, 03), CalendarID = 1 };
+            CalendarEntity cal = new CalendarEntity { CalendarID = 1, Title = "My First Calendar", Date = new DateTime(2017, 03, 31) };
+            EventEntity ev = new EventEntity { EventID = 1, Title = "First Event", Description = "To-Do something", CalendarID = 1, BeginTime = new DateTime(2017, 03, 27, 12, 10, 0) };
             cal.Events.Add(ev);
             context.Calendars.AddOrUpdate(cal);
             context.Events.AddOrUpdate(ev);

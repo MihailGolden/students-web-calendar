@@ -30,7 +30,7 @@ namespace WebCalendar.DAL.Concrete
             DomainToDal.Map(entity, cal);
             this.dal.Add(entity);
             this.unitOfWork.Commit();
-            cal.ID = entity.ID;
+            cal.ID = entity.CalendarID;
         }
 
         public IQueryable<Calendar> Entities

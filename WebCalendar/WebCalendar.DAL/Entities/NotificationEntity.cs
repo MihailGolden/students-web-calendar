@@ -8,7 +8,7 @@ namespace WebCalendar.DAL.Entities
     public class NotificationEntity
     {
         [Key]
-        public int ID { get; set; }
+        public int NotificationID { get; set; }
         public string Type { get; set; }
         public int NotificateBeforeDay { get; set; }
         [Column(TypeName = "datetime")]

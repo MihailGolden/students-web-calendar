@@ -8,27 +8,27 @@ namespace WebCalendar.DAL.Mappers
     {
         public static void Map(CalendarEntity to, Calendar from)
         {
-            to.ID = from.ID;
+            to.CalendarID = from.ID;
             to.Title = from.Title;
         }
 
         public static Calendar Map(CalendarEntity to)
         {
-            return new Calendar { ID = to.ID, Title = to.Title };
+            return new Calendar { ID = to.CalendarID, Title = to.Title };
         }
 
         public static void Map(EventEntity to, Event from)
         {
-            to.ID = from.ID;
+            to.EventID = from.ID;
             to.Description = from.Description;
-            to.StartDate = from.StartDate;
-            to.EndDate = from.EndDate;
+            to.BeginTime = from.BeginTime;
+            to.EndTime = from.EndTime;
             to.CalendarID = from.CalendarID;
         }
 
         public static Event Map(EventEntity to)
         {
-            return new Event { ID = to.ID, Description = to.Description, CalendarID = to.CalendarID, StartDate = to.StartDate, EndDate = to.EndDate };
+            return new Event { ID = to.EventID, Description = to.Description, CalendarID = to.CalendarID, BeginTime = to.BeginTime, EndTime = to.EndTime };
         }
     }
 }
