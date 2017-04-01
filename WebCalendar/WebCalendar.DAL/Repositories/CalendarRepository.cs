@@ -72,6 +72,8 @@ namespace WebCalendar.DAL.Concrete
                 if (cal != null)
                 {
                     cal.Title = newEntity.Title;
+                    cal.Description = newEntity.Description;
+                    cal.Date = newEntity.Date;
                 }
             }
             this.unitOfWork.Commit();

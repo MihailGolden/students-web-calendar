@@ -1,0 +1,46 @@
+﻿.modal-dialog {
+    height: 50%;
+    width: 25%;
+    align-items: center;
+}
+
+.modal-content {
+    margin: 0 auto;
+}
+
+form {
+    margin: 0 auto;
+    width: 300px;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+}
+
+thead th {
+    background-color: #006DCC;
+    color: white;
+}
+
+tbody td {
+    background-color: #EEEEEE;
+}
+
+tr td:first-child,
+tr th:first-child {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+tr td:last-child,
+tr th:last-child {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.btn.center {
+    display: block;
+    margin: 0 auto;
+    width: 9%;
+}

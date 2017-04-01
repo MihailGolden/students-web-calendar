@@ -10,11 +10,13 @@ namespace WebCalendar.DAL.Mappers
         {
             to.CalendarID = from.ID;
             to.Title = from.Title;
+            to.Date = from.Date;
+            to.Description = from.Description;
         }
 
         public static Calendar Map(CalendarEntity to)
         {
-            return new Calendar { ID = to.CalendarID, Title = to.Title };
+            return new Calendar { ID = to.CalendarID, Title = to.Title, Date = to.Date, Description = to.Description };
         }
 
         public static void Map(EventEntity to, Event from)
