@@ -47,7 +47,7 @@ function getScope(ctrlName) {
     var sel = 'div[ng-controller="' + ctrlName + '"]';
     return angular.element(sel).scope();
 }
-(function() {
+
     var app = angular.module('calendarApp', []);
     app.controller('calendarCtrl', function ($scope, $http) {
         $scope.hours = ["12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am",
@@ -58,11 +58,14 @@ function getScope(ctrlName) {
         $scope.filePath = function () {
             return '/Calendar/GridHtml?fileName=' + $scope.fileName;
         };
-        $scope.nav = function (fileName) {
+        $scope.nav = function (fileName, grid) {
             $scope.fileName = fileName;
+            $scope.currentGrid = grid;
         };
 
         $scope.currentDate = new Date();
+        $scope.currentGrid = 'day';
+
 
         $scope.calendar = {
 
@@ -72,7 +75,7 @@ function getScope(ctrlName) {
             },
 
             getDayName: function (date) {
-                var date = date == null ? $scope.currentDate : date;
+                var date = date == null ? $scope.currentDate : new Date(date);
                 var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
                 return days[date.getDay()];
             },
@@ -93,22 +96,118 @@ function getScope(ctrlName) {
                 return result;
             },
 
+            addMonths: function (date, months) {
+                var result = date == null ? new Date($scope.currentDate) : new Date(date);
+                var months = months == null ? 1 : months;
+                result.setMonth(result.getMonth() + months);
+                $scope.currentDate = result;
+                return result;
+            },
+
+            subtractMonths: function (date, months) {
+                var result = date == null ? new Date($scope.currentDate) : new Date(date);
+                var months = months == null ? 1 : months;
+                result.setMonth(result.getMonth() - months);
+                $scope.currentDate = result;
+
+                return result;
+            },
+
+            addWeeks: function (date, weeks) {
+                var result = date == null ? new Date($scope.currentDate) : new Date(date);
+                var days = weeks == null ? 7 : weeks * 7;
+
+                return this.addDays(result, days);
+            },
+
+            subtractWeeks: function (date, weeks) {
+                var result = date == null ? new Date($scope.currentDate) : new Date(date);
+                var days = weeks == null ? 7 : weeks * 7;
+
+                return this.subtractDays(result, days);
+            },
+
+            addDate: function () {
+                switch ($scope.currentGrid) {
+                    case 'day':
+                        return this.addDays();
+                    case 'week':
+                        return this.addWeeks();
+                    case 'month':
+                        return this.addMonths();
+                    default:
+                        return this.addDays();
+                }
+            },
+
+            subtractDate: function () {
+                switch ($scope.currentGrid) {
+                    case 'day':
+                        return this.subtractDays();
+                    case 'week':
+                        return this.subtractWeeks();
+                    case 'month':
+                        return this.subtractMonths();
+                    default:
+                        return this.subtractDays();
+                }
+            },
+
             getDate: function (date) {
-                var date = date == null ? $scope.currentDate : date;
+                var date = date == null ? $scope.currentDate : new Date(date);
                 return date.getDate();
             },
 
             getMonth: function (date) {
-                var date = date == null ? $scope.currentDate : date;
+                var date = date == null ? $scope.currentDate : new Date(date);
                 return date.getMonth() + 1;
             },
 
             getMonthName: function (date) {
-                var date = date == null ? $scope.currentDate : date;
+                var date = date == null ? $scope.currentDate : new Date(date);
                 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
                 return months[date.getMonth()];
+            },
+
+            getWeek: function () {
+                var date1 = new Date($scope.currentDate);
+                var date2 = new Date($scope.currentDate);
+                date1.setDate($scope.currentDate.getDate() - date1.getDay());
+                date2.setDate($scope.currentDate.getDate() + (6 - date2.getDay()));
+
+                var firstDateOfCurrWeek = date1.getDate();
+                var lastDateOfCurrWeek = date2.getDate();
+
+                return {
+                    firstDay: firstDateOfCurrWeek,
+                    month1: $scope.calendar.getMonth(date1),
+                    lastDay: lastDateOfCurrWeek,
+                    month2: $scope.calendar.getMonth(date2)
+                }
+            },
+
+            getYear: function (date) {
+                var date = date == null ? $scope.currentDate : new Date(date);
+                return date.getFullYear();
             }
 
+        };
+
+            $scope.generateHeadersForGridWeek = function (){
+                var headers = [];
+                var date1 = new Date($scope.currentDate);
+                date1.setDate($scope.currentDate.getDate() - date1.getDay());
+                for (var i = 0; i < 7; i++){
+                    var d = date1.getDate();
+                    var m = date1.getMonth() + 1;
+                    var mn = $scope.calendar.getDayName(date1).substring(0,2);
+                    var h = "" + mn + ", " + m + "/" + d;
+                    headers.push(h);
+
+                    date1.setDate(date1.getDate() + 1);
+                }
+
+                return headers;
         };
 
         $scope.sendEventInfo = function () {
@@ -132,4 +231,3 @@ function getScope(ctrlName) {
             });
         };
     });
-})();

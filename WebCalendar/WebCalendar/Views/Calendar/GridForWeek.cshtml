@@ -1,28 +1,34 @@
 ﻿@{
     Layout = null;
 }
+
 <div class="row">
     <div style="text-align: center" class="col-lg-12 table-bordered">March, 2017</div>
 </div>
+<div class="row">
+    <div style="text-align: center" class="col-lg-12 table-bordered"
+         ng-bind-template="{{calendar.getWeek().firstDay}}/{{calendar.getWeek().month1}} - {{calendar.getWeek().lastDay}}/{{calendar.getWeek().month2}},
+            {{calendar.getYear()}}">
+    </div>
+</div>
 
 <div class="row">
-    <div class="col-lg-1 table-bordered">GMT-05</div>
-    <div class="col-lg-2 table-bordered">Sun 9/8<br><br></div>
-    <div class="col-lg-2 table-bordered">Mon 9/10<br><br></div>
-    <div class="col-lg-2 table-bordered">Tues 9/11<br><br></div>
-    <div class="col-lg-2 table-bordered">Wed 9/12<br><br></div>
-    <div class="col-lg-1 table-bordered">TH 9/13</div>
-    <div class="col-lg-1 table-bordered">Fri 9/14</div>
-    <div class="col-lg-1 table-bordered">Sat 9/15</div>
+    <div class="col-lg-1 table-bordered">GMT+2</div>
+    <div class="col-lg-1 table-bordered" ng-repeat="d in generateHeadersForGridWeek()">
+        {{d}}
+    </div>
 </div>
 
 <div class="row" ng-repeat="h in hours">
+
     <div class="col-lg-1 table-bordered">{{h}}<br><br></div>
-    <div class="col-lg-2 table-bordered"><br><br></div>
-    <div class="col-lg-2 table-bordered"><br><br></div>
-    <div class="col-lg-2 table-bordered"><br><br></div>
-    <div class="col-lg-2 table-bordered"><br><br></div>
     <div class="col-lg-1 table-bordered"><br><br></div>
     <div class="col-lg-1 table-bordered"><br><br></div>
     <div class="col-lg-1 table-bordered"><br><br></div>
+    <div class="col-lg-1 table-bordered"><br><br></div>
+    <div class="col-lg-1 table-bordered"><br><br></div>
+    <div class="col-lg-1 table-bordered"><br><br></div>
+    <div class="col-lg-1 table-bordered"><br><br></div>
+
 </div>
+
