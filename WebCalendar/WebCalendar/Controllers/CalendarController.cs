@@ -55,19 +55,19 @@ namespace WebCalendar.Controllers
             return Json(cal);
         }
 
-        public JsonResult GetbyID(int ID)
+        public JsonResult GetbyID(int id)
         {
-            var cal = this.repository.Entities.FirstOrDefault(c => c.ID == ID);
+            var cal = this.repository.Entities.FirstOrDefault(c => c.ID == id);
             return Json(cal, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult Delete(int ID)
+        public JsonResult Delete(int id)
         {
-            var cal = this.repository.Entities.FirstOrDefault(c => c.ID == ID);
+            var cal = this.repository.Entities.FirstOrDefault(c => c.ID == id);
             if (cal != null)
             {
-                this.repository.Delete(ID);
+                this.repository.Delete(id);
             }
             return Json(cal);
         }

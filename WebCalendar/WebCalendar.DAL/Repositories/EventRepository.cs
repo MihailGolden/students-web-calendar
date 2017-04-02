@@ -4,6 +4,7 @@ using System.Linq;
 using WebCalendar.DAL.Context;
 using WebCalendar.DAL.Entities;
 using WebCalendar.DAL.Mappers;
+using WebCalendar.Domain.Aggregate.Calendar;
 using WebCalendar.Domain.Aggregate.Event;
 
 namespace WebCalendar.DAL.Concrete
@@ -74,10 +75,28 @@ namespace WebCalendar.DAL.Concrete
                     ev.Description = entity.Description;
                     ev.BeginTime = entity.BeginTime;
                     ev.EndTime = entity.EndTime;
+                    ev.Title = entity.Title;
                     ev.CalendarID = entity.CalendarID;
                 }
             }
             this.unitOfWork.Commit();
+        }
+
+        public List<Event> GetEvents(Calendar cal)
+        {
+            var list = new List<Event>();
+            if (cal != null)
+            {
+                var calendar = this.unitOfWork.Context.Calendars.Find(cal.ID);
+                if (calendar.Events.Count > 0)
+                {
+                    foreach (var item in calendar.Events)
+                    {
+                        list.Add(DomainToDal.Map(item));
+                    }
+                }
+            }
+            return list;
         }
     }
 }

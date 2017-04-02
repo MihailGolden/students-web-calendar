@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Linq;
 
-namespace WebCalendar.Domain.Aggregate.Event
+namespace WebCalendar.Models
 {
-    public class Event
+    public class EventViewModel
     {
         public int ID { get; set; }
         public string Title { get; set; }
@@ -10,5 +11,6 @@ namespace WebCalendar.Domain.Aggregate.Event
         public DateTime BeginTime { get; set; }
         public DateTime? EndTime { get; set; }
         public int CalendarID { get; set; }
+        public IQueryable Calendars { get; set; }
     }
 }

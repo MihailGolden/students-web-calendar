@@ -22,6 +22,7 @@ namespace WebCalendar.DAL.Mappers
         public static void Map(EventEntity to, Event from)
         {
             to.EventID = from.ID;
+            to.Title = from.Title;
             to.Description = from.Description;
             to.BeginTime = from.BeginTime;
             to.EndTime = from.EndTime;
@@ -30,7 +31,7 @@ namespace WebCalendar.DAL.Mappers
 
         public static Event Map(EventEntity to)
         {
-            return new Event { ID = to.EventID, Description = to.Description, CalendarID = to.CalendarID, BeginTime = to.BeginTime, EndTime = to.EndTime };
+            return new Event { ID = to.EventID, Description = to.Description, CalendarID = to.CalendarID, BeginTime = to.BeginTime, EndTime = to.EndTime, Title = to.Title };
         }
     }
 }
