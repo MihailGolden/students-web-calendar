@@ -81,5 +81,12 @@ namespace WebCalendar.Controllers
             this.eventRepository.Delete(ev.ID);
             return RedirectToAction("Index", new { id = calendarID });
         }
+
+        public ActionResult Details(int id)
+        {
+            var domain = this.eventRepository.Entities.FirstOrDefault(e => e.ID == id);
+            var model = DomainToModel.Map(domain);
+            return View(model);
+        }
     }
 }
