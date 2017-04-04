@@ -208,7 +208,78 @@ function getScope(ctrlName) {
                 }
 
                 return headers;
-        };
+            };
+
+            $scope.generateOuterDays = function () {
+
+                var currDate = moment($scope.currentDate);
+                var prevDate = moment($scope.currentDate);
+                var nextDate = moment($scope.currentDate);
+                var currMonth = currDate.format('M');
+                var currYear = currDate.format('Y');
+
+
+                nextDate.add(1, "months");
+                prevDate.subtract(1, 'months');
+
+                var nextDateMonth = nextDate.format('M');
+                var prevDateMonth = prevDate.format('M');
+
+
+                var nextDateYear = nextDate.format('Y');
+                var prevDateYear = prevDate.format('Y');
+
+                var prevDateLastDayOfMonth = prevDate.endOf("month").format('D');
+                currDate.date(1);
+                var currDateDayOfTheWeek = currDate.day();
+                var currDateNumOfDaysInMonth = currDate.daysInMonth();
+                currDate.date(currDateNumOfDaysInMonth);
+                var currDateDayOfTheWeekLastDay = currDate.day();
+
+                var a = currDateDayOfTheWeek;
+                var c = prevDateLastDayOfMonth - a + 1;
+                var b = currDateDayOfTheWeekLastDay;
+
+                var calDays = [];
+                while (a > 0) {
+                    calDays.push(c);
+                    c++;
+                    a--;
+                }
+
+                for (var i = 1; i <= currDateNumOfDaysInMonth; i++)
+                    calDays.push(i);
+
+                var i = 1;
+                if (b != 6)
+                    for (var i = 1; b < 6; i++, b++)
+                        calDays.push(i);
+                //
+                //                for (var i = 0; i < calDays.length; i++)
+                //                    alert(calDays[i]);
+                //                alert(calDays.length);
+
+                var rows, cols;
+                if (calDays.length == 35)
+                    rows = cols = 6;
+                else if (calDays.length == 42)
+                    rows = cols = 7;
+
+                var cal = new Array(rows);
+                for (var i = 0; i < rows; i++) {
+                    cal[i] = new Array(cols);
+                }
+
+                var cnt = 0;
+                for (var i = 0; i < 6; i++) {
+                    for (var j = 0; j < 7; j++) {
+                        cal[i][j] = calDays[cnt];
+                        cnt++;
+                    }
+                }
+
+                return cal;
+            };
 
         $scope.sendEventInfo = function () {
             var event = document.getElementById("event-title").value;

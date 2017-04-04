@@ -1,113 +1,12 @@
-﻿<div id="main-calendar" class="right-content">
-    <div class="row">
-        <div class="col-lg-1 table-bordered">GMT-05</div>
-        <div class="col-lg-2 table-bordered">Sun 9/8<br><br></div>
-        <div class="col-lg-2 table-bordered">Mon 9/10<br><br></div>
-        <div class="col-lg-2 table-bordered">Tues 9/11<br><br></div>
-        <div class="col-lg-2 table-bordered">Wed 9/12<br><br></div>
-        <div class="col-lg-1 table-bordered">TH 9/13</div>
-        <div class="col-lg-1 table-bordered">Fri 9/14</div>
-        <div class="col-lg-1 table-bordered">Sat 9/15</div>
+﻿<div class="row">
+    <div style="text-align: center" class="col-lg-12 table-bordered"
+         ng-bind-template="{{calendar.getMonthName()}} / {{calendar.getYear()}}">
     </div>
-    <div class="row">
-        <div class="col-lg-1 table-bordered">12am-8am</div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
+</div>
 
-    </div><!--End Row-->
+<div class="row" ng-repeat="week in generateOuterDays()">
     <div class="row">
-        <div class="col-lg-1 table-bordered">9am<br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-    </div><!--End Row-->
-    <div class="row">
-        <div class="col-lg-1 table-bordered">10am<br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-    </div><!--End Row-->
-    <div class="row">
-        <div class="col-lg-1 table-bordered">11am<br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-    </div><!--End Row-->
-    <div class="row">
-        <div class="col-lg-1 table-bordered">12pm<br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-    </div><!--End Row-->
-    <div class="row">
-        <div class="col-lg-1 table-bordered">1pm<br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-    </div><!--End Row-->
-    <div class="row">
-        <div class="col-lg-1 table-bordered">2pm<br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-    </div><!--End Row-->
-    <div class="row">
-        <div class="col-lg-1 table-bordered">3pm<br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-    </div><!--End Row-->
-    <div class="row">
-        <div class="col-lg-1 table-bordered">4pm<br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-    </div><!--End Row-->
-    <div class="row">
-        <div class="col-lg-1 table-bordered">5pm-12am</div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-2 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-        <div class="col-lg-1 table-bordered"><br><br></div>
-    </div><!--End Row-->
-</div><!--end right-content-->
+        <div class="col-lg-1 table-bordered" ng-repeat="day in week">
+            {{day}}
+        </div>
+    </div>
