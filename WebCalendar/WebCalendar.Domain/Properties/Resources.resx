@@ -123,4 +123,7 @@
   <data name="ValidationTitle" xml:space="preserve">
     <value>Please, enter the valid title</value>
   </data>
+  <data name="ValidationType" xml:space="preserve">
+    <value>Please, enter the valid type</value>
+  </data>
 </root>

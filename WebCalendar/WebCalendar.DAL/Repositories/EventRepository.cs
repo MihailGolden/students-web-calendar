@@ -76,6 +76,12 @@ namespace WebCalendar.DAL.Concrete
                     ev.BeginTime = entity.BeginTime;
                     ev.EndTime = entity.EndTime;
                     ev.Title = entity.Title;
+                    ev.OccurrenceID = entity.OccurrenceID;
+                    ev.EventColor = entity.EventColor;
+                    ev.EveryDay = entity.EveryDay;
+                    ev.EveryMonth = entity.EveryMonth;
+                    ev.EveryWeek = entity.EveryWeek;
+                    ev.EveryYear = entity.EveryYear;
                     ev.CalendarID = entity.CalendarID;
                 }
             }

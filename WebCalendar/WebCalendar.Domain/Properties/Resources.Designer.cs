@@ -77,5 +77,14 @@ namespace WebCalendar.Domain.Properties {
                 return ResourceManager.GetString("ValidationTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, enter the valid type.
+        /// </summary>
+        internal static string ValidationType {
+            get {
+                return ResourceManager.GetString("ValidationType", resourceCulture);
+            }
+        }
     }
 }
