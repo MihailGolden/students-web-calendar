@@ -1,5 +1,4 @@
-﻿using System;
-using WebCalendar.DAL.Entities;
+﻿using WebCalendar.DAL.Entities;
 using WebCalendar.Domain.Aggregate.Calendar;
 using WebCalendar.Domain.Aggregate.Event;
 using WebCalendar.Domain.Aggregate.Notification;
@@ -34,22 +33,22 @@ namespace WebCalendar.DAL.Mappers
 
         internal static void Map(OccurrenceEntity entity, Occurrence occur)
         {
-            throw new NotImplementedException();
-        }
-
-        internal static void Map(CalendarEntity entity, Occurrence occur)
-        {
-            throw new NotImplementedException();
+            entity.OccurenceID = occur.ID;
+            entity.Count = occur.Count;
         }
 
         internal static Occurrence Map(OccurrenceEntity item)
         {
-            throw new NotImplementedException();
+            return new Occurrence { ID = item.OccurenceID, Count = item.Count };
         }
 
         internal static void Map(NotificationEntity entity, Notification notify)
         {
-            throw new NotImplementedException();
+            entity.NotificationID = notify.ID;
+            entity.Type = notify.Type;
+            entity.NotificationDefaultTime = notify.NotificationDefaultTime;
+            entity.NotificateBeforeDay = notify.NotificateBeforeDay;
+            entity.EventID = notify.EventID;
         }
 
         public static Event Map(EventEntity to)
@@ -59,7 +58,7 @@ namespace WebCalendar.DAL.Mappers
 
         internal static Notification Map(NotificationEntity item)
         {
-            throw new NotImplementedException();
+            return new Notification { ID = item.NotificationID, Type = item.Type, NotificateBeforeDay = item.NotificateBeforeDay, NotificationDefaultTime = item.NotificationDefaultTime, EventID = item.EventID };
         }
     }
 }
