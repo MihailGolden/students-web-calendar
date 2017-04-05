@@ -24,6 +24,9 @@
 }
 
 function Add() {
+    if (!Validate()) {
+        return false;
+    }
     var list = {
         Title: $('#Title').val(),
         Description: $('#Description').val(),
@@ -48,6 +51,9 @@ function Add() {
 }
 
 function Update() {
+    if (!Validate()) {
+        return false;
+    }
     var Obj = {
         ID: $('#CalendarID').val(),
         Title: $('#Title').val(),
@@ -131,6 +137,28 @@ function ToJavaScriptDate(value) {
     return dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear();
 }
 
+function Validate() {
+    var isValid = true;
+    if ($("#Title").val() == "") {
+        $("#Title").css("border-color", "Red");
+        isValid = false;
+    } else {
+        $("#Title").css("border-color", "lightgrey");
+    }
+    if ($("#Description").val() == "") {
+        $("#Description").css("border-color", "Red");
+        isValid = false;
+    } else {
+        $("#Description").css("border-color", "lightgrey");
+    }
+    if ($("#Date").val() == "") {
+        $("#Date").css("border-color", "Red");
+        isValid = false;
+    } else {
+        $("#Date").css("border-color", "lightgrey");
+    }
+    return isValid;
+}
 
 $(document).ready(function () {
     loadData();
