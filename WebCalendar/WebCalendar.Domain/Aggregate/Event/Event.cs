@@ -41,6 +41,12 @@ namespace WebCalendar.Domain.Aggregate.Event
         }
         public DateTime BeginTime { get; set; }
         public DateTime? EndTime { get; set; }
+        public int? OccurrenceID { get; set; }
+        public bool? EveryDay { get; set; }
+        public bool? EveryWeek { get; set; }
+        public bool? EveryMonth { get; set; }
+        public bool? EveryYear { get; set; }
+        public int EventColor { get; set; }
         public int CalendarID { get; set; }
     }
 }
