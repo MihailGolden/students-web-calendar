@@ -231,3 +231,9 @@ function getScope(ctrlName) {
             });
         };
     });
+
+$(function () {
+    $('#Date').datetimepicker({
+        locale: 'ru'
+    });
+});

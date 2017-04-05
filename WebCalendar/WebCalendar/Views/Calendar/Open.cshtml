@@ -1,6 +1,7 @@
 ﻿@model WebCalendar.Domain.Aggregate.Calendar.Calendar
-@{
-    ViewBag.Title = "Calendar";
+   
+ @{
+        ViewBag.Title = "Calendar";
 }
 <head>
     <style>
@@ -52,7 +53,7 @@
 
             </div>
             <div class="col-lg-2">
-                <p class="navbar-text navbar-left"><h6 id="month"></h6>March, 2017</p>
+                <p class="navbar-text navbar-left"><h6 id="month"></h6>@DateTime.Now.ToLongDateString()</p>
             </div>
             <div class="col-lg-6">
                 <div class="btn-group" role="group" aria-label="...">

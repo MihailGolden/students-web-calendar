@@ -18,12 +18,12 @@ table {
     border-spacing: 0 5px;
 }
 
-thead th {
+.table thead th {
     background-color: #006DCC;
     color: white;
 }
 
-tbody td {
+.table tbody td {
     background-color: #EEEEEE;
 }
 
