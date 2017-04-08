@@ -59,8 +59,8 @@
                 <div class="btn-group" role="group" aria-label="...">
                     <button class="btn btn-default">Today</button>
                     <div class="btn-group" role="group" aria-label="...">
-                        <button type="button" class="btn btn-default" ng-click="calendar.subtractDate()"><</button>
-                        <button type="button" class="btn btn-default" ng-click="calendar.addDate()">></button>
+                        <button type="button" class="btn btn-default" ng-click="subtractDate()"><</button>
+                        <button type="button" class="btn btn-default" ng-click="addDate()">></button>
                     </div>
                     <button type="button" class="btn btn-default" ng-click="nav('GridForDay', 'day')">Day</button>
                     <button type="button" class="btn btn-default" ng-click="nav('GridForWeek', 'week')">Week</button>
@@ -108,8 +108,7 @@
                         <input required id="event-title" type="text"><br>
 
                         <label>When:</label>
-                        <div ng-bind-template="{{calendar.getDayName()}}, {{calendar.getDate()}} {{calendar.getMonthName()}}, {{calendar.dayTimePeriod.startHour}} - {{calendar.dayTimePeriod.endHour}}"></div>
-
+                        <div ng-bind-template="{{timePeriodStr}}"></div>
                         <div class="modal-footer">
                             <button id="modal-btn-sendEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendEventInfo()">Create</button>
                             <button id="modal-btn-editEvent" type="button" class="btn btn-default" data-dismiss="modal">Edit</button>
