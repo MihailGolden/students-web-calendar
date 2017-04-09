@@ -43,8 +43,7 @@
 
 .content {
     width: 100%;
-    height: 550px;
-    border-top: 1px solid #EBEBEB;
+    /*border-top: 1px solid #EBEBEB;*/
     padding-top:10px;
 }
 
@@ -142,7 +141,7 @@ div.col-md-1.table-bordered .row .col-md-1.table-bordered.active{
 
 .scrollable {
     overflow:auto;
-    max-height:1000px;
+    max-height:700px;
 }
 
 .btn-create-event {
@@ -153,4 +152,9 @@ div.col-md-1.table-bordered .row .col-md-1.table-bordered.active{
 
 .main-header {
     margin-top:70px;
+}
+
+hr {
+    margin-top:5px;
+    margin-bottom:5px;
 }

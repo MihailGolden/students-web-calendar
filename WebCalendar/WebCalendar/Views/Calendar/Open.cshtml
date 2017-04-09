@@ -29,13 +29,21 @@
                 <button type="button" class="btn btn-default" ng-click="nav('GridForWeek', 'week')">Week</button>
                 <button type="button" class="btn btn-default" ng-click="nav('GridForMonth', 'month')">Month</button>
             </div>
-            <button type="button" class="btn btn-default" ng-click="nav('GridForShedule', 'schedule')">Schedule</button></div>
+            <button type="button" class="btn btn-default" ng-click="nav('GridForShedule', 'schedule')">Schedule</button>
+        </div>
     </div>
+    <hr/>
 
     <div class="container-fluid">
         <div class="row content" style="margin-top:0px">
             <div class="col-lg-3 text-center">
                 <button class="btn btn-default btn-create-event" onclick="location.href='/Event/Create'">Create Event</button>
+            </div>
+            <div class="col-lg-9">Элемент для выделения целого дня
+            </div>
+        </div>
+        <div class="row content" style="margin-top:0px">
+            <div class="col-lg-3 text-center">
                 <div id="datetimepicker12"></div>
                 <script type="text/javascript">
                     $(function () {
@@ -52,6 +60,8 @@
         </div>
     </div>
 </div>
+
+
 
 
 
