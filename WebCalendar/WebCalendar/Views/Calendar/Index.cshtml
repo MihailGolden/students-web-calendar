@@ -1,72 +1,66 @@
-﻿<html>
-<head>
-    <link href="~/Content/calendar-table.css" rel="stylesheet" />
-    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-    <script src="~/Scripts/calendar-crud.js"></script>
-</head>
-<body>
-    <br /><br />
-    <div class="text-center">
-        <h2>Calendars</h2>
-    </div>
-    <div class="content">
-        <div class="pull-left">
-            <div class="row">
-            </div>
-            <div class="row">
-                <div class="col-sm-10">
-                </div>
-            </div>
+﻿<link href="~/Content/calendar-table.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/calendar-crud.js"></script>
+
+<div class="main-header col-lg-12 text-center">
+    <h2>Calendars</h2>
+</div>
+<div class="content scrollable">
+    <div class="pull-left">
+        <div class="row">
         </div>
-        <div class="row center-block">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayName("Calendar")
-                        </th>
-                        <th>@Html.DisplayName("Description")</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody class="list"></tbody>
-            </table>
-            <div>
-                <button class="btn btn-primary center" onclick="clearText();" data-toggle="modal" data-target="#myModal">Create</button>
+        <div class="row">
+            <div class="col-sm-10">
             </div>
         </div>
     </div>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Add Calendar</h4>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <input type="hidden" id="CalendarID" />
-                        <div class="form-group">
-                            <label for="Title">Title</label>
-                            <input type="text" class="form-control" id="Title" placeholder="Title" />
-                        </div>
-                        <div class="form-group">
-                            <label for="Description">Description</label>
-                            <input type="text" class="form-control" id="Description" placeholder="Description" />
-                        </div>
-                        <div class="form-group">
-                            <label for="Date">Date</label>
-                            <input type="datetime" class="form-control" id="Date" placeholder="Date" />
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btnAdd" onclick="Add();">Add</button>
-                    <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update();">Update</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+    <div class="row center-block">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("Calendar")
+                    </th>
+                    <th>@Html.DisplayName("Description")</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="list"></tbody>
+        </table>
+        <div>
+            <button class="btn btn-primary center" onclick="clearText();" data-toggle="modal" data-target="#myModal">Create</button>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Add Calendar</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input type="hidden" id="CalendarID" />
+                    <div class="form-group">
+                        <label for="Title">Title</label>
+                        <input type="text" class="form-control" id="Title" placeholder="Title" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Description">Description</label>
+                        <input type="text" class="form-control" id="Description" placeholder="Description" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Date">Date</label>
+                        <input type="datetime" class="form-control" id="Date" placeholder="Date" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnAdd" onclick="Add();">Add</button>
+                <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update();">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>
