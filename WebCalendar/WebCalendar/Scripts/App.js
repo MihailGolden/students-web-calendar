@@ -23,6 +23,32 @@ $(document).ready(function () {
 
     $('.selectable').selectable({
         filter: ".selectable-cell",
+        selecting: function (event, ui) {
+
+            var selectedElems = $(".ui-selecting");
+
+            var elem1 = selectedElems[0];
+            var elem2 = selectedElems[selectedElems.length - 1];
+
+            var rowid1 = elem1.getAttribute("data-rowid");
+            var rowid2 = elem2.getAttribute("data-rowid");
+
+            var colid1 = elem1.getAttribute("data-colid");
+            var colid2 = elem2.getAttribute("data-colid");
+
+            var id1 = elem1.getAttribute("data-id");
+            var id2 = elem2.getAttribute("data-id");
+
+            if (rowid1 < rowid2) {
+                for (var i = id1; i < id2; i++) {
+                    var el = $(".selectable div[data-id='" + i + "']");
+
+                    for (var j = 0; j < el.length; j++) {
+                        $(el[j]).addClass('ui-selected')
+                    }
+                }
+            }
+        },
         stop: function () {
             var selectedElems = $(".ui-selected");
             var $scope = getScope('calendarCtrl');
@@ -59,6 +85,31 @@ $(document).ready(function () {
                 case 'week':
                     break;
                 case 'month':
+                    var firstSelectedElem = selectedElems[0];
+                    var lastSelectedElem = selectedElems[selectedElems.length - 1];
+
+                    startDate = moment({
+                        y: firstSelectedElem.getAttribute("data-year"),
+                        M: firstSelectedElem.getAttribute("data-month") - 1,
+                        d: firstSelectedElem.getAttribute("data-day"),
+                        h: 0
+                    });
+
+                    endDate = moment({
+                        y: lastSelectedElem.getAttribute("data-year"),
+                        M: lastSelectedElem.getAttribute("data-month") - 1,
+                        d: lastSelectedElem.getAttribute("data-day"),
+                        h: 0
+                    });
+
+                    timePeriodStr = startDate.format('dddd').substring(0, 3) + ", " +
+                        startDate.format('D') + " " + startDate.format('MMMM') + ", " +
+                        startDate.format('Y') +
+                        " - " +
+                        endDate.format('dddd').substring(0, 3) + ", " +
+                        endDate.format('D') + " " + endDate.format('MMMM') + ", " +
+                        endDate.format('Y');
+
                     break;
             }
 
