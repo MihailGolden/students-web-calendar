@@ -1,5 +1,6 @@
 ﻿body {
     overflow:hidden;
+    margin-top:70px;
 }
 
 .topheader {
@@ -87,7 +88,7 @@ div.col-md-1.table-bordered .row .col-md-1.table-bordered.active{
 }
 
 .ng-scope {
-    margin-top:70px;
+    margin-top:0px;
 }
 
 #feedback {
@@ -151,7 +152,7 @@ div.col-md-1.table-bordered .row .col-md-1.table-bordered.active{
 }
 
 .main-header {
-    margin-top:70px;
+    margin-top:0px;
 }
 
 hr {
