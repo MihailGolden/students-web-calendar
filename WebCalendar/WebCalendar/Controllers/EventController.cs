@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using WebCalendar.Domain.Aggregate.Calendar;
 using WebCalendar.Domain.Aggregate.Event;
@@ -24,12 +25,23 @@ namespace WebCalendar.Controllers
                               select new SelectListItem { Text = calendar.Title, Value = calendar.ID.ToString() };
         }
 
-        // GET: Event
-        public ActionResult Index(int id)
+        public List<Event> GetEventsFromCalendar(int id)
         {
             var calendars = this.calendarRepository.Entities.FirstOrDefault(c => c.ID == id);
             var events = this.eventRepository.GetEvents(calendars);
+            return events;
+        }
+        // GET: Event
+        public ActionResult Index(int id)
+        {
+            var events = GetEventsFromCalendar(id);
             return View(events);
+        }
+
+        public JsonResult ListEvents(int id)
+        {
+            var events = GetEventsFromCalendar(id);
+            return Json(events, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Create()

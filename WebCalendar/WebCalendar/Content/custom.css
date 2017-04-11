@@ -83,6 +83,7 @@ div.col-md-1.table-bordered .row .col-md-1.table-bordered.active{
 
 
 .navbar-default {
+    background: #000000;
     background-color:rgba(0,0,0,.1);
 }
 
@@ -125,7 +126,7 @@ div.col-md-1.table-bordered .row .col-md-1.table-bordered.active{
 }
 
 .row {
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .vcenter {
