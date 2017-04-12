@@ -48,6 +48,7 @@
                 <script type="text/javascript">
                     $(function () {
                         $('#datetimepicker12').datetimepicker({
+                            pickTime: false,
                             inline: true,
                             sideBySide: false
                         });
@@ -59,38 +60,27 @@
             </div>
         </div>
     </div>
-</div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="modal-new-event" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Event</h4>
+                </div>
+                <input required id="event-title" type="text"><br>
 
-
-
-
-
-
-
-
-@*<!-- Modal -->
-            <div class="modal fade" id="modal-new-event" role="dialog">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Event</h4>
-                        </div>
-                        <input required id="event-title" type="text"><br>
-
-                        <label>When:</label>
-                        <div ng-bind-template="{{timePeriodStr}}"></div>
-                        <div class="modal-footer">
-                            <button id="modal-btn-sendEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendEventInfo()">Create</button>
-                            <button id="modal-btn-editEvent" type="button" class="btn btn-default" data-dismiss="modal">Edit</button>
-                        </div>
-                    </div>
+                <label>When:</label>
+                <div ng-bind-template="{{timePeriodStr}}"></div>
+                <div class="modal-footer">
+                    <button id="modal-btn-sendEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendEventInfo()">Create</button>
+                    <button id="modal-btn-editEvent" type="button" class="btn btn-default" data-dismiss="modal">Edit</button>
                 </div>
             </div>
-            <!-- Modal -->
-            <!--<div ng-include="displayGrid()"></div>-->
         </div>
     </div>
-    </div>*@
+
+</div>
+
 
