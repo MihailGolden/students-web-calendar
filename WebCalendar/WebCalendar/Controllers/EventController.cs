@@ -38,6 +38,11 @@ namespace WebCalendar.Controllers
             return View(events);
         }
 
+        public ActionResult Test()
+        {
+            return View();
+        }
+
         public JsonResult ListEvents(int id)
         {
             var events = GetEventsFromCalendar(id);
