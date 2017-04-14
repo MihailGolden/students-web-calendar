@@ -40,8 +40,9 @@ $(document).ready(function () {
             var id2 = elem2.getAttribute("data-id");
 
             if (rowid1 < rowid2) {
-                for (var i = id1; i < id2; i++) {
-                    var el = $(".selectable div[data-id='" + i + "']");
+                for (var i = id1; i < id2; i++) { 
+
+                    var el = $(".selectable td[data-id='" + i + "']");
 
                     for (var j = 0; j < el.length; j++) {
                         $(el[j]).addClass('ui-selected')
@@ -148,6 +149,10 @@ function getScope(ctrlName) {
             $scope.fileName = fileName;
             $scope.currentGrid = grid;
         };
+
+        //do not modify////
+        $scope.nowDate = moment();
+        //////////////////
 
         $scope.currentDate = moment();
         $scope.currentGrid = 'day';
@@ -401,6 +406,24 @@ function getScope(ctrlName) {
             return headers;
         };
 
+        $scope.events = [];
+
+        $scope.checkEvent = function (day, month, year) {//return number of events on current date
+            var c = 0;
+            var currDate = moment({ years: year, months: month - 1, days: day }).format("YYYY-MM-DD");
+            $scope.events.forEach(function (event) {
+
+                if (currDate >= moment(event.BeginTime).format("YYYY-MM-DD") &&
+                    currDate <= moment(event.EndTime).format("YYYY-MM-DD"))
+                {
+                    c++;
+                }
+            })
+
+            return c;
+        };
+
+        
 
         $scope.generateCalMonthPage = function () {
 
@@ -410,6 +433,10 @@ function getScope(ctrlName) {
             var currDateMonth = currDate.format('M');
             var currDateYear = currDate.format('Y');
             var currDateDay = currDate.format('D');
+
+            var nowDay = $scope.nowDate.format('D');
+            var nowMonth = $scope.nowDate.format('M');
+            var nowYear = $scope.nowDate.format('Y');
 
             nextDate.add(1, "months");
             prevDate.subtract(1, 'months');
@@ -453,7 +480,7 @@ function getScope(ctrlName) {
                 dayObj.day = i;
                 dayObj.month = currDateMonth;
                 dayObj.year = currDateYear;
-                dayObj.class = i == currDateDay ? 'curr-month curr-day' : 'curr-month';
+                dayObj.class = (i == nowDay && currDateMonth == nowMonth &&  currDateYear == nowYear) ? 'curr-month curr-day' : 'curr-month';
 
                 calDays.push(dayObj);
 
@@ -493,33 +520,119 @@ function getScope(ctrlName) {
                 for (var j = 0; j < cols; j++) {
                     cal[i][j] = calDays[cnt];
                     cal[i][j].id = cnt;
+                    
+                    var eventCount = 0;
+                    if ((eventCount = $scope.checkEvent(cal[i][j].day, cal[i][j].month, cal[i][j].year)) > 0) {
+                        cal[i][j].class = cal[i][j].class + " gridEvent";
+                    }
+
+                    cal[i][j].eventCount = eventCount;
+
                     cnt++;
                 }
             }
 
-
+            
             return cal;
         };
 
 
-        $scope.sendEventInfo = function () {
+
+        $scope.sendEventInfo = function (calendarID) {
             var event = document.getElementById("event-title").value;
 
             $http({
-                url: "/",
+                url: "/Event/Create",
                 method: "POST",
                 data: {
-                    'event': event,
-                    'startDate': $scope.timePeriod.startDate.format("YYYY-MM-DD HH:mm"),
-                    'endDate': $scope.timePeriod.endDate.format("YYYY-MM-DD HH:mm")
+                    'title': event,
+                    'beginTime': $scope.timePeriod.startDate.format("YYYY-MM-DD HH:mm"),
+                    'endTime': $scope.timePeriod.endDate.format("YYYY-MM-DD HH:mm"),
+                    'calendarID': calendarID
+                    //'description': 'asd'
                 }
 
+            }).then(function mySucces(response) {
+                alert('success');
+                location.reload(true);
+            }, function myError(response) {
+                alert('error');
+            });
+        };
+
+        $scope.eventDetails = function (eventid) {
+
+            $http({
+                url: "/Event/Details?id=" + eventid,
+                method: "GET"
             }).then(function mySucces(response) {
                 //alert('success');
             }, function myError(response) {
                 //alert('error');
             });
         };
+        
+
+        $scope.getEvents = function (calendarID) {
+                        $.ajax({
+                            method: "GET",
+                            url: "/Event/ListEvents?id=" + calendarID,
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+                                $scope.events = data;
+                            }
+                        });
+                    };
+      
+                  /*  $.ajax({
+                        method: "GET",
+                        url: "/Event/ListEvents?id=2",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            $scope.events = data;
+                            alert(moment(data[0].BeginTime).format('D'));
+                            alert(moment(data[0].BeginTime).format('M'));
+                            alert(moment(data[0].BeginTime).format('Y'));
+                        }
+                    });*/
+
+
+                    $scope.currentDateEvents = [];
+
+                    $scope.showEvents = function (year, month, day) {
+                        var events = [];
+                        var currDate = moment({ years: year, months: month - 1, days: day }).format("YYYY-MM-DD");
+                        $scope.events.forEach(function (event) {
+
+                            var beginTime = moment(event.BeginTime).format("YYYY-MM-DD");
+                            var endTime = moment(event.EndTime).format("YYYY-MM-DD");
+
+                            if (currDate >= beginTime && currDate <= endTime) {
+                                var eventObj = {}
+                                eventObj.id = event.ID;
+                                eventObj.title = event.Title;
+                                eventObj.beginTime = beginTime;
+                                eventObj.endTime = endTime;
+
+                                events.push(eventObj);
+
+                            }
+
+                        });
+
+                        $scope.currentDateEvents = events;
+
+                        $('#modal-list-event').modal({
+                            show: true
+                        });
+
+                        
+
+                     //   event.stopImmediatePropagation();
+                    }
+
 
     });
 

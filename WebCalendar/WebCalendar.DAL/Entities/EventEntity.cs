@@ -15,7 +15,6 @@ namespace WebCalendar.DAL.Entities
         [Key]
         public int EventID { get; set; }
         public string Title { get; set; }
-        [Required(ErrorMessage = "Enter a description!")]
         public string Description { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime BeginTime { get; set; }

@@ -32,10 +32,10 @@ namespace WebCalendar.Domain.Aggregate.Event
             }
             set
             {
-                if (EventValidation.ValidateDescription(value))
+               /* if (EventValidation.ValidateDescription(value))
                 {
                     throw new ArgumentException(Resources.ValidationDescription, "Description");
-                }
+                }*/
                 this.description = value;
             }
         }

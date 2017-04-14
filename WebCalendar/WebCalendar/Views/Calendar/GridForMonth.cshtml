@@ -1,21 +1,52 @@
 ﻿@{
     Layout = null;
 }
+<style>
+    .table100, .row, .container, .table-responsive, .table-bordered  {
+    height: 100%;
+}
 
+ div#description {
+        background-color: gray;
+        height: 25%;
+        border: 2px black;
+    }
+    tr {
+        line-height: 105px;
+        min-height: 105px;
+        height: 55px;
+    }
+    table {
+        height: 100%;
+     }
+    #topics tr {
+        line-height: 14px;
+    }
+</style>
 <div class="row">
     <div style="text-align: center" class="col-lg-12 table-bordered"
          ng-bind-template="{{getMonthName()}} / {{getYear()}}">
     </div>
 </div>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <tr >
+        <th ng-repeat="d in days">
+            {{d}}
+        </th>
+        </tr>
 
-<div class="row">
-    <div class="col-lg-1 table-bordered" ng-repeat="d in days">
-        {{d}}
+        <tr ng-repeat="week in generateCalMonthPage()">
+            <!--<div ng-repeat="day in week">-->
+            <td ng-repeat="day in week" class="{{day.class}} selectable-cell" data-year="{{day.year}}" data-month="{{day.month}}" data-day="{{day.day}}" data-rowid="{{$parent.$index}}" data-colid="{{$index}}" data-id="{{day.id}}">
+                {{day.day}}
+                <div ng-if="day.eventCount > 0">
+                    <div>
+                        <button id="show-events-btn" ng-click="showEvents(day.year, day.month, day.day);event.stopPropagation();">+{{day.eventCount}} events</button>
+                    </div>
+                </div>
+            </td>
+            <!--</div>-->
+        </tr>
+    </table>
     </div>
-</div>
-
-<div class="row" ng-repeat="week in generateCalMonthPage()">
-    <!--<div ng-repeat="day in week">-->
-    <div ng-repeat="day in week" class="col-lg-1 table-bordered {{day.class}} selectable-cell" data-year="{{day.year}}" data-month="{{day.month}}" data-day="{{day.day}}" data-rowid="{{$parent.$index}}" data-colid="{{$index}}" data-id="{{day.id}}">{{day.day}}</div>
-    <!--</div>-->
-</div>

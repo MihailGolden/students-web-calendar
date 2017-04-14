@@ -3,8 +3,34 @@
 @{
     ViewBag.Title = "Calendar";
 }
+<style>
+    #show-events-btn {
+    background:none!important;
+     border:none; 
+     padding:0!important;
+    
+    /*optional*/
+    font-family:arial,sans-serif; /*input has OS specific font-family*/
+     color:#069;
+     text-decoration:underline;
+     cursor:pointer;
+}
 
-<div ng-app="calendarApp" ng-controller="calendarCtrl" class="open-window">
+    .curr-day{
+        background-color: orangered;
+    }
+
+        .prev-month, .next-month{
+        background-color: lightgrey;
+    }
+
+        .gridEvent{
+            background-color: greenyellow;
+        }
+</style>
+
+    <div ng-app="calendarApp" ng-controller="calendarCtrl" class="open-window">
+ {{getEvents(@Model.ID)}}
     <div class="row">
 
         <div class="col-lg-2 text-left">
@@ -32,14 +58,15 @@
             <button type="button" class="btn btn-default" ng-click="nav('GridForShedule', 'schedule')">Schedule</button>
         </div>
     </div>
-    <hr/>
+    <hr />
 
     <div class="container-fluid">
         <div class="row content" style="margin-top:0px">
             <div class="col-lg-3 text-center">
                 <button class="btn btn-default btn-create-event" onclick="location.href='/Event/Create'">Create Event</button>
             </div>
-            <div class="col-lg-9">Элемент для выделения целого дня
+            <div class="col-lg-9">
+                Элемент для выделения целого дня
             </div>
         </div>
         <div class="row content" style="margin-top:0px">
@@ -55,7 +82,7 @@
                     });
                 </script>
             </div>
-            <div class="col-lg-9 selectable scrollable-bordered">
+            <div class="col-lg-9 selectable">
                 <div ng-include="filePath()"></div>
             </div>
         </div>
@@ -70,17 +97,43 @@
                     <h4 class="modal-title">Event</h4>
                 </div>
                 <input required id="event-title" type="text"><br>
-
                 <label>When:</label>
                 <div ng-bind-template="{{timePeriodStr}}"></div>
                 <div class="modal-footer">
-                    <button id="modal-btn-sendEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendEventInfo()">Create</button>
+                    <button id="modal-btn-sendEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendEventInfo(@Model.ID)">Create</button>
                     <button id="modal-btn-editEvent" type="button" class="btn btn-default" data-dismiss="modal">Edit</button>
                 </div>
             </div>
         </div>
     </div>
 
-</div>
+    <!-- Modal (events list on choosen date) -->
+    <div class="modal fade" id="modal-list-event" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Events</h4>
+                </div>
+                <table class="table table-bordered">
+                    <tr class="row" ng-repeat="event in currentDateEvents">
+                        <td>
+                            {{event.title}} 
+                        </td>
+                        <td>
+                            {{event.beginTime}} 
+                        </td>
+                        <td>
+                            {{event.endTime}}
+                        </td>
+                        <td>
+                            <a href="/Event/Details?id={{event.id}}">Details</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 
+</div>
 
