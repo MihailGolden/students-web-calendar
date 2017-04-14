@@ -1,0 +1,12 @@
+﻿using Ninject.Modules;
+
+namespace WebCalendar.Infrastructure
+{
+    public class NinjectUIModule : NinjectModule
+    {
+        public override void Load()
+        {
+            Bind<IUserService>().To<UserService>();
+        }
+    }
+}

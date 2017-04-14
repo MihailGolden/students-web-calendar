@@ -13,15 +13,10 @@ namespace WebCalendar.DAL.Repositories
         private readonly UnitOfWork unitOfWork;
         private readonly DbSet<OccurrenceEntity> dal;
 
-        public OccurenceRepository()
-        {
-            this.unitOfWork = new UnitOfWork();
-            this.dal = unitOfWork.Context.Occurrences;
-        }
-
         public OccurenceRepository(IUnitOfWork unitOfWork)
         {
-
+            this.unitOfWork = (UnitOfWork)unitOfWork;
+            this.dal = this.unitOfWork.Context.Occurrences;
         }
 
         public void Add(Occurrence occur)
