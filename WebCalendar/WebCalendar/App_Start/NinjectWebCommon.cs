@@ -3,10 +3,15 @@
 
 namespace WebCalendar.App_Start
 {
+    using DAL.Infrastructure;
+    using Infrastructure;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;
+    using Ninject.Activation;
+    using Ninject.Modules;
     using Ninject.Web.Common;
     using System;
+    using System.Collections.Generic;
     using System.Web;
 
     public static class NinjectWebCommon
@@ -59,8 +64,19 @@ namespace WebCalendar.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            System.Web.Mvc.DependencyResolver.SetResolver(new
-        WebCalendar.Infrastructure.NinjectDependencyResolver(kernel));
+            //    System.Web.Mvc.DependencyResolver.SetResolver(new
+            //WebCalendar.Infrastructure.NinjectDependencyResolver(kernel));
+            var modules = new List<INinjectModule> {
+                new NinjectDataAccessModule(),
+                new NinjectUIModule()
+            };
+            kernel.Load(modules);
+        }
+        private static Func<IContext, object> GetRequestScopeCallback()
+        {
+            var kernel = new StandardKernel();
+            var result = kernel.Bind<string>().ToSelf().InRequestScope().BindingConfiguration.ScopeCallback;
+            return result;
         }
     }
 }

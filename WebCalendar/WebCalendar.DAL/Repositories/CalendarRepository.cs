@@ -11,17 +11,13 @@ namespace WebCalendar.DAL.Concrete
     public class CalendarRepository : ICalendarRepository
     {
         private readonly UnitOfWork unitOfWork;
-        private readonly DbSet<CalendarEntity> dal;
 
-        public CalendarRepository()
-        {
-            this.unitOfWork = new UnitOfWork();
-            this.dal = unitOfWork.Context.Calendars;
-        }
+        private readonly DbSet<CalendarEntity> dal;
 
         public CalendarRepository(IUnitOfWork unitOfWork)
         {
-
+            this.unitOfWork = (UnitOfWork)unitOfWork;
+            this.dal = this.unitOfWork.Context.Calendars;
         }
 
         public void Add(Calendar cal)

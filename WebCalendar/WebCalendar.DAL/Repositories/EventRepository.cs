@@ -14,15 +14,10 @@ namespace WebCalendar.DAL.Concrete
         private readonly UnitOfWork unitOfWork;
         private readonly DbSet<EventEntity> dal;
 
-        public EventRepository()
-        {
-            this.unitOfWork = new UnitOfWork();
-            this.dal = unitOfWork.Context.Events;
-        }
-
         public EventRepository(IUnitOfWork unitOfWork)
         {
-
+            this.unitOfWork = (UnitOfWork)unitOfWork;
+            this.dal = this.unitOfWork.Context.Events;
         }
 
         public void Add(Event ev)

@@ -10,7 +10,7 @@ namespace WebCalendar.DAL.Context
             this.context = new WebCalendarContext();
         }
 
-        public WebCalendarContext Context
+        internal WebCalendarContext Context
         {
             get { return this.context; }
         }
