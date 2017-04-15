@@ -11,10 +11,7 @@ namespace WebCalendar.Domain.Aggregate.Event
         }
         public static bool ValidateDescription(string description)
         {
-            if (description == null) return false;
-
-            return !Regex.IsMatch(description, Constants.TITLE_VALIDATION_REGEX)
-                || description.Length > Constants.MAX_DESCRIPTION_LENGTH;
+            return string.IsNullOrEmpty(description) || !Regex.IsMatch(description, Constants.TITLE_VALIDATION_REGEX);
         }
     }
 }
