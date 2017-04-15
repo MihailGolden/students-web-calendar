@@ -7,6 +7,7 @@
         this.firstDay = moment().date(1);
         this.events.forEach(function (event) {
             event.startDate = moment(event.startDate);
+            event.endDate = moment(event.startDate);
         });
 
         this.draw = function () {
@@ -42,6 +43,7 @@
 
             var event = document.createElement('div');
             event.className = 'd-event';
+            this.drawEvent(day, event);
 
             wrapper.appendChild(name);
             wrapper.appendChild(number);
@@ -60,8 +62,21 @@
                 day.add('days', 1);
             }
         };
-    };
-    var obj = { id: 1, startDate: '2017-14-02' };
+
+        this.drawEvent = function (day, sel) {
+            if (day.month() == this.firstDay.month()) {
+                var arrayEvents = this.events.filter(function (event) {
+                    return event.startDate.isSame(day, 'day');
+                });
+                arrayEvents.forEach(function (event) {
+                    var elem = document.createElement('span');
+                    elem.className = event.color;
+                    sel.appendChild(elem);
+                });
+            }
+        };
+    }
+    var obj = { id: 1, startDate: '2017-14-02', color: 'yellow', endDate: '2017-15-02' };
 
     var events = [obj];
 
