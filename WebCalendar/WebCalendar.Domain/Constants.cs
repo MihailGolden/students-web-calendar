@@ -7,4 +7,6 @@
         public const int MAX_DESCRIPTION_LENGTH = 120;
         public const string TITLE_VALIDATION_REGEX = @"([ '-]?\p{L})+$";
     }
+    public enum Color { yellow = 1, green, blue, red }
+
 }

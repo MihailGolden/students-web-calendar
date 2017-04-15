@@ -7,7 +7,7 @@
         this.firstDay = moment().date(1);
         this.events.forEach(function (event) {
             event.startDate = moment(event.startDate);
-            event.endDate = moment(event.startDate);
+            event.endDate = moment(event.endDate);
         });
 
         this.draw = function () {
@@ -25,7 +25,7 @@
         };
 
         this.drawDay = function (day) {
-            if (!this.calWeek || day.day() == 0) {
+            if (!this.calWeek || day.day() === 0) {
                 this.calWeek = document.createElement('div');
                 this.calWeek.className = 'week';
                 this.calMonth.appendChild(this.calWeek);
@@ -64,7 +64,7 @@
         };
 
         this.drawEvent = function (day, sel) {
-            if (day.month() == this.firstDay.month()) {
+            if (day.month() === this.firstDay.month()) {
                 var arrayEvents = this.events.filter(function (event) {
                     return event.startDate.isSame(day, 'day');
                 });
