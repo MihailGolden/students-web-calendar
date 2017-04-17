@@ -1,7 +1,7 @@
 ﻿(function () {
-    var now = moment();
+    var now = moment().date();
 
-    function Calendar(events) {
+    function MonthCalendar(events) {
         this.events = events;
         this.selector = document.querySelector('#calendar-event');
         this.firstDay = moment().date(1);
@@ -35,7 +35,7 @@
 
             var name = document.createElement('div');
             name.className = 'd-name';
-            name.textContent = day.format('dddd');
+            name.textContent = day.format('ddd');
 
             var number = document.createElement('div');
             number.className = 'd-number';
@@ -51,16 +51,46 @@
             this.calWeek.appendChild(wrapper);
         };
 
-        this.drawMonth = function () {
-            this.calMonth = document.createElement('div');
-            this.calMonth.className = 'month';
-            this.selector.appendChild(this.calMonth);
+        this.upToActualMonth = function () {
+            var clone = this.firstDay.clone();
+            var day = clone.day();
 
+            if (!day) { return; }
+
+            clone.subtract('days', day + 1);
+
+            for (var i = day; i > 0; i--) {
+                this.drawDay(clone.add('days', 1));
+            }
+        };
+
+        this.actualMonth = function () {
             var day = this.firstDay.clone();
+            if (!day) { return; }
             while (day.month() === this.firstDay.month()) {
                 this.drawDay(day);
                 day.add('days', 1);
             }
+        };
+
+        this.afterActualMonth = function () {
+            var clone = this.firstDay.clone().add('months', 1).subtract('days', 1);
+            var day = clone.day();
+
+            if (day === 6) { return; }
+
+            for (var i = day; i < 6; i++) {
+                this.drawDay(clone.add('days', 1));
+            }
+        };
+
+        this.drawMonth = function () {
+            this.calMonth = document.createElement('div');
+            this.calMonth.className = 'month';
+            this.selector.appendChild(this.calMonth);
+            this.upToActualMonth();
+            this.actualMonth();
+            this.afterActualMonth();
         };
 
         this.drawEvent = function (day, sel) {
@@ -74,12 +104,9 @@
                     sel.appendChild(elem);
                 });
             }
-        };
+        };  
     }
-    var obj = { id: 1, startDate: '2017-14-02', color: 'yellow', endDate: '2017-15-02' };
-
-    var events = [obj];
-
-    var calendar = new Calendar(events);
+    var events = [{ id: 1, color: 'blue', startDate: '2017-04-17', endDate: '2017-05-01' }];
+    var calendar = new MonthCalendar(events);
     calendar.draw();
 })();

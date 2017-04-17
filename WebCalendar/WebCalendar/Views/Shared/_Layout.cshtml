@@ -10,6 +10,9 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/angular")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/moment")
+
+
 </head>
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
@@ -30,6 +33,6 @@
     <div class="container">
         @RenderBody()
     </div>
-    @RenderSection("scripts", required: false)
+    @*@RenderSection("scripts", required: false)*@
 </body>
 </html>
