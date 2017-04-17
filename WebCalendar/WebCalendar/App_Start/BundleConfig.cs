@@ -13,8 +13,8 @@ namespace WebCalendar
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
             "~/Scripts/jquery-ui.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
-            "~/Scripts/angular.min.js"));
+            //bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+            //"~/Scripts/angular.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -30,7 +30,7 @@ namespace WebCalendar
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
                       "~/Scripts/moment-with-locales.js",
-                      "~/Scripts/bootstrap-datetimepicker.js",
+                      "~/Scripts/bootstrap-datetimepicker.js", "~/Scripts/angular.min.js",
                       "~/Scripts/app.js, ~/Script/calendar-event.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -38,11 +38,6 @@ namespace WebCalendar
                       "~/Content/bootstrap-datetimepicker.css",
                       "~/Content/site.css",
                       "~/Content/custom.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-            "~/Scripts/jquery-{version}.js"));
-
-
         }
     }
 }
