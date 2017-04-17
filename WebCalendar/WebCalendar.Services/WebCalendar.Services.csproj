@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,7 +45,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CalendarService.cs" />
+    <Compile Include="Infrastructure\NinjectSericeModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebCalendar.Contracts\WebCalendar.Contracts.csproj">
+      <Project>{61ee8ddb-94fb-46a2-8f77-79e165b24f68}</Project>
+      <Name>WebCalendar.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebCalendar.Domain\WebCalendar.Domain.csproj">
+      <Project>{0e0ef9e7-0b1c-410a-9338-28544e1c822b}</Project>
+      <Name>WebCalendar.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

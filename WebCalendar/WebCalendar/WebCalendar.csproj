@@ -410,6 +410,10 @@
       <Project>{0e0ef9e7-0b1c-410a-9338-28544e1c822b}</Project>
       <Name>WebCalendar.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WebCalendar.Services\WebCalendar.Services.csproj">
+      <Project>{823e379c-ec21-442c-8d3f-9f9b3d06e53f}</Project>
+      <Name>WebCalendar.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

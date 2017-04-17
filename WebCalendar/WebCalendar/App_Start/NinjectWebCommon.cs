@@ -10,6 +10,7 @@ namespace WebCalendar.App_Start
     using Ninject.Activation;
     using Ninject.Modules;
     using Ninject.Web.Common;
+    using Services.Infrastructure;
     using System;
     using System.Collections.Generic;
     using System.Web;
@@ -68,6 +69,7 @@ namespace WebCalendar.App_Start
             //WebCalendar.Infrastructure.NinjectDependencyResolver(kernel));
             var modules = new List<INinjectModule> {
                 new NinjectDataAccessModule(),
+                new NinjectSericeModule(),
                 new NinjectUIModule()
             };
             kernel.Load(modules);
