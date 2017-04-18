@@ -84,6 +84,31 @@ $(document).ready(function () {
 
                     break;
                 case 'week':
+                    var firstSelectedElem = selectedElems[0];
+                    var lastSelectedElem = selectedElems[selectedElems.length - 1];
+
+                    var startHour12 = selectedElems[0].getAttribute("data-hour12");
+                    var endHour12 = selectedElems[selectedElems.length - 1].getAttribute("data-hour12");
+
+                    startDate = moment({
+                        y: firstSelectedElem.getAttribute("data-year"),
+                        M: firstSelectedElem.getAttribute("data-month") - 1,
+                        d: firstSelectedElem.getAttribute("data-day"),
+                        h: firstSelectedElem.getAttribute("data-hour")
+                    });
+
+                    endDate = moment({
+                        y: lastSelectedElem.getAttribute("data-year"),
+                        M: lastSelectedElem.getAttribute("data-month") - 1,
+                        d: lastSelectedElem.getAttribute("data-day"),
+                        h: lastSelectedElem.getAttribute("data-hour")
+                    });
+
+                    timePeriodStr = startDate.format('dddd').substring(0, 3) + ", " +
+                        startDate.format('D') + " " + startDate.format('MMMM') + ", " +
+                        startDate.format('Y') + " " + startHour12 +
+                        " - " + endHour12;
+
                     break;
                 case 'month':
                     var firstSelectedElem = selectedElems[0];
@@ -404,6 +429,39 @@ function getScope(ctrlName) {
             }
 
             return headers;
+        };
+
+        $scope.generateDaysForGridWeek = function () {
+
+            var weekGrid = [];
+
+            var date1 = moment($scope.currentDate);
+            date1.subtract(date1.day(), "days");
+
+            $scope.hours.forEach(function (h) {
+                var weekGridRow = {};
+                weekGridRow.hour12 = h;
+                weekGridRow.weekDays = [];
+               // weekDays[i][0] = h;
+                for (var j = 0; j < 7; j++) {
+                    var dayObj = {};
+                    dayObj.day = date1.format("D");;
+                    dayObj.month = date1.format("M");
+                    dayObj.year = date1.format("Y");
+                    dayObj.hour = parseInt(h);
+                    dayObj.class = 'selectable-cell';
+                    //dayObj.class = (h == nowDay && currDateMonth == nowMonth &&  currDateYear == nowYear) ? 'curr-month curr-day' : 'curr-month';
+                    weekGridRow.weekDays.push(dayObj);
+
+                    date1.add(1, "days");
+                }
+
+                weekGrid.push(weekGridRow);
+
+                date1.subtract(7, "days");
+            });
+
+            return weekGrid;
         };
 
         $scope.events = [];

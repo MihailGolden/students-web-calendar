@@ -18,8 +18,13 @@ namespace WebCalendar
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
+<<<<<<< HEAD
             bundles.Add(new ScriptBundle("~/bundles/moment").Include(
                         "~/Scripts/moment.js"));
+=======
+            //bundles.Add(new ScriptBundle("~/bundles/moment").Include(
+            //            "~/Scripts/moment.min.js"));
+>>>>>>> a40aaee902c85a5aa2fa812d9491f60ed518281f
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
