@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IEventService.cs" />
     <Compile Include="ICalendarService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
