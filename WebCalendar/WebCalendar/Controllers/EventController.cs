@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
-using WebCalendar.Domain.Aggregate.Calendar;
-using WebCalendar.Domain.Aggregate.Event;
+using WebCalendar.Contracts;
 using WebCalendar.Mappers;
 using WebCalendar.Models;
 
@@ -10,31 +8,25 @@ namespace WebCalendar.Controllers
 {
     public class EventController : Controller
     {
-        IEventRepository eventRepository;
-        ICalendarRepository calendarRepository;
+        IEventService service;
+        ICalendarService calService;
 
-        public EventController(IEventRepository eventRepository, ICalendarRepository calendarRepository)
+        public EventController(IEventService service, ICalendarService calService)
         {
-            this.calendarRepository = calendarRepository;
-            this.eventRepository = eventRepository;
+            this.service = service;
+            this.calService = calService;
         }
 
         public void InitDropDownList(EventViewModel model)
         {
-            model.Calendars = from calendar in this.calendarRepository.Entities
+            model.Calendars = from calendar in this.calService.GetCalendars.AsQueryable()
                               select new SelectListItem { Text = calendar.Title, Value = calendar.ID.ToString() };
         }
 
-        public List<Event> GetEventsFromCalendar(int id)
-        {
-            var calendars = this.calendarRepository.Entities.FirstOrDefault(c => c.ID == id);
-            var events = this.eventRepository.GetEvents(calendars);
-            return events;
-        }
         // GET: Event
         public ActionResult Index(int id)
         {
-            var events = GetEventsFromCalendar(id);
+            var events = this.service.GetEventsFromCalendar(id);
             return View(events);
         }
 
@@ -45,7 +37,7 @@ namespace WebCalendar.Controllers
 
         public JsonResult ListEvents(int id)
         {
-            var events = GetEventsFromCalendar(id);
+            var events = this.service.GetEventsFromCalendar(id);
             return Json(events, JsonRequestBehavior.AllowGet);
         }
 
@@ -62,14 +54,14 @@ namespace WebCalendar.Controllers
             if (ev != null)
             {
                 var domain = DomainToModel.Map(ev);
-                this.eventRepository.Add(domain);
+                this.service.Create(domain);
             }
             return RedirectToAction("Index", new { id = ev.CalendarID });
         }
 
         public ActionResult Update(int id)
         {
-            var ev = this.eventRepository.Entities.FirstOrDefault(e => e.ID == id);
+            var ev = this.service.GetEvents.FirstOrDefault(e => e.ID == id);
             var model = DomainToModel.Map(ev);
             InitDropDownList(model);
             return View(model);
@@ -80,13 +72,13 @@ namespace WebCalendar.Controllers
         {
             int calendarID = ev.CalendarID;
             var domain = DomainToModel.Map(ev);
-            this.eventRepository.Update(domain);
+            this.service.Update(domain);
             return RedirectToAction("Index", new { id = calendarID });
         }
 
         public ActionResult Delete(int? id)
         {
-            var ev = this.eventRepository.Entities.FirstOrDefault(e => e.ID == id);
+            var ev = this.service.GetEvents.FirstOrDefault(e => e.ID == id);
             var model = DomainToModel.Map(ev);
             return View(model);
         }
@@ -95,13 +87,13 @@ namespace WebCalendar.Controllers
         public ActionResult Delete(EventViewModel ev)
         {
             int calendarID = ev.CalendarID;
-            this.eventRepository.Delete(ev.ID);
+            this.service.Delete(ev.ID);
             return RedirectToAction("Index", new { id = calendarID });
         }
 
         public ActionResult Details(int id)
         {
-            var domain = this.eventRepository.Entities.FirstOrDefault(e => e.ID == id);
+            var domain = this.service.GetEvents.FirstOrDefault(e => e.ID == id);
             var model = DomainToModel.Map(domain);
             return View(model);
         }

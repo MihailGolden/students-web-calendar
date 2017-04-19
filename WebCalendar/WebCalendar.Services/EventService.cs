@@ -2,22 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using WebCalendar.Contracts;
+using WebCalendar.Domain.Aggregate.Calendar;
 using WebCalendar.Domain.Aggregate.Event;
 
 namespace WebCalendar.Services
 {
     public class EventService : IEventService
     {
-        private IEventRepository repository;
-        public EventService(IEventRepository repository)
+        private IEventRepository eventRepository;
+        private ICalendarRepository calendarRepository;
+        public EventService(IEventRepository eventRepository, ICalendarRepository calendarRepository)
         {
-            this.repository = repository;
+            this.eventRepository = eventRepository;
+            this.calendarRepository = calendarRepository;
         }
         public List<Event> GetEvents
         {
             get
             {
-                return this.repository.Entities.ToList();
+                return this.eventRepository.Entities.ToList();
             }
         }
 
@@ -27,7 +30,7 @@ namespace WebCalendar.Services
             {
                 foreach (var item in evs)
                 {
-                    this.repository.Add(item);
+                    this.eventRepository.Add(item);
                 }
             }
             else
@@ -44,31 +47,38 @@ namespace WebCalendar.Services
             }
             if (ev != null)
             {
-                this.repository.Add(ev);
+                this.eventRepository.Add(ev);
             }
         }
 
         public void Delete(int id)
         {
-            var ev = this.repository.Entities.FirstOrDefault(e => e.ID == id);
+            var ev = this.eventRepository.Entities.FirstOrDefault(e => e.ID == id);
             if (ev == null)
             {
                 throw new ArgumentNullException("Null calendar!");
             }
-            this.repository.Delete(id);
+            this.eventRepository.Delete(id);
         }
 
         public Event Get(int id)
         {
-            var ev = this.repository.Entities.FirstOrDefault(e => e.ID == id);
+            var ev = this.eventRepository.Entities.FirstOrDefault(e => e.ID == id);
             return ev;
+        }
+
+        public List<Event> GetEventsFromCalendar(int id)
+        {
+            var calendars = this.calendarRepository.Entities.FirstOrDefault(c => c.ID == id);
+            var events = this.eventRepository.GetEvents(calendars);
+            return events;
         }
 
         public void Update(Event ev)
         {
             try
             {
-                this.repository.Update(ev);
+                this.eventRepository.Update(ev);
             }
             catch (ArgumentNullException ex)
             {

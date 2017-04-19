@@ -7,6 +7,7 @@ namespace WebCalendar.Contracts
     {
         void Create(Event ev);
         void AddEvents(List<Event> evs);
+        List<Event> GetEventsFromCalendar(int id);
         Event Get(int id);
         List<Event> GetEvents { get; }
         void Update(Event ev);

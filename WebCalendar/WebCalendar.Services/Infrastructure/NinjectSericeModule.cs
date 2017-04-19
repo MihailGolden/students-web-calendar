@@ -8,6 +8,7 @@ namespace WebCalendar.Services.Infrastructure
         public override void Load()
         {
             Bind<ICalendarService>().To<CalendarService>();
+            Bind<IEventService>().To<EventService>();
         }
     }
 }

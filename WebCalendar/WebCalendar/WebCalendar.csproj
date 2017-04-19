@@ -399,6 +399,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WebCalendar.Contracts\WebCalendar.Contracts.csproj">
+      <Project>{61EE8DDB-94FB-46A2-8F77-79E165B24F68}</Project>
+      <Name>WebCalendar.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WebCalendar.DAL\WebCalendar.DAL.csproj">
       <Project>{32b19ca8-aa71-4576-9596-fadffb8b93b7}</Project>
       <Name>WebCalendar.DAL</Name>

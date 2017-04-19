@@ -1,16 +1,17 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using WebCalendar.Contracts;
 using WebCalendar.Domain.Aggregate.Calendar;
 
 namespace WebCalendar.Controllers
 {
     public class CalendarController : Controller
     {
-        private ICalendarRepository repository;
+        private ICalendarService service;
 
-        public CalendarController(ICalendarRepository repository)
+        public CalendarController(ICalendarService service)
         {
-            this.repository = repository;
+            this.service = service;
         }
         // GET: Calendar
 
@@ -26,13 +27,13 @@ namespace WebCalendar.Controllers
 
         public JsonResult List()
         {
-            var calendars = this.repository.Entities.ToList();
+            var calendars = this.service.GetCalendars;
             return Json(calendars, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Open(int calendarID)
         {
-            var calendar = this.repository.Entities.FirstOrDefault(c => c.ID == calendarID);
+            var calendar = this.service.GetCalendars.FirstOrDefault(c => c.ID == calendarID);
             return View(calendar);
         }
 
@@ -40,7 +41,7 @@ namespace WebCalendar.Controllers
         {
             if (cal != null)
             {
-                this.repository.Add(cal);
+                this.service.Create(cal);
             }
             return Json(cal);
         }
@@ -50,24 +51,24 @@ namespace WebCalendar.Controllers
         {
             if (cal != null)
             {
-                this.repository.Update(cal);
+                this.service.Update(cal);
             }
             return Json(cal);
         }
 
         public JsonResult GetbyID(int id)
         {
-            var cal = this.repository.Entities.FirstOrDefault(c => c.ID == id);
+            var cal = this.service.GetCalendars.FirstOrDefault(c => c.ID == id);
             return Json(cal, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public JsonResult Delete(int id)
         {
-            var cal = this.repository.Entities.FirstOrDefault(c => c.ID == id);
+            var cal = this.service.GetCalendars.FirstOrDefault(c => c.ID == id);
             if (cal != null)
             {
-                this.repository.Delete(id);
+                this.service.Delete(id);
             }
             return Json(cal);
         }
