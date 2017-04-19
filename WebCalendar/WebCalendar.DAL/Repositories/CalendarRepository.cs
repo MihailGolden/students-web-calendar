@@ -69,7 +69,7 @@ namespace WebCalendar.DAL.Concrete
                 {
                     cal.Title = newEntity.Title;
                     cal.Description = newEntity.Description;
-                    cal.Date = newEntity.Date;
+                    //cal.Date = newEntity.Date;
                 }
             }
             this.unitOfWork.Commit();

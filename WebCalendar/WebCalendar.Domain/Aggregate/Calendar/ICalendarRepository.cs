@@ -7,7 +7,7 @@ using WebCalendar.Domain.Abstract;
 
 namespace WebCalendar.Domain.Aggregate.Calendar
 {
-   public interface ICalendarRepository:IRepository<Calendar>
+    public interface ICalendarRepository : IRepository<Calendar>
     {
     }
 }

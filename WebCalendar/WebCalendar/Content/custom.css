@@ -160,3 +160,12 @@ hr {
     margin-top:5px;
     margin-bottom:5px;
 }
+
+.modal-content {
+    position: absolute;
+}
+
+.form-control {
+    position:inherit;
+    width:100%;
+}

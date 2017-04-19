@@ -35,6 +35,6 @@ namespace WebCalendar.Domain.Aggregate.Calendar
                 this.description = value;
             }
         }
-        public DateTime? Date { get; set; }
+        //public DateTime? Date { get; set; }
     }
 }

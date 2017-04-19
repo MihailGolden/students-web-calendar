@@ -30,7 +30,6 @@ function Add() {
     var list = {
         Title: $('#Title').val(),
         Description: $('#Description').val(),
-        Date: $('#Date').val()
     };
     $.ajax({
         url: "/Calendar/Create",
@@ -58,7 +57,6 @@ function Update() {
         ID: $('#CalendarID').val(),
         Title: $('#Title').val(),
         Description: $('#Description').val(),
-        Date: $('#Date').val()
     };
     $.ajax({
         url: "/Calendar/Update",
@@ -72,7 +70,6 @@ function Update() {
             $('#CalendarID').val("");
             $('#Title').val("");
             $('#Description').val("");
-            $('#Date').val("");
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -84,7 +81,6 @@ function clearText() {
     $('#CalendarID').val("");
     $('#Title').val("");
     $('#Description').val("");
-    $('#Date').val("");
     $('#btnUpdate').hide();
     $('#btnAdd').show();
 }
@@ -96,11 +92,9 @@ function getbyID(ID) {
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
         success: function (result) {
-            var date = ToJavaScriptDate(result.Date);
             $('#CalendarID').val(result.ID);
             $('#Title').val(result.Title);
             $('#Description').val(result.Description);
-            $('#Date').val(date);
             $('#myModal').modal('show');
             $('#btnUpdate').show();
             $('#btnAdd').hide();
@@ -130,13 +124,6 @@ function Delete(ID) {
     }
 }
 
-function ToJavaScriptDate(value) {
-    var pattern = /Date\(([^)]+)\)/;
-    var results = pattern.exec(value);
-    var dt = new Date(parseFloat(results[1]));
-    return dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear();
-}
-
 function Validate() {
     var isValid = true;
     if ($("#Title").val() == "") {
@@ -150,12 +137,6 @@ function Validate() {
         isValid = false;
     } else {
         $("#Description").css("border-color", "lightgrey");
-    }
-    if ($("#Date").val() == "") {
-        $("#Date").css("border-color", "Red");
-        isValid = false;
-    } else {
-        $("#Date").css("border-color", "lightgrey");
     }
     return isValid;
 }

@@ -14,7 +14,7 @@ namespace WebCalendar.DAL.Migrations
 
         protected override void Seed(WebCalendar.DAL.Context.WebCalendarContext context)
         {
-            CalendarEntity cal = new CalendarEntity { CalendarID = 1, Title = "MVC", Date = new DateTime(2017, 03, 15), Description = "Learn Asp.Net MVC" };
+            CalendarEntity cal = new CalendarEntity { CalendarID = 1, Title = "MVC", /*Date = new DateTime(2017, 03, 15), */Description = "Learn Asp.Net MVC" };
 
             EventEntity ev = new EventEntity { EventID = 1, Title = "To-Do List", Description = "Create a Asp.Net Mvc application with database", CalendarID = 1, BeginTime = new DateTime(2017, 03, 16), EndTime = new DateTime(2017, 03, 20), EventColor = (int)Color.yellow, EveryMonth = true };
             EventEntity ev1 = new EventEntity { EventID = 2, Title = "JS", Description = "Write functions", CalendarID = 1, BeginTime = new DateTime(2017, 03, 16), EndTime = new DateTime(2017, 03, 20), EventColor = (int)Color.green, EveryMonth = true };
