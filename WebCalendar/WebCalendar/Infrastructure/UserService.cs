@@ -1,13 +1,18 @@
 ﻿using Microsoft.AspNet.Identity;
 using System.Web;
+using WebCalendar.Contracts;
 
 namespace WebCalendar.Infrastructure
 {
     public class UserService : IUserService
     {
-        public int GetUserId()
+        public string GetUserID()
         {
-            return System.Convert.ToInt32(HttpContext.Current.User.Identity.GetUserId());
+            return HttpContext.Current.User.Identity.GetUserId();
+        }
+        public string GetUserName()
+        {
+            return HttpContext.Current.User.Identity.GetUserName();
         }
     }
 }

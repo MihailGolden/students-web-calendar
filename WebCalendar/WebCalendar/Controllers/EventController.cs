@@ -6,6 +6,7 @@ using WebCalendar.Models;
 
 namespace WebCalendar.Controllers
 {
+    [Authorize]
     public class EventController : Controller
     {
         IEventService service;
@@ -49,6 +50,7 @@ namespace WebCalendar.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(EventViewModel ev)
         {
             if (ev != null)
@@ -68,6 +70,7 @@ namespace WebCalendar.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Update(EventViewModel ev)
         {
             int calendarID = ev.CalendarID;
@@ -84,6 +87,7 @@ namespace WebCalendar.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(EventViewModel ev)
         {
             int calendarID = ev.CalendarID;

@@ -10,8 +10,8 @@
                 html += '<tr>';
                 html += '<td>' + item.Title + '</td>';
                 html += '<td>' + item.Description + '</td>';
-                html += '<td><a href="/Calendar/Open?calendarID=' + item.ID + '">Open</a>|';
-                html += '<a href="#" onclick="return getbyID(' + item.ID + ')">Update</a>|';
+                html += '<td><a href="/Calendar/Open?calendarID=' + item.ID + '">Open</a> ';
+                html += '<a href="#" onclick="return getbyID(' + item.ID + ')">Update</a> ';
                 html += '<a href="#" onclick="Delete(' + item.ID + ')">Delete</a></td>';
                 html += '</tr>';
             });
@@ -29,7 +29,7 @@ function Add() {
     }
     var list = {
         Title: $('#Title').val(),
-        Description: $('#Description').val(),
+        Description: $('#Description').val()
     };
     $.ajax({
         url: "/Calendar/Create",
@@ -56,7 +56,7 @@ function Update() {
     var Obj = {
         ID: $('#CalendarID').val(),
         Title: $('#Title').val(),
-        Description: $('#Description').val(),
+        Description: $('#Description').val()
     };
     $.ajax({
         url: "/Calendar/Update",

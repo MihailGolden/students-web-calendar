@@ -1,4 +1,5 @@
 ﻿using Ninject.Modules;
+using WebCalendar.Contracts;
 
 namespace WebCalendar.Infrastructure
 {

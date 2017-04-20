@@ -8,6 +8,7 @@ namespace WebCalendar.Contracts
         void Create(Calendar cal);
         void AddCalendars(List<Calendar> cals);
         Calendar Get(int id);
+        List<Calendar> GetUserCalendars();
         List<Calendar> GetCalendars { get; }
         void Update(Calendar cal);
         void Delete(int id);
