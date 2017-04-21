@@ -44,7 +44,7 @@
         </tr>
         <!--<div style="overflow: scroll; width: 760px; height: 450px;">-->
 
-        <tr class="row" ng-repeat="row in generateDaysForGridWeek()">
+        <tr class="row" ng-repeat="row in daysForGridWeek">
             <td class="col-lg-1 table-bordered">{{row.hour12}}<br><br></td>
             <td class="col-lg-1 table-bordered {{d.class}}" ng-repeat="d in row.weekDays" data-hour12="{{row.hour12}}" data-hour="{{d.hour}}" data-day="{{d.day}}" data-month="{{d.month}}" data-year="{{d.year}}"><br><br></td>
 

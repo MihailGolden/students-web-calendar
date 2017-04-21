@@ -29,8 +29,8 @@
     }
 </style>
 
-<div ng-app="calendarApp" ng-controller="calendarCtrl" class="open-window">
-    {{getEvents(@Model.ID)}}
+<div ng-app="calendarApp" ng-controller="calendarCtrl" ng-init="init(@Model.ID)" class="open-window">
+
     <div class="row">
 
         <div class="col-lg-2 text-left">

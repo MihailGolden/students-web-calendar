@@ -50,7 +50,7 @@ namespace WebCalendar.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Create(EventViewModel ev)
         {
             if (ev != null)

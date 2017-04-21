@@ -36,7 +36,7 @@
         </th>
         </tr>
 
-        <tr ng-repeat="week in generateCalMonthPage()">
+        <tr ng-repeat="week in calMonthPage">
             <!--<div ng-repeat="day in week">-->
             <td ng-repeat="day in week" class="{{day.class}} selectable-cell" data-year="{{day.year}}" data-month="{{day.month}}" data-day="{{day.day}}" data-rowid="{{$parent.$index}}" data-colid="{{$index}}" data-id="{{day.id}}">
                 {{day.day}}

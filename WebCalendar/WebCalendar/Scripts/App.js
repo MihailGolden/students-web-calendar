@@ -170,9 +170,9 @@ function getScope(ctrlName) {
         $scope.filePath = function () {
             return '/Calendar/GridHtml?fileName=' + $scope.fileName;
         };
-        $scope.nav = function (fileName, grid) {
-            $scope.fileName = fileName;
-            $scope.currentGrid = grid;
+
+        $scope.init = function (currentCalendarId) {
+            $scope.currentCalendarId = currentCalendarId;
         };
 
         //do not modify////
@@ -219,12 +219,14 @@ function getScope(ctrlName) {
                 case 'week':
                     $scope.currentDate.add(1, "weeks");
                     break;
-                case 'month':
+                case 'month': 
                     $scope.currentDate.add(1, "months");
+                    $scope.getEvents();
                     break;
                 default:
                     $scope.currentDate.add(1, "days");
             }
+
         };
 
         $scope.subtractDate = function () {
@@ -237,6 +239,8 @@ function getScope(ctrlName) {
                     break;
                 case 'month':
                     $scope.currentDate.subtract(1, "months");
+                    $scope.getEvents();
+
                     break;
                 default:
                     $scope.currentDate.subtract(1, "days");
@@ -431,7 +435,7 @@ function getScope(ctrlName) {
             return headers;
         };
 
-        $scope.generateDaysForGridWeek = function () {
+        $scope.generateDaysForGridWeek = function (events) {
 
             var weekGrid = [];
 
@@ -442,7 +446,7 @@ function getScope(ctrlName) {
                 var weekGridRow = {};
                 weekGridRow.hour12 = h;
                 weekGridRow.weekDays = [];
-               // weekDays[i][0] = h;
+
                 for (var j = 0; j < 7; j++) {
                     var dayObj = {};
                     dayObj.day = date1.format("D");;
@@ -464,12 +468,12 @@ function getScope(ctrlName) {
             return weekGrid;
         };
 
-        $scope.events = [];
 
-        $scope.checkEvent = function (day, month, year) {//return number of events on current date
-            var c = 0;
+        function checkEvent(day, month, year, events) {//return number of events on current date
+            var c = 0; 
             var currDate = moment({ years: year, months: month - 1, days: day }).format("YYYY-MM-DD");
-            $scope.events.forEach(function (event) {
+            events.forEach(function (event) {
+                //alert("curr data: " + currDate); alert(moment(event.BeginTime).format("YYYY-MM-DD")); alert(moment(event.EndTime).format("YYYY-MM-DD"));
 
                 if (currDate >= moment(event.BeginTime).format("YYYY-MM-DD") &&
                     currDate <= moment(event.EndTime).format("YYYY-MM-DD"))
@@ -483,7 +487,7 @@ function getScope(ctrlName) {
 
         
 
-        $scope.generateCalMonthPage = function () {
+        $scope.generateCalMonthPage = function (events) {
 
             var currDate = moment($scope.currentDate);
             var prevDate = moment($scope.currentDate);
@@ -556,10 +560,6 @@ function getScope(ctrlName) {
                     calDays.push(dayObj);
 
                 }
-            //
-            //                for (var i = 0; i < calDays.length; i++)
-            //                    alert(calDays[i]);
-            //                alert(calDays.length);
 
             var rows, cols = 7;
             if (calDays.length == 35)
@@ -578,9 +578,9 @@ function getScope(ctrlName) {
                 for (var j = 0; j < cols; j++) {
                     cal[i][j] = calDays[cnt];
                     cal[i][j].id = cnt;
-                    
+
                     var eventCount = 0;
-                    if ((eventCount = $scope.checkEvent(cal[i][j].day, cal[i][j].month, cal[i][j].year)) > 0) {
+                    if ((eventCount = checkEvent(cal[i][j].day, cal[i][j].month, cal[i][j].year, events)) > 0) {
                         cal[i][j].class = cal[i][j].class + " gridEvent";
                     }
 
@@ -595,8 +595,8 @@ function getScope(ctrlName) {
         };
 
 
-
         $scope.sendEventInfo = function (calendarID) {
+
             var event = document.getElementById("event-title").value;
 
             $http({
@@ -607,13 +607,11 @@ function getScope(ctrlName) {
                     'beginTime': $scope.timePeriod.startDate.format("YYYY-MM-DD HH:mm"),
                     'endTime': $scope.timePeriod.endDate.format("YYYY-MM-DD HH:mm"),
                     'calendarID': calendarID
-                    //'description': 'asd'
-                }
-
+                },
             }).then(function mySucces(response) {
                 alert('success');
                 location.reload(true);
-            }, function myError(response) {
+            }, function myError(response, ajaxOptions, throwError) {
                 alert('error');
             });
         };
@@ -630,40 +628,51 @@ function getScope(ctrlName) {
             });
         };
         
-
-        $scope.getEvents = function (calendarID) {
+        $scope.getEvents = function () {
+            
                         $.ajax({
                             method: "GET",
-                            url: "/Event/ListEvents?id=" + calendarID,
+                            url: "/Event/ListEvents?id=" + $scope.currentCalendarId,
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
+                            async: false,
                             success: function (data) {
-                                $scope.events = data;
+                                $scope.currentPageEvents = data;
+                                switch ($scope.currentGrid) {
+                                    case 'day':
+                                        break;
+                                    case 'week':
+                                        $scope.daysForGridWeek = $scope.generateDaysForGridWeek(data);
+                                        break;
+                                    case 'month':
+                                        $scope.calMonthPage = $scope.generateCalMonthPage(data);
+                                        break;
+                                    default:
+                                        alert("error: undefined grid");
+                                }
                             }
                         });
+
                     };
-      
-                  /*  $.ajax({
-                        method: "GET",
-                        url: "/Event/ListEvents?id=2",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
-                            $scope.events = data;
-                            alert(moment(data[0].BeginTime).format('D'));
-                            alert(moment(data[0].BeginTime).format('M'));
-                            alert(moment(data[0].BeginTime).format('Y'));
-                        }
-                    });*/
+
+                    $scope.nav = function (fileName, grid) {
+                        $scope.fileName = fileName;
+                        $scope.currentGrid = grid;
+
+                        $scope.getEvents();
+
+                    };
 
 
                     $scope.currentDateEvents = [];
 
+                    $scope.currentPageEvents = [];
+
                     $scope.showEvents = function (year, month, day) {
                         var events = [];
                         var currDate = moment({ years: year, months: month - 1, days: day }).format("YYYY-MM-DD");
-                        $scope.events.forEach(function (event) {
-
+                        $scope.currentPageEvents.forEach(function (event) {
+                            
                             var beginTime = moment(event.BeginTime).format("YYYY-MM-DD");
                             var endTime = moment(event.EndTime).format("YYYY-MM-DD");
 
