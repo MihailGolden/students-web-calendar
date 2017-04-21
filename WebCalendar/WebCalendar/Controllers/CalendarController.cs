@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using WebCalendar.Contracts;
 using WebCalendar.Domain.Aggregate.Calendar;
@@ -71,6 +72,14 @@ namespace WebCalendar.Controllers
                 this.service.Delete(id);
             }
             return Json(cal);
+        }
+
+        public ActionResult CreateModal(DateTime begin, DateTime end)
+        {
+            ViewBag.BeginEvennt = begin;
+            ViewBag.EndEvent = end;
+
+            return View();
         }
     }
 }

@@ -29,6 +29,9 @@
     }
 </style>
 
+
+@Html.Partial("CreateModal")
+
 <div ng-app="calendarApp" ng-controller="calendarCtrl" class="open-window">
     {{getEvents(@Model.ID)}}
     <div class="row">
@@ -106,32 +109,42 @@
         </div>
     </div>
 
+
+
     <!-- Modal (events list on choosen date) -->
-    <div class="modal fade" id="modal-list-event" role="dialog">
-        <div class="modal-dialog modal-sm">
+    <div class="modal fade" tabindex="-1" id="modal-list-event" role="dialog">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Events</h4>
                 </div>
-                <table class="table table-bordered">
-                    <tr class="row" ng-repeat="event in currentDateEvents">
-                        <td>
-                            {{event.title}}
-                        </td>
-                        <td>
-                            {{event.beginTime}}
-                        </td>
-                        <td>
-                            {{event.endTime}}
-                        </td>
-                        <td>
-                            <a href="/Event/Details?id={{event.id}}">Details</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+                <div class="modal-body">
+
+                    <table class="table table-bordered">
+                        <tr class="row" ng-repeat="event in currentDateEvents">
+                            <td>
+                                {{event.title}}
+                            </td>
+                            <td>
+                                {{event.beginTime}}
+                            </td>
+                            <td>
+                                {{event.endTime}}
+                            </td>
+                            <td>
+                                <a href="/Event/Details?id={{event.id}}">Details</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                </div>
         </div>
     </div>
+
+
+
+
 </div>
 <script src="~/Scripts/app.js"></script>
