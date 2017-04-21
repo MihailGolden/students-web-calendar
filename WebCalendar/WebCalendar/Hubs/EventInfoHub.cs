@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNet.SignalR;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using Microsoft.AspNet.SignalR;
+using WebCalendar.Models;
 
-namespace SignalRMvc.Hubs
+namespace Hubs.Hubs
 {
     public class ChatHub : Hub
     {
