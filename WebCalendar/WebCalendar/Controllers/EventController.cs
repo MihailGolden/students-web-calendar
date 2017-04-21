@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using WebCalendar.Contracts;
@@ -29,7 +30,8 @@ namespace WebCalendar.Controllers
         public ActionResult Index(int id)
         {
             var events = this.service.GetEventsFromCalendar(id);
-            return View(events);
+            List<EventViewModel> list = DomainToModel.Map(events);
+            return View(list);
         }
 
         public ActionResult Test()

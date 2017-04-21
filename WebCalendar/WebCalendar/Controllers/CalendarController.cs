@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using WebCalendar.Contracts;
-using WebCalendar.Domain.Aggregate.Calendar;
+using WebCalendar.Mappers;
+using WebCalendar.Models;
 
 namespace WebCalendar.Controllers
 {
@@ -31,32 +33,36 @@ namespace WebCalendar.Controllers
         public JsonResult List()
         {
             var calendars = this.service.GetUserCalendars();
-            return Json(calendars, JsonRequestBehavior.AllowGet);
+            List<CalendarViewModel> list = DomainToModel.Map(calendars);
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Open(int calendarID)
         {
             var calendar = this.service.GetUserCalendars().FirstOrDefault(c => c.ID == calendarID);
-            return View(calendar);
+            var model = DomainToModel.Map(calendar);
+            return View(model);
         }
 
-        public JsonResult Create(Calendar cal)
+        public JsonResult Create(CalendarViewModel cal)
         {
             if (cal != null)
             {
                 cal.UserID = this.userService.GetUserID();
-                this.service.Create(cal);
+                var domain = DomainToModel.Map(cal);
+                this.service.Create(domain);
             }
             return Json(cal);
         }
 
         [HttpPost]
-        public JsonResult Update(Calendar cal)
+        public JsonResult Update(CalendarViewModel cal)
         {
             if (cal != null)
             {
                 cal.UserID = this.userService.GetUserID();
-                this.service.Update(cal);
+                var domain = DomainToModel.Map(cal);
+                this.service.Update(domain);
             }
             return Json(cal);
         }
@@ -64,7 +70,8 @@ namespace WebCalendar.Controllers
         public JsonResult GetbyID(int id)
         {
             var cal = this.service.GetUserCalendars().FirstOrDefault(c => c.ID == id);
-            return Json(cal, JsonRequestBehavior.AllowGet);
+            var model = DomainToModel.Map(cal);
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
