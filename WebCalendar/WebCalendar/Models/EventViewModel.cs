@@ -10,6 +10,7 @@ namespace WebCalendar.Models
         public string Description { get; set; }
         public DateTime BeginTime { get; set; }
         public DateTime? EndTime { get; set; }
+        public string CalendarTitle { get; set; }
         public int CalendarID { get; set; }
         public IQueryable Calendars { get; set; }
     }

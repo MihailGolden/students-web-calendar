@@ -96,7 +96,7 @@
         this.drawEvent = function (day, sel) {
             if (day.month() === this.firstDay.month()) {
                 var arrayEvents = this.events.filter(function (event) {
-                    return event.startDate.isSame(day, 'day');
+                    return event.startDate.isSame(day, 'day') || event.endDate.isSame(day, 'day');
                 });
                 arrayEvents.forEach(function (event) {
                     var elem = document.createElement('span');
@@ -106,7 +106,8 @@
             }
         };  
     }
-    var events = [{ id: 1, color: 'blue', startDate: '2017-04-17', endDate: '2017-05-01' }];
+    var events = [{ id: 1, color: 'blue', startDate: '2017-04-17', endDate: '2017-04-19' }
+    , { id: 2, color: 'red', startDate: '2017-04-18', endDate: '2017-04-21' }];
     var calendar = new MonthCalendar(events);
     calendar.draw();
 })();

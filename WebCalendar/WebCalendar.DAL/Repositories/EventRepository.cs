@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using WebCalendar.DAL.Context;
@@ -16,17 +17,19 @@ namespace WebCalendar.DAL.Concrete
 
         public EventRepository(IUnitOfWork unitOfWork)
         {
+            if (unitOfWork == null) throw new ArgumentNullException("Null context!");
             this.unitOfWork = (UnitOfWork)unitOfWork;
             this.dal = this.unitOfWork.Context.Events;
         }
 
         public void Add(Event ev)
         {
+            if (ev == null) throw new ArgumentNullException("entity");
             var entity = new EventEntity();
             DomainToDal.Map(entity, ev);
             this.dal.Add(entity);
             this.unitOfWork.Commit();
-            ev.ID = entity.EventID;
+            this.unitOfWork.Dispose();
         }
 
         public IQueryable<Event> Entities
@@ -46,41 +49,39 @@ namespace WebCalendar.DAL.Concrete
         public void Delete(int id)
         {
             EventEntity entity = this.dal.Find(id);
-            if (entity != null)
-            {
-                this.dal.Attach(entity);
-                this.dal.Remove(entity);
-                this.unitOfWork.Commit();
-            }
+            if (entity == null) throw new ArgumentNullException("entity");
+            this.dal.Attach(entity);
+            this.dal.Remove(entity);
+            this.unitOfWork.Commit();
+            this.unitOfWork.Dispose();
         }
 
         public void Update(Event entity)
         {
+            if (entity == null) throw new ArgumentNullException("entity");
             var newEntity = new EventEntity();
             DomainToDal.Map(newEntity, entity);
-            if (entity.ID == 0)
+            if (entity.ID == Constants.NEW_DATABASE_ID_VALUE)
             {
                 dal.Add(newEntity);
             }
             else
             {
                 EventEntity ev = dal.Find(entity.ID);
-                if (ev != null)
-                {
-                    ev.Description = entity.Description;
-                    ev.BeginTime = entity.BeginTime;
-                    ev.EndTime = entity.EndTime;
-                    ev.Title = entity.Title;
-                    ev.OccurrenceID = entity.OccurrenceID;
-                    ev.EventColor = entity.EventColor;
-                    ev.EveryDay = entity.EveryDay;
-                    ev.EveryMonth = entity.EveryMonth;
-                    ev.EveryWeek = entity.EveryWeek;
-                    ev.EveryYear = entity.EveryYear;
-                    ev.CalendarID = entity.CalendarID;
-                }
+                ev.Description = entity.Description;
+                ev.BeginTime = entity.BeginTime;
+                ev.EndTime = entity.EndTime;
+                ev.Title = entity.Title;
+                ev.OccurrenceID = entity.OccurrenceID;
+                ev.EventColor = entity.EventColor;
+                ev.EveryDay = entity.EveryDay;
+                ev.EveryMonth = entity.EveryMonth;
+                ev.EveryWeek = entity.EveryWeek;
+                ev.EveryYear = entity.EveryYear;
+                ev.CalendarID = entity.CalendarID;
             }
             this.unitOfWork.Commit();
+            this.unitOfWork.Dispose();
         }
 
         public List<Event> GetEvents(Calendar cal)

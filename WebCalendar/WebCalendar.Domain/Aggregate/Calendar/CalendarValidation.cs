@@ -11,7 +11,7 @@ namespace WebCalendar.Domain.Aggregate.Calendar
         }
         public static bool ValidateDescription(string description)
         {
-            return string.IsNullOrEmpty(description) || !Regex.IsMatch(description, Constants.TITLE_VALIDATION_REGEX)
+            return string.IsNullOrEmpty(description) || !Regex.IsMatch(description, Constants.DESCRIPTION_VALIDATION_REGEX)
                 || description.Length > Constants.MAX_DESCRIPTION_LENGTH;
         }
     }

@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="Entities\NotificationEntity.cs" />
     <Compile Include="Entities\OccurrenceEntity.cs" />
     <Compile Include="Helpers\NinjectHelper.cs" />

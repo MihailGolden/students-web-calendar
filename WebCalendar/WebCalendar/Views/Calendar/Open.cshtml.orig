@@ -29,9 +29,16 @@
     }
 </style>
 
+<<<<<<< HEAD
 <div ng-app="calendarApp" ng-controller="calendarCtrl" ng-init="init(@Model.ID)" class="open-window">
 
+=======
 
+@*@Html.Partial("CreateModal")*@
+
+<div ng-app="calendarApp" ng-controller="calendarCtrl" class="open-window">
+    {{getEvents(@Model.ID)}}
+>>>>>>> adb14b9de475e9eab1ea2ebe88dc2938bbb67d8a
     <div class="row">
 
         <div class="col-lg-2 text-left">
