@@ -9,9 +9,11 @@ namespace WebCalendar.Services
     public class CalendarService : ICalendarService
     {
         private ICalendarRepository repository;
-        public CalendarService(ICalendarRepository repository)
+        private IUserService service;
+        public CalendarService(ICalendarRepository repository, IUserService service)
         {
             this.repository = repository;
+            this.service = service;
         }
         public List<Calendar> GetCalendars
         {
@@ -20,6 +22,7 @@ namespace WebCalendar.Services
                 return this.repository.Entities.ToList();
             }
         }
+
 
         public void AddCalendars(List<Calendar> cals)
         {
@@ -62,6 +65,20 @@ namespace WebCalendar.Services
         {
             var calendar = this.repository.Entities.FirstOrDefault(c => c.ID == id);
             return calendar;
+        }
+
+        public List<Calendar> GetUserCalendars()
+        {
+            var calendars = new List<Calendar>();
+
+            foreach (var item in this.repository.Entities)
+            {
+                if (item.UserID == this.service.GetUserID())
+                {
+                    calendars.Add(item);
+                }
+            }
+            return calendars;
         }
 
         public void Update(Calendar cal)

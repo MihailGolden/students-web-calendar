@@ -1,18 +1,22 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using WebCalendar.Contracts;
-using WebCalendar.Domain.Aggregate.Calendar;
+using WebCalendar.Mappers;
+using WebCalendar.Models;
 
 namespace WebCalendar.Controllers
 {
+    [Authorize]
     public class CalendarController : Controller
     {
         private ICalendarService service;
+        private IUserService userService;
 
-        public CalendarController(ICalendarService service)
+        public CalendarController(ICalendarService service, IUserService userService)
         {
             this.service = service;
+            this.userService = userService;
         }
         // GET: Calendar
 
@@ -28,45 +32,52 @@ namespace WebCalendar.Controllers
 
         public JsonResult List()
         {
-            var calendars = this.service.GetCalendars;
-            return Json(calendars, JsonRequestBehavior.AllowGet);
+            var calendars = this.service.GetUserCalendars();
+            List<CalendarViewModel> list = DomainToModel.Map(calendars);
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Open(int calendarID)
         {
-            var calendar = this.service.GetCalendars.FirstOrDefault(c => c.ID == calendarID);
-            return View(calendar);
+            var calendar = this.service.GetUserCalendars().FirstOrDefault(c => c.ID == calendarID);
+            var model = DomainToModel.Map(calendar);
+            return View(model);
         }
 
-        public JsonResult Create(Calendar cal)
+        public JsonResult Create(CalendarViewModel cal)
         {
             if (cal != null)
             {
-                this.service.Create(cal);
+                cal.UserID = this.userService.GetUserID();
+                var domain = DomainToModel.Map(cal);
+                this.service.Create(domain);
             }
             return Json(cal);
         }
 
         [HttpPost]
-        public JsonResult Update(Calendar cal)
+        public JsonResult Update(CalendarViewModel cal)
         {
             if (cal != null)
             {
-                this.service.Update(cal);
+                cal.UserID = this.userService.GetUserID();
+                var domain = DomainToModel.Map(cal);
+                this.service.Update(domain);
             }
             return Json(cal);
         }
 
         public JsonResult GetbyID(int id)
         {
-            var cal = this.service.GetCalendars.FirstOrDefault(c => c.ID == id);
-            return Json(cal, JsonRequestBehavior.AllowGet);
+            var cal = this.service.GetUserCalendars().FirstOrDefault(c => c.ID == id);
+            var model = DomainToModel.Map(cal);
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public JsonResult Delete(int id)
         {
-            var cal = this.service.GetCalendars.FirstOrDefault(c => c.ID == id);
+            var cal = this.service.GetUserCalendars().FirstOrDefault(c => c.ID == id);
             if (cal != null)
             {
                 this.service.Delete(id);
