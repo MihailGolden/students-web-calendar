@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="IEventService.cs" />
     <Compile Include="ICalendarService.cs" />
+    <Compile Include="INotificationService.cs" />
+    <Compile Include="IOccurrenceService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
