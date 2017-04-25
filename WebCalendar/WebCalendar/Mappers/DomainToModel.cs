@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using WebCalendar.Domain.Aggregate.Calendar;
 using WebCalendar.Domain.Aggregate.Event;
+using WebCalendar.Domain.Aggregate.Notification;
 using WebCalendar.Models;
 
 namespace WebCalendar.Mappers
@@ -51,6 +52,11 @@ namespace WebCalendar.Mappers
         internal static Calendar Map(CalendarViewModel cal)
         {
             return new Calendar { ID = cal.ID, Description = cal.Description, Title = cal.Title, UserID = cal.UserID };
+        }
+
+        internal static Notification Map(NotificationViewModel notificationViewModel)
+        {
+            return new Notification { ID = notificationViewModel.ID, EventID = notificationViewModel.EventID, NotificateBeforeDay = notificationViewModel.NotificateBeforeDay, NotificationDefaultTime = notificationViewModel.NotificationDefaultTime, Type = notificationViewModel.Type };
         }
     }
 }

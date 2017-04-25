@@ -230,6 +230,7 @@
     <Compile Include="Models\EventViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NotificationViewModel.cs" />
     <Compile Include="Models\TestSignalrUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -245,6 +246,7 @@
     <Content Include="Content\custom.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\month-calendar.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -410,6 +412,7 @@
     <Content Include="Views\Event\Test.cshtml" />
     <Content Include="Views\Shared\CreateModal.cshtml" />
     <Content Include="Views\TestSignalr\Index.cshtml" />
+    <Content Include="Views\Event\_CreateNotification.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,12 +4,10 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Events</h2>
+<h2 style="margin-left:43% ;text-align:left">Events</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+
+<table class="table table-bordered">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Title)
@@ -29,29 +27,35 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BeginTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CalendarTitle)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Update", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BeginTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CalendarTitle)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Update", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>
+<div class="row center-block" style="margin-left:43% ;text-align:left">
+    <p>
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary center" })
+    </p>
+</div>
