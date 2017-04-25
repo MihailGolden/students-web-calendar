@@ -59,3 +59,18 @@
         @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary center" })
     </p>
 </div>
+@section JavaScript{
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="/signalr/hubs"></script>
+    <script type="text/javascript">
+            $(function () {
+                var proxy = $.connection.notifyHub;
+                proxy.client.send = function (time) {
+                    alert(moment(time));
+                };
+                $.connection.hub.start().done(function () {
+                    proxy.server.getInitialTime();
+                });
+            });
+    </script>}

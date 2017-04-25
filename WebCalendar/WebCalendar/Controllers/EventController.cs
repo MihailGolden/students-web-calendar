@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using WebCalendar.Contracts;
+using WebCalendar.Hubs;
 using WebCalendar.Mappers;
 using WebCalendar.Models;
 
@@ -31,6 +32,12 @@ namespace WebCalendar.Controllers
         // GET: Event
         public ActionResult Index(int id)
         {
+            var notifies = (from n in this.notifyService.GetNotifications
+                            join e in this.service.GetEventsFromCalendar(id) on n.EventID
+                            equals e.ID
+                            select e.BeginTime).ToList();
+            Helpers.SortList.Ascending(notifies);
+            NotifyTime.Instance.GetDates(notifies);
             var events = this.service.GetEventsFromCalendar(id);
             List<EventViewModel> list = DomainToModel.Map(events);
             return View(list);
@@ -104,6 +111,8 @@ namespace WebCalendar.Controllers
         public ActionResult Delete(EventViewModel ev)
         {
             int calendarID = ev.CalendarID;
+            var notify = this.notifyService.GetNotifications.FirstOrDefault(n => n.EventID == ev.ID);
+            this.notifyService.Delete(notify.ID);
             this.service.Delete(ev.ID);
             return RedirectToAction("Index", new { id = calendarID });
         }

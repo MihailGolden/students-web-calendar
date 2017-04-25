@@ -217,10 +217,12 @@
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TestSignalrController.cs" />
+    <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Hubs\EventInfoHub.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\NotifyHub.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\NinjectUIModule.cs" />
     <Compile Include="Infrastructure\UserService.cs" />
