@@ -9,6 +9,7 @@ namespace WebCalendar.Contracts
         void AddNotifications(List<Notification> notifications);
         Notification Get(int id);
         List<Notification> GetNotifications { get; }
+        Notification GetNotificationFromEvent(int eventID);
         void Update(Notification notify);
         void Delete(int id);
     }

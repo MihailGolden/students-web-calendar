@@ -53,7 +53,7 @@ namespace WebCalendar.DAL.Mappers
 
         public static Event Map(EventEntity to)
         {
-            return new Event { ID = to.EventID, Description = to.Description, CalendarID = to.CalendarID, BeginTime = to.BeginTime, EndTime = to.EndTime, Title = to.Title, CalendarTitle = to.Calendar.Title };
+            return new Event { ID = to.EventID, Description = to.Description, CalendarID = to.CalendarID, BeginTime = to.BeginTime, EndTime = to.EndTime, Title = to.Title };
         }
 
         internal static Notification Map(NotificationEntity item)

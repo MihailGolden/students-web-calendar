@@ -61,11 +61,14 @@ namespace WebCalendar.Hubs
         }
         public void GetDates(List<DateTime> list)
         {
-            foreach (var item in list)
+            if (list.Count > 0)
             {
-                dates.Add(item);
+                foreach (var item in list)
+                {
+                    dates.Add(item);
+                }
+                time = dates[0];
             }
-            time = dates[0];
         }
 
         public static NotifyTime Instance

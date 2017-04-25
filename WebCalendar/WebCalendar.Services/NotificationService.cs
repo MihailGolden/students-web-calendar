@@ -64,6 +64,12 @@ namespace WebCalendar.Services
             return notify;
         }
 
+        public Notification GetNotificationFromEvent(int eventID)
+        {
+            var notify = this.notificationRepository.Entities.FirstOrDefault(n => n.EventID == eventID);
+            return notify;
+        }
+
         public void Update(Notification notify)
         {
             try

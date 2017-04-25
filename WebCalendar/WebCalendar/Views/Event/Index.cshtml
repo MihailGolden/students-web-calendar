@@ -22,7 +22,7 @@
             @Html.DisplayNameFor(model => model.EndTime)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CalendarTitle)
+            @Html.DisplayNameFor(model => model.CalendarID)
         </th>
         <th></th>
     </tr>
@@ -43,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.EndTime)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CalendarTitle)
+                @Html.DisplayFor(modelItem => item.CalendarID)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Update", new { id = item.ID }) |

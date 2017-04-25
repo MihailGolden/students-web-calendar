@@ -71,14 +71,18 @@ namespace WebCalendar.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(EventViewModel ev)
         {
-            if (ev != null)
+            if (ModelState.IsValid)
             {
-                var domain = DomainToModel.Map(ev);
-                this.service.Create(domain);
-                ev.Notifications[0].EventID = this.service.GetEvents.LastOrDefault().ID;
-                this.notifyService.Create(DomainToModel.Map(ev.Notifications[0]));
+                if (ev != null)
+                {
+                    var domain = DomainToModel.Map(ev);
+                    this.service.Create(domain);
+                    ev.Notifications[0].EventID = this.service.GetEvents.LastOrDefault().ID;
+                    this.notifyService.Create(DomainToModel.Map(ev.Notifications[0]));
+                }
+                return RedirectToAction("Index", new { id = ev.CalendarID });
             }
-            return RedirectToAction("Index", new { id = ev.CalendarID });
+            return View(ev);
         }
 
         public ActionResult Update(int id)
@@ -93,10 +97,14 @@ namespace WebCalendar.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Update(EventViewModel ev)
         {
-            int calendarID = ev.CalendarID;
-            var domain = DomainToModel.Map(ev);
-            this.service.Update(domain);
-            return RedirectToAction("Index", new { id = calendarID });
+            if (ModelState.IsValid)
+            {
+                int calendarID = ev.CalendarID;
+                var domain = DomainToModel.Map(ev);
+                this.service.Update(domain);
+                return RedirectToAction("Index", new { id = calendarID });
+            }
+            return View(ev);
         }
 
         public ActionResult Delete(int? id)
@@ -111,7 +119,7 @@ namespace WebCalendar.Controllers
         public ActionResult Delete(EventViewModel ev)
         {
             int calendarID = ev.CalendarID;
-            var notify = this.notifyService.GetNotifications.FirstOrDefault(n => n.EventID == ev.ID);
+            var notify = this.notifyService.GetNotificationFromEvent(ev.ID);
             this.notifyService.Delete(notify.ID);
             this.service.Delete(ev.ID);
             return RedirectToAction("Index", new { id = calendarID });
