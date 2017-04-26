@@ -1,13 +1,17 @@
-﻿using Microsoft.AspNet.SignalR;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
-using WebCalendar.Helpers;
+
 namespace WebCalendar.Hubs
 {
     public class NotifyTime
     {
+        internal readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
         private static List<DateTime> dates = new List<DateTime>();
         private object updateLock = new object();
         private readonly System.Timers.Timer timer = new System.Timers.Timer();
@@ -37,8 +41,12 @@ namespace WebCalendar.Hubs
                     if (result == 0)
                     {
                         dates.Remove(time);
-                        context.Clients.All.send(time);
-                        Thread.Sleep(Constants.MilliSeconds_Timeout);
+                        foreach (var connectionId in _connections.GetConnections(_connections.UserID))
+                        {
+                            context.Clients.Client(connectionId).send(time);
+                        }
+                        //context.Clients.All.send(time);
+                        Thread.Sleep(Helpers.Constants.MilliSeconds_Timeout);
                         if (dates.Count > 0)
                         {
                             time = dates[0];
@@ -82,7 +90,7 @@ namespace WebCalendar.Hubs
         {
             get
             {
-                return DateTime.Now.ToString(Constants.String_Format);
+                return DateTime.Now.ToString(Helpers.Constants.String_Format);
             }
         }
     }
@@ -100,6 +108,49 @@ namespace WebCalendar.Hubs
         public string GetInitialTime()
         {
             return notify.CurrentTime;
+        }
+
+        public override Task OnConnected()
+        {
+            var user = Context.User;
+
+            if (user.Identity.IsAuthenticated)
+            {
+                string userId = Context.User.Identity.GetUserId();
+                NotifyTime._connections.UserID = userId;
+                NotifyTime._connections.Add(userId, Context.ConnectionId);
+                //string name = Context.User.Identity.Name;
+                //Groups.Add(Context.ConnectionId, name);
+            }
+            return base.OnConnected();
+        }
+
+        public override Task OnReconnected()
+        {
+            var user = Context.User;
+
+            if (user.Identity.IsAuthenticated)
+            {
+                string userId = user.Identity.GetUserId();
+
+                if (!NotifyTime._connections.GetConnections(userId).Contains(Context.ConnectionId))
+                {
+                    NotifyTime._connections.Add(userId, Context.ConnectionId);
+                }
+            }
+            return base.OnReconnected();
+        }
+
+        public override Task OnDisconnected(bool stopCalled)
+        {
+            var user = Context.User;
+
+            if (user.Identity.IsAuthenticated)
+            {
+                string userId = user.Identity.GetUserId();
+                NotifyTime._connections.Remove(userId, Context.ConnectionId);
+            }
+            return base.OnDisconnected(stopCalled);
         }
     }
 }

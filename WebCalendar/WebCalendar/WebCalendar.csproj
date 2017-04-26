@@ -218,6 +218,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TestSignalrController.cs" />
     <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Hubs\ConnectionMapping.cs" />
     <Compile Include="Hubs\EventInfoHub.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
