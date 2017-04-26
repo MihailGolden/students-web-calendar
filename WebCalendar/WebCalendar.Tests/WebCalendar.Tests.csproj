@@ -33,8 +33,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Moq, Version=4.7.8.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.7.8\lib\net45\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -83,7 +95,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\HomeControllerTest.cs" />
+    <Compile Include="Services\CalendarService\CalendarBuilder.cs" />
+    <Compile Include="Services\CalendarService\CalendarServiceTests.cs" />
+    <Compile Include="Services\EventService\EventServiceTests.cs" />
+    <Compile Include="Services\NotificationService\NotificationServiceTests.cs" />
+    <Compile Include="Services\OccurrenceService\OccurrenceServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -92,14 +108,29 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WebCalendar.Contracts\WebCalendar.Contracts.csproj">
+      <Project>{61ee8ddb-94fb-46a2-8f77-79e165b24f68}</Project>
+      <Name>WebCalendar.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WebCalendar.DAL\WebCalendar.DAL.csproj">
       <Project>{32b19ca8-aa71-4576-9596-fadffb8b93b7}</Project>
       <Name>WebCalendar.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebCalendar.Domain\WebCalendar.Domain.csproj">
+      <Project>{0e0ef9e7-0b1c-410a-9338-28544e1c822b}</Project>
+      <Name>WebCalendar.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebCalendar.Services\WebCalendar.Services.csproj">
+      <Project>{823e379c-ec21-442c-8d3f-9f9b3d06e53f}</Project>
+      <Name>WebCalendar.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebCalendar\WebCalendar.csproj">
       <Project>{0D1B6671-08D2-468A-8D61-4FDBC503F238}</Project>
       <Name>WebCalendar</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mvc\ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
