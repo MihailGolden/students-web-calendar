@@ -35,8 +35,7 @@ namespace WebCalendar.Controllers
             var notifies = (from n in this.notifyService.GetNotifications
                             join e in this.service.GetEventsFromCalendar(id) on n.EventID
                             equals e.ID
-                            select e.BeginTime).ToList();
-            Helpers.SortList.Ascending(notifies);
+                            select new Notify(){ Title = e.Title, Date = e.BeginTime }).OrderBy(d => d.Date).ToList();
             NotifyTime.Instance.GetDates(notifies);
             var events = this.service.GetEventsFromCalendar(id);
             List<EventViewModel> list = DomainToModel.Map(events);

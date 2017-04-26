@@ -6,19 +6,20 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
+using WebCalendar.Models;
 
 namespace WebCalendar.Hubs
 {
     public class NotifyTime
     {
         internal readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
-        private static List<DateTime> dates = new List<DateTime>();
+        private static List<Notify> dates = new List<Notify>();
         private object updateLock = new object();
         private readonly System.Timers.Timer timer = new System.Timers.Timer();
         private readonly static Lazy<NotifyTime> instance =
         new Lazy<NotifyTime>(() => new NotifyTime());
         private IHubContext context;
-        private DateTime time;
+        private Notify time;
 
         private NotifyTime()
         {
@@ -36,14 +37,14 @@ namespace WebCalendar.Hubs
                 {
                     var date = DateTime.Parse(CurrentTime);
                     date.AddSeconds(-date.Second).AddMilliseconds(-date.Millisecond);
-                    int result = DateTime.Compare(time, date);
+                    int result = DateTime.Compare(time.Date, date);
 
                     if (result == 0)
                     {
                         dates.Remove(time);
                         foreach (var connectionId in _connections.GetConnections(_connections.UserID))
                         {
-                            context.Clients.Client(connectionId).send(time);
+                            context.Clients.Client(connectionId).send(time.Title,time.Date);
                         }
                         //context.Clients.All.send(time);
                         Thread.Sleep(Helpers.Constants.MilliSeconds_Timeout);
@@ -67,7 +68,7 @@ namespace WebCalendar.Hubs
                 }
             }
         }
-        public void GetDates(List<DateTime> list)
+        public void GetDates(List<Notify> list)
         {
             if (list.Count > 0)
             {
