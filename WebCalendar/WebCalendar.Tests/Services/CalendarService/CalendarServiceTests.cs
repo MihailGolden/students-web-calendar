@@ -3,12 +3,14 @@ using Moq;
 using Ninject;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using WebCalendar.Contracts;
 using WebCalendar.Domain.Aggregate.Calendar;
 
 namespace WebCalendar.Tests.Services.CalendarService
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class CalendarServiceTests
     {

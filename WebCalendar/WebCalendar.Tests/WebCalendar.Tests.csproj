@@ -97,6 +97,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CalendarService\CalendarBuilder.cs" />
     <Compile Include="Services\CalendarService\CalendarServiceTests.cs" />
+    <Compile Include="Services\EventService\EventBuilder.cs" />
     <Compile Include="Services\EventService\EventServiceTests.cs" />
     <Compile Include="Services\NotificationService\NotificationServiceTests.cs" />
     <Compile Include="Services\OccurrenceService\OccurrenceServiceTests.cs" />

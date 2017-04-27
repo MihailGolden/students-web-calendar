@@ -75,8 +75,8 @@ namespace WebCalendar.Services
 
         public List<Event> GetEventsFromCalendar(int id)
         {
-            var calendars = this.calendarRepository.Entities.FirstOrDefault(c => c.ID == id);
-            var events = this.eventRepository.GetEvents(calendars);
+            var calendar = this.calendarRepository.Entities.FirstOrDefault(c => c.ID == id);
+            var events = this.eventRepository.GetEvents(calendar);
             return events;
         }
 

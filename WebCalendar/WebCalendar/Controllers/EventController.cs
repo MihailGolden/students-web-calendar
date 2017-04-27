@@ -35,7 +35,7 @@ namespace WebCalendar.Controllers
             var notifies = (from n in this.notifyService.GetNotifications
                             join e in this.service.GetEventsFromCalendar(id) on n.EventID
                             equals e.ID
-                            select new Notify(){ Title = e.Title, Date = e.BeginTime }).OrderBy(d => d.Date).ToList();
+                            select new Notify() { Title = e.Title, Date = e.BeginTime }).OrderBy(d => d.Date).ToList();
             NotifyTime.Instance.GetDates(notifies);
             var events = this.service.GetEventsFromCalendar(id);
             List<EventViewModel> list = DomainToModel.Map(events);
@@ -76,8 +76,11 @@ namespace WebCalendar.Controllers
                 {
                     var domain = DomainToModel.Map(ev);
                     this.service.Create(domain);
-                    ev.Notifications[0].EventID = this.service.GetEvents.LastOrDefault().ID;
-                    this.notifyService.Create(DomainToModel.Map(ev.Notifications[0]));
+                    if (ev.Notifications.Count > 0)
+                    {
+                        ev.Notifications[0].EventID = this.service.GetEvents.LastOrDefault().ID;
+                        this.notifyService.Create(DomainToModel.Map(ev.Notifications[0]));
+                    }
                 }
                 return RedirectToAction("Index", new { id = ev.CalendarID });
             }
@@ -119,7 +122,10 @@ namespace WebCalendar.Controllers
         {
             int calendarID = ev.CalendarID;
             var notify = this.notifyService.GetNotificationFromEvent(ev.ID);
-            this.notifyService.Delete(notify.ID);
+            if (notify != null)
+            {
+                this.notifyService.Delete(notify.ID);
+            }
             this.service.Delete(ev.ID);
             return RedirectToAction("Index", new { id = calendarID });
         }
