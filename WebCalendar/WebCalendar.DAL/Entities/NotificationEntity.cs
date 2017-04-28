@@ -12,7 +12,7 @@ namespace WebCalendar.DAL.Entities
         public string Type { get; set; }
         public int NotificateBeforeDay { get; set; }
         [Column(TypeName = "datetime")]
-        public DateTime NotificationDefaultTime { get; set; }
+        public DateTime? NotificationDefaultTime { get; set; }
         public int? EventID { get; set; }
         public virtual EventEntity Event { get; set; }
     }

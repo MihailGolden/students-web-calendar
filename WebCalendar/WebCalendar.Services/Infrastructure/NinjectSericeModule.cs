@@ -9,6 +9,8 @@ namespace WebCalendar.Services.Infrastructure
         {
             Bind<ICalendarService>().To<CalendarService>();
             Bind<IEventService>().To<EventService>();
+            Bind<INotificationService>().To<NotificationService>();
+            Bind<IOccurrenceService>().To<OccurrenceService>();
         }
     }
 }

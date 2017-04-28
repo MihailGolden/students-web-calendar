@@ -29,7 +29,6 @@ namespace WebCalendar.DAL.Concrete
             DomainToDal.Map(entity, ev);
             this.dal.Add(entity);
             this.unitOfWork.Commit();
-            this.unitOfWork.Dispose();
         }
 
         public IQueryable<Event> Entities

@@ -3,13 +3,12 @@
 @{
     ViewBag.Title = "Index";
 }
+<link href="~/Content/calendar-table.css" rel="stylesheet" />
+<h2 style="margin-left:43% ;text-align:left">Events</h2>
 
-<h2>Events</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+<table class="table scroll">
+    <thead>
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Title)
@@ -23,35 +22,54 @@
         <th>
             @Html.DisplayNameFor(model => model.EndTime)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CalendarTitle)
-        </th>
         <th></th>
     </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BeginTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CalendarTitle)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Update", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+ </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BeginTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Update", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>
+<div class="row center-block" style="margin-left:43% ;text-align:left">
+    <p>
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+    </p>
+</div>
+<div id="dialog" title="Notification"><div id="myDialogText"></div></div>
+    @section JavaScript{
+        <script src="~/Scripts/moment.js"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+        <script src="/signalr/hubs"></script>
+        <script type="text/javascript">
+            $(function () {
+                var proxy = $.connection.notifyHub;
+                proxy.client.send = function (title, time) {
+                    $("#dialog").dialog();
+                    var date = moment(time).format('MMMM Do YYYY, h:mm a');
+                    $("#myDialogText").html( title + '<br/>' + date);
+                };
+                $.connection.hub.start().done(function () {
+                    proxy.server.getInitialTime();
+                });
+            });
+        </script>}

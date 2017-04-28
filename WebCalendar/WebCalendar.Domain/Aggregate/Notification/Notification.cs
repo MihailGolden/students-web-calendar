@@ -23,7 +23,7 @@ namespace WebCalendar.Domain.Aggregate.Notification
             }
         }
         public int NotificateBeforeDay { get; set; }
-        public DateTime NotificationDefaultTime { get; set; }
+        public DateTime? NotificationDefaultTime { get; set; }
         public int? EventID { get; set; }
     }
 }

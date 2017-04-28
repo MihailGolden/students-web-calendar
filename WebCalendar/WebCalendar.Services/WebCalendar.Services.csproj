@@ -47,6 +47,8 @@
     <Compile Include="CalendarService.cs" />
     <Compile Include="EventService.cs" />
     <Compile Include="Infrastructure\NinjectSericeModule.cs" />
+    <Compile Include="NotificationService.cs" />
+    <Compile Include="OccurrenceService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

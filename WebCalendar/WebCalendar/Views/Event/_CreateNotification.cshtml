@@ -1,0 +1,21 @@
+﻿@model WebCalendar.Models.NotificationViewModel
+@{
+    if (!string.IsNullOrEmpty(Model.FieldPrefix))
+    {
+        ViewData.TemplateInfo.HtmlFieldPrefix = Model.FieldPrefix;
+    }
+}
+<div class="form-group">
+    <div class="col-md-10">
+        @Html.LabelFor(model => model.NotificateBeforeDay, htmlAttributes: new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.NotificateBeforeDay, new { type = "number", min = "1", @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.NotificateBeforeDay, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-md-10">
+        @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" }})
+        @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+    </div>
+</div>

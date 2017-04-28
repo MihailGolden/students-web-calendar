@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using WebCalendar.Contracts;
+using WebCalendar.Hubs;
 using WebCalendar.Mappers;
 using WebCalendar.Models;
 
@@ -13,11 +14,13 @@ namespace WebCalendar.Controllers
     {
         IEventService service;
         ICalendarService calService;
+        INotificationService notifyService;
 
-        public EventController(IEventService service, ICalendarService calService)
+        public EventController(IEventService service, ICalendarService calService, INotificationService notifyService)
         {
             this.service = service;
             this.calService = calService;
+            this.notifyService = notifyService;
         }
 
         public void InitDropDownList(EventViewModel model)
@@ -29,6 +32,11 @@ namespace WebCalendar.Controllers
         // GET: Event
         public ActionResult Index(int id)
         {
+            var notifies = (from n in this.notifyService.GetNotifications
+                            join e in this.service.GetEventsFromCalendar(id) on n.EventID
+                            equals e.ID
+                            select new Notify() { Title = e.Title, Date = e.BeginTime }).OrderBy(d => d.Date).ToList();
+            NotifyTime.Instance.GetDates(notifies);
             var events = this.service.GetEventsFromCalendar(id);
             List<EventViewModel> list = DomainToModel.Map(events);
             return View(list);
@@ -59,15 +67,24 @@ namespace WebCalendar.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(EventViewModel ev)
         {
-            if (ev != null)
+            if (ModelState.IsValid)
             {
-                var domain = DomainToModel.Map(ev);
-                this.service.Create(domain);
+                if (ev != null)
+                {
+                    var domain = DomainToModel.Map(ev);
+                    this.service.Create(domain);
+                    if (ev.Notifications.Count > 0)
+                    {
+                        ev.Notifications[0].EventID = this.service.GetEvents.LastOrDefault().ID;
+                        this.notifyService.Create(DomainToModel.Map(ev.Notifications[0]));
+                    }
+                }
+                return RedirectToAction("Index", new { id = ev.CalendarID });
             }
-            return RedirectToAction("Index", new { id = ev.CalendarID });
+            return View(ev);
         }
 
         public ActionResult Update(int id)
@@ -82,10 +99,14 @@ namespace WebCalendar.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Update(EventViewModel ev)
         {
-            int calendarID = ev.CalendarID;
-            var domain = DomainToModel.Map(ev);
-            this.service.Update(domain);
-            return RedirectToAction("Index", new { id = calendarID });
+            if (ModelState.IsValid)
+            {
+                int calendarID = ev.CalendarID;
+                var domain = DomainToModel.Map(ev);
+                this.service.Update(domain);
+                return RedirectToAction("Index", new { id = calendarID });
+            }
+            return View(ev);
         }
 
         public ActionResult Delete(int? id)
@@ -100,6 +121,11 @@ namespace WebCalendar.Controllers
         public ActionResult Delete(EventViewModel ev)
         {
             int calendarID = ev.CalendarID;
+            var notify = this.notifyService.GetNotificationFromEvent(ev.ID);
+            if (notify != null)
+            {
+                this.notifyService.Delete(notify.ID);
+            }
             this.service.Delete(ev.ID);
             return RedirectToAction("Index", new { id = calendarID });
         }
@@ -109,6 +135,14 @@ namespace WebCalendar.Controllers
             var domain = this.service.Get(id);
             var model = DomainToModel.Map(domain);
             return View(model);
+        }
+
+        public ActionResult CreateNotification(int id)
+        {
+            var notify = new NotificationViewModel();
+            notify.ID = id;
+            notify.FieldPrefix = "Notifications[" + id + "]";
+            return PartialView("_CreateNotification", notify);
         }
     }
 }

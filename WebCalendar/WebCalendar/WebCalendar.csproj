@@ -217,10 +217,13 @@
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TestSignalrController.cs" />
+    <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Hubs\ConnectionMapping.cs" />
     <Compile Include="Hubs\EventInfoHub.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\NotifyHub.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\NinjectUIModule.cs" />
     <Compile Include="Infrastructure\UserService.cs" />
@@ -230,6 +233,8 @@
     <Compile Include="Models\EventViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NotificationViewModel.cs" />
+    <Compile Include="Models\Notify.cs" />
     <Compile Include="Models\TestSignalrUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -245,6 +250,7 @@
     <Content Include="Content\custom.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\month-calendar.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -339,6 +345,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\calendar.1gb.ua.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\calendar-crud.js" />
@@ -410,6 +417,7 @@
     <Content Include="Views\Event\Test.cshtml" />
     <Content Include="Views\Shared\CreateModal.cshtml" />
     <Content Include="Views\TestSignalr\Index.cshtml" />
+    <Content Include="Views\Event\_CreateNotification.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
