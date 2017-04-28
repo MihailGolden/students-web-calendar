@@ -58,11 +58,11 @@ namespace WebCalendar
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "505881011395-bb1v5jfmr1pr5eikhnrual569cfd5k6e.apps.googleusercontent.com",
+                ClientSecret = "km_wqqvLlPdOJyH3zrrxrv5b"
+            });
         }
     }
 }
