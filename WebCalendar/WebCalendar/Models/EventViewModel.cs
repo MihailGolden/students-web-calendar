@@ -14,7 +14,6 @@ namespace WebCalendar.Models
         public int ID { get; set; }
         [Required(ErrorMessage = "Enter Title")]
         public string Title { get; set; }
-        [Required(ErrorMessage = "Write a description")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         [Required(ErrorMessage = "Enter Date")]
