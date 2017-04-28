@@ -45,9 +45,9 @@ namespace WebCalendar.Controllers
             return Json(events, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ListEvents(int id, DateTime start, DateTime end)
+        public JsonResult ListEventsInTimePeriod(int calendarId, DateTime start, DateTime end)
         {
-            var events = this.service.GetEventsFromCalendar(id).Where(e => e.BeginTime == start && e.EndTime == end);
+            var events = this.service.GetEventsFromCalendar(calendarId).Where(e => e.BeginTime >= start && e.EndTime <= end);
             return Json(events, JsonRequestBehavior.AllowGet);
         }
 

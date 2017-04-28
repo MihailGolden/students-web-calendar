@@ -8,10 +8,19 @@
     </div>
 </div>
 
-<!--<div style="overflow: scroll; width: 760px; height: 450px;">-->
-<div class="row" ng-repeat="h in hours">
-    <div class="col-lg-1 table-bordered">{{h}}<br><br></div>
-    <div data-hour="{{h}}" class="col-lg-11 table-bordered selectable-cell"><br><br></div>
+<div style="overflow: scroll; width: 760px; height: 450px;">
+<div class="table-responsive">
+    <table class="table table-bordered">
+
+        <tr ng-repeat="r in dataForGridDay">
+
+            <td ng-repeat="e in r" ng-style={'background-color':e.color} class="{{e.class}}" data-hour="{{e.hour}}" data-id="{{e.id}}" data-title="{{e.titleAttr}}" ng-click="eventInfo(e.id)">
+                <span>{{e.title}}</span>
+            </td>
+
+        </tr>
+
+    </table>
 </div>
 
-<!--</div>-->
+</div>

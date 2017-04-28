@@ -23,7 +23,7 @@ $(document).ready(function () {
 
     $('.selectable').selectable({
         filter: ".selectable-cell",
-        selecting: function (event, ui) {
+        /*selecting: function (event, ui) {
 
             var selectedElems = $(".ui-selecting");
 
@@ -49,7 +49,7 @@ $(document).ready(function () {
                     }
                 }
             }
-        },
+        },*/
         stop: function () {
             var selectedElems = $(".ui-selected");
             var $scope = getScope('calendarCtrl');
@@ -118,14 +118,16 @@ $(document).ready(function () {
                         y: firstSelectedElem.getAttribute("data-year"),
                         M: firstSelectedElem.getAttribute("data-month") - 1,
                         d: firstSelectedElem.getAttribute("data-day"),
-                        h: 0
+                        h: 0,
+                        m: 0
                     });
 
                     endDate = moment({
                         y: lastSelectedElem.getAttribute("data-year"),
                         M: lastSelectedElem.getAttribute("data-month") - 1,
                         d: lastSelectedElem.getAttribute("data-day"),
-                        h: 0
+                        h: 23,
+                        m: 59
                     });
 
                     timePeriodStr = startDate.format('dddd').substring(0, 3) + ", " +
@@ -215,6 +217,7 @@ function getScope(ctrlName) {
             switch ($scope.currentGrid) {
                 case 'day':
                     $scope.currentDate.add(1, "days");
+                    $scope.getEvents();
                     break;
                 case 'week':
                     $scope.currentDate.add(1, "weeks");
@@ -233,6 +236,7 @@ function getScope(ctrlName) {
             switch ($scope.currentGrid) {
                 case 'day':
                     $scope.currentDate.subtract(1, "days");
+                    $scope.getEvents();
                     break;
                 case 'week':
                     $scope.currentDate.subtract(1, "weeks");
@@ -594,6 +598,102 @@ function getScope(ctrlName) {
             return cal;
         };
 
+        $scope.eventInfo = function (elem) {
+            //alert(elem);
+            if (elem != undefined) {
+                location.href = '/Event/Details?id=' + elem;
+            }
+
+        };
+
+        $scope.generateDayPageGrid = function (events) {
+            //alert(events.length);
+      /*      var events = [];
+            for (var i = 0; i < 3; i++) {
+                var obj = {};
+                obj.ID = i;
+                obj.Title = "Title" + i;
+                obj.Color = "#00ff00";
+                obj.BeginTime = moment({ hours: 1 });
+                obj.EndTime = moment({ hours: 5 });
+                events.push(obj);
+            }*/
+
+            var rows = 24;
+            var cols = events.length + 2;
+            var arrGrid = new Array(rows);
+            for (var i = 0; i < rows; i++) {
+                arrGrid[i] = new Array(cols);
+            }
+
+            for (var i = 0; i < rows; ++i) {
+                for (var j = 0; j < cols; ++j) {
+                    var eventObj = {};
+                    if (j == 0)
+                        eventObj.title = $scope.hours[i];
+                    else {
+                        eventObj.class = 'selectable-cell';
+                        eventObj.hour = $scope.hours[i];
+                    }
+                    arrGrid[i][j] = eventObj;
+                }
+            }
+
+
+            var c = 1;
+            events.forEach(function (event) {
+
+                var arrEvent = new Array(24);
+
+                for (var i = 0; i < arrEvent.length; i++) {
+                    var eventObj = {};
+                    eventObj.class = 'selectable-cell';
+                    eventObj.hour = $scope.hours[i];
+                    arrEvent[i] = eventObj;
+                }
+
+                for (var i = 0; i < arrEvent.length; i++) {
+                    //arrEvent[i] = {};
+                    if (i == moment(event.BeginTime).format("H")) {
+                        //var eventObj = arrEvent[i];
+                        arrEvent[i].id = event.ID;
+                        arrEvent[i].title = event.Title;
+                        arrEvent[i].titleAttr = event.Title;
+                        arrEvent[i].eventLink = "link...";
+                        arrEvent[i].color = "#00ff00";
+                        arrEvent[i].class = undefined;
+
+                        //                            arrEvent[i] = eventObj;
+
+                        while (i < arrEvent.length && i != moment(event.EndTime).format("H")) {
+                            i++;
+                            arrEvent[i].id = event.ID;
+                            arrEvent[i].titleAttr = event.Title;
+                            arrEvent[i].eventLink = "link...";
+                            arrEvent[i].color = "#00ff00";
+                            arrEvent[i].class = undefined;
+                        }
+
+                        break;
+                    }
+
+                }
+
+                for (var i = 0; i < 24; i++)
+                    arrGrid[i][c] = arrEvent[i];
+
+                c++;
+
+            });
+
+            //                return {
+            //                    'hours':$scope.hours,
+            //                    'events':arrGrid
+            //                };
+
+            return arrGrid;
+
+        };
 
         $scope.sendEventInfo = function (calendarID) {
 
@@ -629,10 +729,28 @@ function getScope(ctrlName) {
         };
         
         $scope.getEvents = function () {
-            
+
+            var sPeriod = moment($scope.currentDate);
+            var ePeriod = moment($scope.currentDate);
+            switch ($scope.currentGrid) {
+                case 'day':
+                    sPeriod.hour(0); sPeriod.minute(0);
+                    ePeriod.hour(23); ePeriod.minute(59);
+                    break;
+                case 'week':
+                    break;
+                case 'month':
+                    sPeriod.date(1);
+                    ePeriod.date(ePeriod.daysInMonth()); 
+                    break;
+                default:
+                    alert("error: undefined grid");
+            }
+
                         $.ajax({
                             method: "GET",
-                            url: "/Event/ListEvents?id=" + $scope.currentCalendarId,
+                            url: "/Event/ListEventsInTimePeriod?calendarId=" + $scope.currentCalendarId + "&start=" + sPeriod.format("YYYY-MM-DD HH:mm") +
+                                "&end=" + ePeriod.format("YYYY-MM-DD HH:mm"),
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             async: false,
@@ -640,6 +758,7 @@ function getScope(ctrlName) {
                                 $scope.currentPageEvents = data;
                                 switch ($scope.currentGrid) {
                                     case 'day':
+                                        $scope.dataForGridDay = $scope.generateDayPageGrid(data);
                                         break;
                                     case 'week':
                                         $scope.daysForGridWeek = $scope.generateDaysForGridWeek(data);
@@ -663,6 +782,20 @@ function getScope(ctrlName) {
 
                     };
 
+                    //$scope.getEvents();
+
+                    $scope.isDataLoaded = function (grid) {
+                        switch (grid) {
+                            case 'day':
+                                return $scope.dataForGridDay != undefined;
+                            case 'week':
+                                return $scope.daysForGridWeek != undefined;
+                            case 'month':
+                                return $scope.calMonthPage != undefined;
+                            default:
+                                alert("error: undefined grid");
+                        }
+                    }
 
                     $scope.currentDateEvents = [];
 
