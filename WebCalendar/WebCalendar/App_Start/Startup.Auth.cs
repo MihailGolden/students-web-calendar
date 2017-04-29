@@ -6,6 +6,8 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using WebCalendar.Models;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace WebCalendar
 {
@@ -63,6 +65,27 @@ namespace WebCalendar
                 ClientId = "505881011395-bb1v5jfmr1pr5eikhnrual569cfd5k6e.apps.googleusercontent.com",
                 ClientSecret = "km_wqqvLlPdOJyH3zrrxrv5b"
             });
+
+            //var googleOptions = new GoogleOAuth2AuthenticationOptions()
+            //{
+            //    ClientId = "505881011395-bb1v5jfmr1pr5eikhnrual569cfd5k6e.apps.googleusercontent.com",
+            //    ClientSecret = "km_wqqvLlPdOJyH3zrrxrv5b",
+            //    Provider = new GoogleOAuth2AuthenticationProvider()
+            //    {
+            //        OnAuthenticated = (context) =>
+            //        {
+            //            context.Identity.AddClaim(new Claim("urn:google:name", context.Identity.FindFirstValue(ClaimTypes.Name)));
+            //            context.Identity.AddClaim(new Claim("urn:google:email", context.Identity.FindFirstValue(ClaimTypes.Email)));
+            //            //This following line is need to retrieve the profile image
+            //            context.Identity.AddClaim(new System.Security.Claims.Claim("urn:google:accesstoken", context.AccessToken, ClaimValueTypes.String, "Google"));
+
+            //            return Task.FromResult(0);
+            //        }
+            //    }
+            //};
+
+            //app.UseGoogleAuthentication(googleOptions);
+
         }
     }
 }
