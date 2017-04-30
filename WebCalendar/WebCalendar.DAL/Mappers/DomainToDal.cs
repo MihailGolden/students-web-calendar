@@ -28,6 +28,7 @@ namespace WebCalendar.DAL.Mappers
             to.Description = from.Description;
             to.BeginTime = from.BeginTime;
             to.EndTime = from.EndTime;
+            to.EventColor = from.EventColor;
             to.CalendarID = from.CalendarID;
         }
 
@@ -53,7 +54,7 @@ namespace WebCalendar.DAL.Mappers
 
         public static Event Map(EventEntity to)
         {
-            return new Event { ID = to.EventID, Description = to.Description, CalendarID = to.CalendarID, BeginTime = to.BeginTime, EndTime = to.EndTime, Title = to.Title };
+            return new Event { ID = to.EventID, Description = to.Description, CalendarID = to.CalendarID, BeginTime = to.BeginTime, EndTime = to.EndTime, EventColor = to.EventColor, Title = to.Title };
         }
 
         internal static Notification Map(NotificationEntity item)

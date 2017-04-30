@@ -5,6 +5,7 @@
 }
 <link href="~/Content/custom.css" rel="stylesheet" />
 <script src="~/Scripts/angular.min.js"></script>
+
 <style>
     #show-events-btn {
         background: none !important;
@@ -27,6 +28,10 @@
 
     .gridEvent {
         background-color: greenyellow;
+    }
+
+    .jscolor{
+        z-index:300;
     }
 </style>
 
@@ -96,14 +101,20 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Event</h4>
                 </div>
-                <input required id="event-title" type="text"><br>
-                <label>When:</label>
-                <div ng-bind-template="{{timePeriodStr}}"></div>
-                <div class="modal-footer">
-                    <button id="modal-btn-sendEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendEventInfo(@Model.ID)">Create</button>
-                    <button id="modal-btn-editEvent" type="button" class="btn btn-default" data-dismiss="modal">Edit</button>
-                </div>
-            </div>
+                <input required id="event-title" type="text"><br />
+
+                <input disabled id="color"><br>
+                <button id="cp" type="button" class="btn btn-default">Choose color</button><br />
+                <input hidden id="color-value" value="#00ff00"><br>
+
+
+                    <label>When:</label>
+                    <div ng-bind-template="{{timePeriodStr}}"></div>
+                    <div class="modal-footer">
+                        <button id="modal-btn-sendEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendEventInfo(@Model.ID)">Create</button>
+                        <button id="modal-btn-editEvent" type="button" class="btn btn-default" data-dismiss="modal">Edit</button>
+                    </div>
+</div>
         </div>
     </div>
 
@@ -145,4 +156,14 @@
 
 
 </div>
+<script>
+    $(function() {
+        $('#cp').colorpicker().on('changeColor', function (e) {
+            $('#color')[0].style.backgroundColor  = e.color.toString(
+                'hex');
+            $('#color-value')[0].value = e.color.toString(
+           'hex');
+        });
+    });
+</script>
 <script src="~/Scripts/app.js"></script>

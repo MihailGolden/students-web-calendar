@@ -16,7 +16,11 @@ namespace WebCalendar
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate.unobtrusive"));
             bundles.Add(new ScriptBundle("~/bundles/moment").Include(
-                        "~/Scripts/moment.js"));
+                        "~/Scripts/moment.js")); 
+            bundles.Add(new ScriptBundle("~/bundles/jscolor").Include(
+            "~/Scripts/jscolor.js"));
+            bundles.Add(new ScriptBundle("~/bundles/colorpicker").Include(
+            "~/Scripts/bootstrap-colorpicker.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -30,7 +34,7 @@ namespace WebCalendar
                       "~/Scripts/app.js, ~/Script/calendar-event.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/Site.css",
-                      "~/Content/bootstrap-datetimepicker.css"));
+                      "~/Content/bootstrap-datetimepicker.css", "~/Content/bootstrap-colorpicker.css"));
         }
     }
 }

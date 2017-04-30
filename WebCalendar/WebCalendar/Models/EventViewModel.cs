@@ -16,6 +16,7 @@ namespace WebCalendar.Models
         public string Title { get; set; }
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+        public string Color { get; set; }
         [Required(ErrorMessage = "Enter Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy H:mm}")]
         [DataType(DataType.DateTime)]

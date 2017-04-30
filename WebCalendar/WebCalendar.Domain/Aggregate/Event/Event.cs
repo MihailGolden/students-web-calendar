@@ -46,7 +46,7 @@ namespace WebCalendar.Domain.Aggregate.Event
         public bool? EveryWeek { get; set; }
         public bool? EveryMonth { get; set; }
         public bool? EveryYear { get; set; }
-        public int EventColor { get; set; }
+        public string EventColor { get; set; }
         public int CalendarID { get; set; }
     }
 }
