@@ -101,6 +101,7 @@
     <Compile Include="Services\EventService\EventServiceTests.cs" />
     <Compile Include="Services\NotificationService\NotificationBuilder.cs" />
     <Compile Include="Services\NotificationService\NotificationServiceTests.cs" />
+    <Compile Include="Services\OccurrenceService\OccurrenceBuilder.cs" />
     <Compile Include="Services\OccurrenceService\OccurrenceServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>

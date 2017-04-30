@@ -108,14 +108,14 @@ namespace WebCalendar.Tests.Services.CalendarService
             //Arrange
             var expected = new CalendarBuilder().WithUserID(USER_ID);
             SetUpUserService();
-            SetUpRepository();
+            SetUpRepository(expected);
             var service = this.kernel.Get<WebCalendar.Services.CalendarService>();
             //Act
             var actual = service.GetUserCalendars();
             //Assert
             Assert.IsNotNull(actual);
             Assert.IsTrue(actual.Count == 1);
-            Assert.ReferenceEquals(expected, actual[0]);
+            Assert.AreEqual(expected, actual[0]);
         }
 
         [TestMethod]
@@ -123,14 +123,14 @@ namespace WebCalendar.Tests.Services.CalendarService
         {
             //Arrange
             var expected = new CalendarBuilder().WithUserID(USER_ID);
-            SetUpRepository();
+            SetUpRepository(expected);
             var service = this.kernel.Get<WebCalendar.Services.CalendarService>();
             //Act
             var actual = service.GetCalendars;
             //Assert
             Assert.IsNotNull(actual);
             Assert.IsTrue(actual.Count == 1);
-            Assert.ReferenceEquals(expected, actual[0]);
+            Assert.AreEqual(expected, actual[0]);
         }
 
         [TestMethod]

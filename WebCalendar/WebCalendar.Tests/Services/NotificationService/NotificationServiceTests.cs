@@ -122,15 +122,15 @@ namespace WebCalendar.Tests.Services.NotificationService
         public void GetNotifications_ValidEntities_ReturnListOfNotifications()
         {
             //Arrange
-            var expected = new NotificationBuilder();
-            SetUpRepository();
+            var expected = new NotificationBuilder().Build();
+            SetUpRepository(expected);
             var service = this.kernel.Get<WebCalendar.Services.NotificationService>();
             //Act
             var actual = service.GetNotifications;
             //Assert
             Assert.IsNotNull(actual);
             Assert.IsTrue(actual.Count == 1);
-            Assert.ReferenceEquals(expected, actual[0]);
+            Assert.AreEqual(expected, actual[0]);
         }
 
         [TestMethod]

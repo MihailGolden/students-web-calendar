@@ -123,15 +123,15 @@ namespace WebCalendar.Tests.Services.EventService
         public void GetEvents_ValidEntities_ReturnListOfEvents()
         {
             //Arrange
-            var expected = new EventBuilder();
-            SetUpRepository();
+            var expected = new EventBuilder().Build();
+            SetUpRepository(expected);
             var service = this.kernel.Get<WebCalendar.Services.EventService>();
             //Act
             var actual = service.GetEvents;
             //Assert
             Assert.IsNotNull(actual);
             Assert.IsTrue(actual.Count == 1);
-            Assert.ReferenceEquals(expected, actual[0]);
+            Assert.AreEqual(expected, actual[0]);
         }
 
         [TestMethod]
