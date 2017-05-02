@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using WebCalendar.Domain.Aggregate.Occurrence;
+using WebCalendar.Domain.Exceptions;
 
 namespace WebCalendar.Tests.Services.OccurrenceService
 {
@@ -143,6 +144,25 @@ namespace WebCalendar.Tests.Services.OccurrenceService
         }
 
         [TestMethod]
+        public void Update_ConversionExceptionForOccurrence_ExceptionThrown()
+        {
+            //Arrange
+            Exception exception = null;
+            Occurrence occur = new OccurrenceBuilder().Build();
+            SetUpRepository();
+            SetUpArgumentNullException();
+            var service = this.kernel.Get<WebCalendar.Services.OccurrenceService>();
+            //Act
+            try
+            {
+                service.Update(occur);
+            }
+            catch (ConversionException ex) { exception = ex; }
+            //Assert
+            VerifyExceptionThrown(exception, ExpectedExceptionMessages.OCCURRENCE_NOT_FOUND);
+        }
+
+        [TestMethod]
         public void Delete_ValidOccurrence_Deleted()
         {
             //Arrange
@@ -187,6 +207,19 @@ namespace WebCalendar.Tests.Services.OccurrenceService
             this.occurrenceRepositoryMock
                 .Setup(m => m.Entities)
                 .Returns(new Occurrence[] { expected }.AsQueryable());
+        }
+
+        private void SetUpArgumentNullException()
+        {
+            this.occurrenceRepositoryMock.Setup(m =>
+               m.Update(It.IsAny<Occurrence>()))
+               .Throws(new ArgumentNullException());
+        }
+
+        private void VerifyExceptionThrown(Exception exception, string msg)
+        {
+            Assert.IsNotNull(exception);
+            Assert.IsTrue(exception.Message.Equals(msg));
         }
 
         private void VerifyAddListOfOccurrences(Times times)

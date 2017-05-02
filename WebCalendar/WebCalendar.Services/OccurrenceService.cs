@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using WebCalendar.Contracts;
 using WebCalendar.Domain.Aggregate.Occurrence;
+using WebCalendar.Domain.Exceptions;
+using WebCalendar.Services.Resources;
 
 namespace WebCalendar.Services
 {
@@ -72,7 +74,7 @@ namespace WebCalendar.Services
             }
             catch (ArgumentNullException ex)
             {
-                throw new Exception(ex.Message);
+                throw new ConversionException(ServiceResource.OccurrenceNotFound, ex);
             }
         }
     }

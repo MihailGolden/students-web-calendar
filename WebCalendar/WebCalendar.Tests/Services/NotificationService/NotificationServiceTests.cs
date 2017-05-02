@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using WebCalendar.Domain.Aggregate.Event;
 using WebCalendar.Domain.Aggregate.Notification;
+using WebCalendar.Domain.Exceptions;
 
 namespace WebCalendar.Tests.Services.NotificationService
 {
@@ -163,6 +164,25 @@ namespace WebCalendar.Tests.Services.NotificationService
         }
 
         [TestMethod]
+        public void Update_ConversionExceptionForNotification_ExceptionThrown()
+        {
+            //Arrange
+            Exception exception = null;
+            Notification notify = new NotificationBuilder().Build();
+            SetUpRepository();
+            SetUpArgumentNullException();
+            var service = this.kernel.Get<WebCalendar.Services.NotificationService>();
+            //Act
+            try
+            {
+                service.Update(notify);
+            }
+            catch (ConversionException ex) { exception = ex; }
+            //Assert
+            VerifyExceptionThrown(exception, ExpectedExceptionMessages.NOTIFICATION_NOT_FOUND);
+        }
+
+        [TestMethod]
         public void Delete_ValidNotification_Deleted()
         {
             //Arrange
@@ -209,6 +229,18 @@ namespace WebCalendar.Tests.Services.NotificationService
             this.eventRepositoryMock
                 .Setup(m => m.Entities)
                 .Returns(new Event[] { new Event { ID = 1, Title = "Go to Work" } }.AsQueryable());
+        }
+
+        private void SetUpArgumentNullException()
+        {
+            this.notificationRepositoryMock.Setup(m =>
+               m.Update(It.IsAny<Notification>()))
+               .Throws(new ArgumentNullException());
+        }
+        private void VerifyExceptionThrown(Exception exception, string msg)
+        {
+            Assert.IsNotNull(exception);
+            Assert.IsTrue(exception.Message.Equals(msg));
         }
 
         private void VerifyAddListOfNotifications(Times times)

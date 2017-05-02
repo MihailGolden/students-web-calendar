@@ -4,6 +4,8 @@ using System.Linq;
 using WebCalendar.Contracts;
 using WebCalendar.Domain.Aggregate.Calendar;
 using WebCalendar.Domain.Aggregate.Event;
+using WebCalendar.Domain.Exceptions;
+using WebCalendar.Services.Resources;
 
 namespace WebCalendar.Services
 {
@@ -88,7 +90,7 @@ namespace WebCalendar.Services
             }
             catch (ArgumentNullException ex)
             {
-                throw new Exception(ex.Message);
+                throw new ConversionException(ServiceResource.EventNotFound,ex);
             }
         }
     }

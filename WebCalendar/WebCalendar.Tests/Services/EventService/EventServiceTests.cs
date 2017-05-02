@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using WebCalendar.Domain.Aggregate.Calendar;
 using WebCalendar.Domain.Aggregate.Event;
+using WebCalendar.Domain.Exceptions;
 using WebCalendar.Tests.Services.CalendarService;
 
 namespace WebCalendar.Tests.Services.EventService
@@ -22,6 +23,7 @@ namespace WebCalendar.Tests.Services.EventService
         private IKernel kernel;
         private readonly Mock<ICalendarRepository> calendarRepositoryMock = new Mock<ICalendarRepository>();
         private readonly Mock<IEventRepository> eventRepositoryMock = new Mock<IEventRepository>();
+        private int? NULLABLE_EVENT_ID = 1;
 
         [TestInitialize]
         public void Init()
@@ -105,6 +107,20 @@ namespace WebCalendar.Tests.Services.EventService
         }
 
         [TestMethod]
+        public void Get_ValidEventWithNullableID_ReturnEvent()
+        {
+            //Arrange
+            Event expected = new EventBuilder().Build();
+            SetUpRepository(expected);
+            var service = this.kernel.Get<WebCalendar.Services.EventService>();
+            //Act
+            var actual = service.Get(NULLABLE_EVENT_ID);
+            //Assert
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void GetEventsFromCalendar_ValidCalendar_ReturnListOfEvents()
         {
             //Arrange
@@ -164,6 +180,25 @@ namespace WebCalendar.Tests.Services.EventService
         }
 
         [TestMethod]
+        public void Update_ConversionExceptionForEvent_ExceptionThrown()
+        {
+            //Arrange
+            Exception exception = null;
+            Event ev = new EventBuilder().Build();
+            SetUpRepository();
+            SetUpArgumentNullException();
+            var service = this.kernel.Get<WebCalendar.Services.EventService>();
+            //Act
+            try
+            {
+                service.Update(ev);
+            }
+            catch (ConversionException ex) { exception = ex; }
+            //Assert
+            VerifyExceptionThrown(exception, ExpectedExceptionMessages.EVENT_NOT_FOUND);
+        }
+
+        [TestMethod]
         public void Delete_ValidEvent_Deleted()
         {
             //Arrange
@@ -197,6 +232,17 @@ namespace WebCalendar.Tests.Services.EventService
         {
             this.calendarRepositoryMock.Setup(m => m.Entities)
      .Returns(new Calendar[] { new CalendarBuilder().Build() }.AsQueryable());
+        }
+        private void SetUpArgumentNullException()
+        {
+            this.eventRepositoryMock.Setup(m =>
+               m.Update(It.IsAny<Event>()))
+               .Throws(new ArgumentNullException());
+        }
+        private void VerifyExceptionThrown(Exception exception, string msg)
+        {
+            Assert.IsNotNull(exception);
+            Assert.IsTrue(exception.Message.Equals(msg));
         }
 
         private void VerifyGetEvents(Times times)

@@ -17,7 +17,6 @@ namespace WebCalendar.Tests.Services.NotificationService
                 Type = "alert",
                 NotificateBeforeDay = 1,
                 EventID = 1
-
             };
             this.notifications = new List<Notification>() { notify };
         }
