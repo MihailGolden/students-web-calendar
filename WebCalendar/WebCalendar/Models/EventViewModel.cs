@@ -14,6 +14,7 @@ namespace WebCalendar.Models
         public int ID { get; set; }
         [Required(ErrorMessage = "Enter Title")]
         public string Title { get; set; }
+        [Required(ErrorMessage = "Enter Description")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         public string Color { get; set; }
@@ -21,6 +22,7 @@ namespace WebCalendar.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy H:mm}")]
         [DataType(DataType.DateTime)]
         public DateTime BeginTime { get; set; }
+        [Required(ErrorMessage = "Enter End Time")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy H:mm}")]
         [DataType(DataType.DateTime)]
         public DateTime? EndTime { get; set; }

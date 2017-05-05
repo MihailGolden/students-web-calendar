@@ -1,5 +1,5 @@
 ﻿(function () {
-    var now = moment().date();
+    var now = moment();
 
     function MonthCalendar(events) {
         this.events = events;
@@ -31,14 +31,23 @@
                 this.calMonth.appendChild(this.calWeek);
             }
             var wrapper = document.createElement('div');
+            if(day.month() === this.firstDay.month()){
+                wrapper.className = 'wrapper current-month';
+            } else {
             wrapper.className = 'wrapper';
-
+            }
             var name = document.createElement('div');
             name.className = 'd-name';
             name.textContent = day.format('ddd');
 
             var number = document.createElement('div');
-            number.className = 'd-number';
+
+            if (day.date() == now.date() &&
+                wrapper.className == 'wrapper current-month') {
+                number.className = 'd-number now';
+            } else {
+                number.className = 'd-number';
+            }
             number.textContent = day.format('DD');
 
             var event = document.createElement('div');
@@ -106,8 +115,8 @@
             }
         };  
     }
-    var events = [{ id: 1, color: 'blue', startDate: '2017-04-17', endDate: '2017-04-19' }
-    , { id: 2, color: 'red', startDate: '2017-04-18', endDate: '2017-04-21' }];
+    var events = [{ id: 1, color: 'blue', startDate: '2017-05-17', endDate: '2017-05-19' }
+    , { id: 2, color: 'red', startDate: '2017-05-18', endDate: '2017-05-21' }];
     var calendar = new MonthCalendar(events);
     calendar.draw();
 })();

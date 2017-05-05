@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using WebCalendar.Contracts;
-using WebCalendar.Domain.Aggregate.Calendar;
 using WebCalendar.Hubs;
 using WebCalendar.Mappers;
 using WebCalendar.Models;
+using Web = WebCalendar.Domain.Aggregate.Calendar;
 
 namespace WebCalendar.Controllers
 {
@@ -50,7 +50,7 @@ namespace WebCalendar.Controllers
 
         public ActionResult ListEvents(int id)
         {
-            Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == id).SingleOrDefault();
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == id).SingleOrDefault();
 
             if (cal == null)
                 return new HttpStatusCodeResult(403);
@@ -62,7 +62,7 @@ namespace WebCalendar.Controllers
 
         public ActionResult ListEventsInTimePeriod(int calendarId, DateTime start, DateTime end)
         {
-            Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == calendarId).SingleOrDefault();
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == calendarId).SingleOrDefault();
 
             if (cal == null)
                 return new HttpStatusCodeResult(403);
@@ -76,6 +76,8 @@ namespace WebCalendar.Controllers
         {
             EventViewModel model = new EventViewModel();
             InitDropDownList(model);
+            model.BeginTime = DateTime.Now;
+            model.EndTime = DateTime.Now;
             return View(model);
         }
 
@@ -83,7 +85,7 @@ namespace WebCalendar.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult Create(EventViewModel ev)
         {
-            Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
 
             if (cal == null)
                 return new HttpStatusCodeResult(403);
@@ -110,7 +112,7 @@ namespace WebCalendar.Controllers
 
             var ev = this.service.Get(id);
 
-            Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
 
             if (cal == null)
                 return new HttpStatusCodeResult(403);
@@ -124,7 +126,7 @@ namespace WebCalendar.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Update(EventViewModel ev)
         {
-            Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
 
             if (cal == null)
                 return new HttpStatusCodeResult(403);
@@ -143,7 +145,7 @@ namespace WebCalendar.Controllers
         {
             var ev = this.service.Get(id);
 
-            Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
 
             if (cal == null)
                 return new HttpStatusCodeResult(403);
@@ -156,7 +158,7 @@ namespace WebCalendar.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(EventViewModel ev)
         {
-            Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
 
             if (cal == null)
                 return new HttpStatusCodeResult(403);
@@ -175,7 +177,7 @@ namespace WebCalendar.Controllers
         {
             var domain = this.service.Get(id);
 
-            Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == domain.CalendarID).SingleOrDefault();
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == domain.CalendarID).SingleOrDefault();
 
             if (cal == null)
                 return new HttpStatusCodeResult(403);
