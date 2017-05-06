@@ -13,9 +13,15 @@ namespace WebCalendar
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
             "~/Scripts/jquery-ui.min.js"));
 
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                        "~/Scripts/jquery.validate.min.js",
                        "~/Scripts/jquery.validate.unobtrusive.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/globalize").Include(
+                 "~/Scripts/globalize.js", "~/Scripts/globalize/globalize-cultures/globalize.culture.uk-UA.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jqueryglobal").Include(
+    "~/Scripts/jquery.validate.globalize.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/moment").Include(
                         "~/Scripts/moment.js"));
             bundles.Add(new ScriptBundle("~/bundles/jscolor").Include(

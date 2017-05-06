@@ -9,12 +9,18 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/globalize")
+    @Scripts.Render("~/bundles/jqueryglobal")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/jscolor")
     @Scripts.Render("~/bundles/colorpicker")
     @Scripts.Render("~/bundles/moment")
     @Scripts.Render("~/bundles/bootstrap")
+    <script>
+    Globalize.culture("uk-UA");
+    @*Globalize.culture('@System.Threading.Thread.CurrentThread.CurrentCulture');*@
+    </script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
