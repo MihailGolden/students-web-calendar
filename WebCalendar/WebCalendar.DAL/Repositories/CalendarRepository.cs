@@ -52,7 +52,6 @@ namespace WebCalendar.DAL.Concrete
             this.dal.Attach(entity);
             this.dal.Remove(entity);
             this.unitOfWork.Commit();
-            this.unitOfWork.Dispose();
         }
 
         public void Update(Calendar entity)

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using WebCalendar.Contracts;
@@ -13,11 +12,15 @@ namespace WebCalendar.Controllers
     {
         private ICalendarService service;
         private IUserService userService;
+        private IEventService eventService;
+        private INotificationService notifyService;
 
-        public CalendarController(ICalendarService service, IUserService userService)
+        public CalendarController(ICalendarService service, IUserService userService, IEventService eventService, INotificationService notifyService)
         {
             this.service = service;
             this.userService = userService;
+            this.eventService = eventService;
+            this.notifyService = notifyService;
         }
         // GET: Calendar
 
@@ -81,17 +84,18 @@ namespace WebCalendar.Controllers
             var cal = this.service.GetUserCalendars().FirstOrDefault(c => c.ID == id);
             if (cal != null)
             {
+                var events = this.eventService.GetEventsFromCalendar(id);
+                foreach (var item in events)
+                {
+                    var notify = this.notifyService.GetNotificationFromEvent(item.ID);
+                    if (notify != null)
+                    {
+                        this.notifyService.Delete(notify.ID);
+                    }
+                }
                 this.service.Delete(id);
             }
             return Json(cal);
-        }
-
-        public ActionResult CreateModal(DateTime begin, DateTime end)
-        {
-            ViewBag.BeginEvennt = begin;
-            ViewBag.EndEvent = end;
-
-            return View();
         }
     }
 }

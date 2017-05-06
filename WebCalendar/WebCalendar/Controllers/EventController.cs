@@ -109,7 +109,6 @@ namespace WebCalendar.Controllers
 
         public ActionResult Update(int id)
         {
-
             var ev = this.service.Get(id);
 
             Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
