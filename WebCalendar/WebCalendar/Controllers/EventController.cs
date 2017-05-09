@@ -67,7 +67,7 @@ namespace WebCalendar.Controllers
             if (cal == null)
                 return new HttpStatusCodeResult(403);
 
-            var events = this.service.GetEventsFromCalendar(calendarId).Where(e => e.BeginTime >= start && e.EndTime <= end);
+            var events = this.service.GetEventsFromCalendar(calendarId).Where(e => e.BeginTime <= end && e.EndTime >= start);
 
             return Json(events, JsonRequestBehavior.AllowGet);
         }
