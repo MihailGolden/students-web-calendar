@@ -1,5 +1,6 @@
 ﻿(function () {
     var now = moment();
+    var countOfDays = 6;
 
     function MonthCalendar(events) {
         this.events = events;
@@ -16,13 +17,30 @@
         };
 
         this.drawHeader = function () {
-            this.header = document.createElement('div');
-            this.header.className = 'header';
-            this.title = document.createElement('h1');
+            var ref = this;
+            if (!this.header) {
+                this.header = document.createElement('div');
+                this.header.className = 'header';
+                this.title = document.createElement('h1');
+                var nextToggle = document.createElement('div');
+                nextToggle.className = 'next-toggle';
+                nextToggle.addEventListener('click', function () {
+                    ref.next();
+                });
+                var backToggle = document.createElement('div');
+                backToggle.className = 'back-toggle';
+                backToggle.addEventListener('click', function () {
+                    ref.back();
+                });
+                this.header.appendChild(this.title);
+                this.header.appendChild(nextToggle);
+                this.header.appendChild(backToggle);
+                this.selector.appendChild(this.header);
+            }
             this.title.innerHTML = this.firstDay.format('MMMM YYYY');
-            this.header.appendChild(this.title);
-            this.selector.appendChild(this.header);
         };
+        this.next = function () { this.firstDay.add('months', 1); this.flag = true; this.draw();}
+        this.back = function () { this.firstDay.subtract('months', 1); this.flag = false; this.draw(); }
 
         this.drawDay = function (day) {
             if (!this.calWeek || day.day() === 0) {
@@ -42,7 +60,7 @@
 
             var number = document.createElement('div');
 
-            if (day.date() == now.date() &&
+            if ((now.format("MM-DD-YYYY") === day.format("MM-DD-YYYY")) &&
                 wrapper.className == 'wrapper current-month') {
                 number.className = 'd-number now';
             } else {
@@ -86,20 +104,36 @@
             var clone = this.firstDay.clone().add('months', 1).subtract('days', 1);
             var day = clone.day();
 
-            if (day === 6) { return; }
+            if (day === countOfDays) { return; }
 
-            for (var i = day; i < 6; i++) {
+            for (var i = day; i < countOfDays; i++) {
                 this.drawDay(clone.add('days', 1));
             }
         };
 
         this.drawMonth = function () {
-            this.calMonth = document.createElement('div');
-            this.calMonth.className = 'month';
-            this.selector.appendChild(this.calMonth);
-            this.upToActualMonth();
-            this.actualMonth();
-            this.afterActualMonth();
+            var ref = this;
+            if (this.calMonth) {
+                this.month = this.calMonth;
+                this.month.className = 'month from ' + (ref.flag ? 'next' : 'back');
+                this.month.addEventListener('webkitAnimationEnd', function () {
+                    ref.month.parentNode.removeChild(ref.month);
+                    ref.calMonth = document.createElement('div');
+                    ref.calMonth.className = 'month';
+                    ref.upToActualMonth();
+                    ref.actualMonth();
+                    ref.afterActualMonth();
+                    ref.selector.appendChild(ref.calMonth);
+                    ref.calMonth.className = 'month to ' + (ref.flag ? 'next' : 'back');
+                });
+            }else{
+                this.calMonth = document.createElement('div');
+                this.calMonth.className = 'month';
+                this.selector.appendChild(this.calMonth);
+                this.upToActualMonth();
+                this.actualMonth();
+                this.afterActualMonth();
+            }
         };
 
         this.drawEvent = function (day, sel) {
