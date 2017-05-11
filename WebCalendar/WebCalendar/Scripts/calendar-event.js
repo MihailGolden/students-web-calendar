@@ -7,8 +7,9 @@
         this.selector = document.querySelector('#calendar-event');
         this.firstDay = moment().date(1);
         this.events.forEach(function (event) {
-            event.startDate = moment(event.startDate);
-            event.endDate = moment(event.endDate);
+            event.BeginTime = moment(event.BeginTime);
+            event.EndTime = moment(event.EndTime);
+
         });
 
         this.draw = function () {
@@ -139,18 +140,38 @@
         this.drawEvent = function (day, sel) {
             if (day.month() === this.firstDay.month()) {
                 var arrayEvents = this.events.filter(function (event) {
-                    return event.startDate.isSame(day, 'day') || event.endDate.isSame(day, 'day');
+                    return event.BeginTime.isSame(day, 'day') || event.EndTime.isSame(day, 'day');
                 });
                 arrayEvents.forEach(function (event) {
                     var elem = document.createElement('span');
-                    elem.className = event.color;
+                    elem.className = event.EventColor;
                     sel.appendChild(elem);
                 });
             }
-        };  
+        };
     }
-    var events = [{ id: 1, color: 'blue', startDate: '2017-05-17', endDate: '2017-05-19' }
-    , { id: 2, color: 'red', startDate: '2017-05-18', endDate: '2017-05-21' }];
+
+    var events = [];
+
     var calendar = new MonthCalendar(events);
     calendar.draw();
 })();
+function getData() {
+    let array = [];
+    let data;
+    $.ajax({
+        url: "/Event/List",
+        type: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        cache: false,
+        async: false,
+        success: function (result) {
+            data = result;
+        }
+    });
+    for (var s in data) {
+        array.push(data[s]);
+    }
+    return data;
+}
