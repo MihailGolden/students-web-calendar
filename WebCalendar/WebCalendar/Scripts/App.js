@@ -30,15 +30,14 @@ $(document).ready(function () {
             var elem1 = selectedElems[0];
             var elem2 = selectedElems[selectedElems.length - 1];
 
-            var rowid1 = elem1.getAttribute("data-rowid");
-            var rowid2 = elem2.getAttribute("data-rowid");
+            var rowid1 = +elem1.getAttribute("data-rowid");
+            var rowid2 = +elem2.getAttribute("data-rowid");
 
-            var id1 = elem1.getAttribute("data-id");
-            var id2 = elem2.getAttribute("data-id");
+            var id1 = +elem1.getAttribute("data-id");
+            var id2 = +elem2.getAttribute("data-id");
 
             if (rowid1 != rowid2) {
-                //console.log(id1); console.log(id2); console.log(id1 < id2); (anomaly!)
-                for (var i = id1; i != id2; i++) {
+                for (var i = id1; i < id2; i++) {
                    
                     var el = $(".selectable td[data-id='" + i + "']");
 
@@ -57,11 +56,10 @@ $(document).ready(function () {
                 case 'day':
                     var startHour12 = selectedElems[0].getAttribute("data-hour");
                     var endHour12 = selectedElems[selectedElems.length - 1].getAttribute("data-hour");
-                    console.log("s" + startHour12); console.log("e" + endHour12);
 
                     var startHour24 = $scope.convertFrom12periodTo24(startHour12);
                     var endHour24 = $scope.convertFrom12periodTo24(endHour12);
-                    console.log("s" + startHour24); console.log("e" + endHour24);
+
                     startDate = moment({
                         y: $scope.currentDate.format("Y"),
                         M: $scope.currentDate.format("M") - 1,
@@ -729,7 +727,7 @@ function getScope(ctrlName) {
                     if (i != moment(event.BeginTime).format("H") && $scope.currentDate.format("YYYY-MM-DD") == moment(event.BeginTime).format("YYYY-MM-DD")) {
                         continue;
                     }
-                    console.log(i);
+
                         arrEvent[i].id = event.ID;
                         arrEvent[i].title = event.Title;
                         arrEvent[i].titleAttr = event.Title;
@@ -741,7 +739,7 @@ function getScope(ctrlName) {
                             
                             if (i > moment(event.EndTime).format("H") && $scope.currentDate.format("YYYY-MM-DD") == moment(event.EndTime).format("YYYY-MM-DD"))
                                 break;
-                            console.log(i);
+
                             arrEvent[i].id = event.ID;
                             arrEvent[i].titleAttr = event.Title;
                             arrEvent[i].eventLink = "link...";
@@ -771,8 +769,8 @@ function getScope(ctrlName) {
 
         $scope.sendEventInfo = function (calendarID) {
 
-            var eventTitle = document.getElementById("event-title").value;
-            var color = document.getElementById("color-value").value;
+            var eventTitle = document.getElementById("event-title").value; 
+            var color = document.getElementById("color-value").defaultValue;
 
             $http({
                 url: "/Event/Create",
