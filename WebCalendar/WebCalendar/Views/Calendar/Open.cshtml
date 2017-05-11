@@ -41,52 +41,32 @@
 
         <div class="col-lg-2 text-left">
             <span class="calendar-name">@Model.Title</span>
+            <button class="btn btn-default btn-create-event" onclick="location.href='/Event/Create'">Create Event</button>
         </div>
 
-        <div class="col-lg-2">
+        <div class="col-lg-4 text-left pull-left">
+            <p>@DateTime.Now.ToString("dddd"), @DateTime.Now.ToLongDateString()</p>
             <button class="btn btn-default">Today</button>
             <div class="btn-group" role="group" aria-label="...">
                 <button type="button" class="btn btn-default" ng-click="subtractDate()"> < </button>
                 <button type="button" class="btn btn-default" ng-click="addDate()"> > </button>
             </div>
-        </div>
 
-        <div class="col-lg-4 text-left vcenter">
-            <p>@DateTime.Now.ToString("dddd"), @DateTime.Now.ToLongDateString()</p>
-        </div>
-
-        <div class="col-lg-4 text-right">
             <div class="btn-group bottom-left" role="group" aria-label="...">
                 <button type="button" class="btn btn-default" ng-click="nav('GridForDay', 'day')">Day</button>
                 <button type="button" class="btn btn-default" ng-click="nav('GridForWeek', 'week')">Week</button>
                 <button type="button" class="btn btn-default" ng-click="nav('GridForMonth', 'month')">Month</button>
             </div>
-            <button type="button" class="btn btn-default" ng-click="nav('GridForShedule', 'schedule')">Schedule</button>
         </div>
-    </div>
     <hr />
 
     <div class="container-fluid">
         <div class="row content" style="margin-top:0px">
-            <div class="col-lg-3 text-center">
-                <button class="btn btn-default btn-create-event" onclick="location.href='/Event/Create'">Create Event</button>
-            </div>
             <div class="col-lg-9">
                 Элемент для выделения целого дня
             </div>
         </div>
         <div class="row content" style="margin-top:0px">
-            <div class="col-lg-3 text-center">
-                <div id="datetimepicker12"></div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#datetimepicker12').datetimepicker({
-                            inline: true,
-                            sideBySide: false
-                        });
-                    });
-                </script>
-            </div>
             <div class="col-lg-9 selectable">
                 <div ng-include="filePath()"></div>
             </div>

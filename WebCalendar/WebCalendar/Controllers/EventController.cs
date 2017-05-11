@@ -16,12 +16,14 @@ namespace WebCalendar.Controllers
         private IEventService service;
         private ICalendarService calService;
         private INotificationService notifyService;
+        private IOccurrenceService occurService;
 
-        public EventController(IEventService service, ICalendarService calService, INotificationService notifyService)
+        public EventController(IEventService service, ICalendarService calService, INotificationService notifyService, IOccurrenceService occurService)
         {
             this.service = service;
             this.calService = calService;
             this.notifyService = notifyService;
+            this.occurService = occurService;
         }
 
         public void InitDropDownList(EventViewModel model)
@@ -94,6 +96,12 @@ namespace WebCalendar.Controllers
             {
                 if (ev != null)
                 {
+                    if (ev.Repeat)
+                    {
+                        this.occurService.Create(new Domain.Aggregate.Occurrence.Occurrence() { Count = 1 });
+                        var last = this.occurService.GetOccurrences.OrderByDescending(o => o.ID).Take(1).Single();
+                        ev.OccurrenceID = last.ID;
+                    }
                     var domain = DomainToModel.Map(ev);
                     this.service.Create(domain);
                     if (ev.Notifications.Count > 0)
@@ -132,6 +140,17 @@ namespace WebCalendar.Controllers
 
             if (ModelState.IsValid)
             {
+                if (ev.Repeat)
+                {
+                    this.occurService.Create(new Domain.Aggregate.Occurrence.Occurrence() { Count = 1 });
+                    var last = this.occurService.GetOccurrences.OrderByDescending(o => o.ID).Take(1).Single();
+                    ev.OccurrenceID = last.ID;
+                }
+                if (!ev.Repeat && ev.OccurrenceID.HasValue)
+                {
+                    int id = ev.OccurrenceID.Value;
+                    this.occurService.Delete(id);
+                }
                 int calendarID = ev.CalendarID;
                 var domain = DomainToModel.Map(ev);
                 this.service.Update(domain);
@@ -167,6 +186,11 @@ namespace WebCalendar.Controllers
             if (notify != null)
             {
                 this.notifyService.Delete(notify.ID);
+            }
+            if (ev.OccurrenceID != null)
+            {
+                int id = ev.OccurrenceID.Value;
+                this.occurService.Delete(id);
             }
             this.service.Delete(ev.ID);
             return RedirectToAction("Index", new { id = calendarID });

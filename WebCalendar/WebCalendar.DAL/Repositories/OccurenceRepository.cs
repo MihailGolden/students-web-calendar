@@ -28,7 +28,6 @@ namespace WebCalendar.DAL.Repositories
             DomainToDal.Map(entity, occur);
             this.dal.Add(entity);
             this.unitOfWork.Commit();
-            this.unitOfWork.Dispose();
         }
 
         public IQueryable<Occurrence> Entities
@@ -52,7 +51,6 @@ namespace WebCalendar.DAL.Repositories
             this.dal.Attach(entity);
             this.dal.Remove(entity);
             this.unitOfWork.Commit();
-            this.unitOfWork.Dispose();
         }
 
         public void Update(Occurrence entity)

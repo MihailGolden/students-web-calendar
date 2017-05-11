@@ -29,5 +29,7 @@ namespace WebCalendar.Models
         public int CalendarID { get; set; }
         public IQueryable Calendars { get; set; }
         public List<NotificationViewModel> Notifications { get; set; }
+        public bool Repeat { get; set; }
+        public int? OccurrenceID { get; set; }
     }
 }

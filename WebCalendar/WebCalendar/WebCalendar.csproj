@@ -216,10 +216,8 @@
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\TestSignalrController.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Hubs\ConnectionMapping.cs" />
-    <Compile Include="Hubs\EventInfoHub.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -365,6 +363,7 @@
     <Content Include="Scripts\globalize.js" />
     <Content Include="Scripts\globalize\currency.js" />
     <Content Include="Scripts\globalize\date.js" />
+    <Content Include="Scripts\globalize\globalize-cultures\globalize.cultures.js" />
     <Content Include="Scripts\globalize\message.js" />
     <Content Include="Scripts\globalize\number.js" />
     <Content Include="Scripts\globalize\plural.js" />
@@ -438,7 +437,6 @@
     <Content Include="Views\Calendar\GridForSchedule.cshtml" />
     <Content Include="Views\Event\Test.cshtml" />
     <Content Include="Views\Shared\CreateModal.cshtml" />
-    <Content Include="Views\TestSignalr\Index.cshtml" />
     <Content Include="Views\Event\_CreateNotification.cshtml" />
     <Content Include="Scripts\jquery.validate.globalize.min.js.map" />
   </ItemGroup>

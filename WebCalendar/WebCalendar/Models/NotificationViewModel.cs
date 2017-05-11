@@ -13,5 +13,6 @@ namespace WebCalendar.Models
         public DateTime? NotificationDefaultTime { get; set; }
         public int? EventID { get; set; }
         public string FieldPrefix { get; set; }
+        public bool Repeat { get; set; }
     }
 }
