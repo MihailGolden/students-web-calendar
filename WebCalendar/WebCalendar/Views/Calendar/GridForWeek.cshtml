@@ -2,32 +2,6 @@
     Layout = null;
 }
 
-<style>
-    .table100, .row, .container, .table-responsive, .table-bordered {
-        height: 100%;
-    }
-
-    div#description {
-        background-color: gray;
-        height: 25%;
-        border: 2px black;
-    }
-
-    tr {
-        line-height: 105px;
-        min-height: 105px;
-        height: 55px;
-    }
-
-    table {
-        height: 100%;
-    }
-
-    #topics tr {
-        line-height: 14px;
-    }
-</style>
-
 <div class="row">
     <div style="text-align: center" class="col-lg-12 table-bordered"
          ng-bind-template="{{getWeek().firstDay}}/{{getWeek().month1}} - {{getWeek().lastDay}}/{{getWeek().month2}},

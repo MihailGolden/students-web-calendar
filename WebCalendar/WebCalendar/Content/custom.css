@@ -1,6 +1,8 @@
 ﻿body {
     overflow:hidden;
     margin-top:70px;
+
+    font-family:  Calibri;
 }
 
 .topheader {
@@ -97,11 +99,11 @@ div.col-md-1.table-bordered .row .col-md-1.table-bordered.active{
 }
 
 .selectable .ui-selecting {
-    background: lightblue;
+    background: lightblue !important;
 }
 
 .selectable .ui-selected {
-    background: lightskyblue;
+    background: lightskyblue !important;
     color: white;
 }
 

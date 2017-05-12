@@ -87,18 +87,21 @@ $(document).ready(function () {
                     var startHour12 = selectedElems[0].getAttribute("data-hour12");
                     var endHour12 = selectedElems[selectedElems.length - 1].getAttribute("data-hour12");
 
+                    var startHour24 = $scope.convertFrom12periodTo24(startHour12);
+                    var endHour24 = $scope.convertFrom12periodTo24(endHour12);
+
                     startDate = moment({
                         y: firstSelectedElem.getAttribute("data-year"),
                         M: firstSelectedElem.getAttribute("data-month") - 1,
                         d: firstSelectedElem.getAttribute("data-day"),
-                        h: firstSelectedElem.getAttribute("data-hour")
+                        h: startHour24
                     });
 
                     endDate = moment({
                         y: lastSelectedElem.getAttribute("data-year"),
                         M: lastSelectedElem.getAttribute("data-month") - 1,
                         d: lastSelectedElem.getAttribute("data-day"),
-                        h: lastSelectedElem.getAttribute("data-hour")
+                        h: endHour24
                     });
 
                     timePeriodStr = startDate.format('dddd').substring(0, 3) + ", " +
@@ -188,6 +191,15 @@ function getScope(ctrlName) {
 
         $scope.timePeriodStr = "";
 
+        $('#datetimepicker12')
+            .on('dp.change', function (e) {
+                $scope.$apply(function () {
+                    $scope.currentDate = e.date;
+                    $scope.getEvents();
+                });
+
+            });
+
         $scope.convertFrom12periodTo24 = function (hour) {
             var h = parseInt(hour);
 
@@ -212,6 +224,11 @@ function getScope(ctrlName) {
             }
 
             return hour;
+        };
+
+        $scope.today = function () {
+            $scope.currentDate = moment();
+            $scope.getEvents();
         };
 
         $scope.addDate = function () {
@@ -245,7 +262,6 @@ function getScope(ctrlName) {
                 case 'month':
                     $scope.currentDate.subtract(1, "months");
                     $scope.getEvents();
-
                     break;
                 default:
                     $scope.currentDate.subtract(1, "days");

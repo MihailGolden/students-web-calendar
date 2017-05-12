@@ -1,35 +1,14 @@
 ﻿@{
     Layout = null;
 }
-<style>
-    .table100, .row, .container, .table-responsive, .table-bordered  {
-    height: 100%;
-}
 
- div#description {
-        background-color: gray;
-        height: 25%;
-        border: 2px black;
-    }
-    tr {
-        line-height: 105px;
-        min-height: 105px;
-        height: 55px;
-    }
-    table {
-        height: 100%;
-     }
-    #topics tr {
-        line-height: 14px;
-    }
-</style>
 <div class="row">
     <div style="text-align: center" class="col-lg-12 table-bordered"
          ng-bind-template="{{getMonthName()}} / {{getYear()}}">
     </div>
 </div>
-<div class="table-responsive">
-    <table class="table table-bordered">
+<div >
+    <table class="table table-bordered tabCalGrid">
         <tr >
         <th ng-repeat="d in days">
             {{d}}
@@ -42,7 +21,7 @@
                 {{day.day}}
                 <div ng-if="day.eventCount > 0">
                     <div>
-                        <button id="show-events-btn" ng-click="showEvents(day.year, day.month, day.day);event.stopPropagation();">+{{day.eventCount}} events</button>
+                        <button id="show-events-btn" ng-click="showEvents(day.year, day.month, day.day);event.stopPropagation();"><b>{{day.eventCount}}</b></button>
                     </div>
                 </div>
             </td>
