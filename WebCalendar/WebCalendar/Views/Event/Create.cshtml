@@ -167,6 +167,12 @@
 </style>
 <h3>Create  Event</h3>
 <div class="content">
+
+    @if (String.IsNullOrEmpty(Model.Color))
+    {
+        Model.Color = "#00ff00";
+    }
+
     @using (Html.BeginForm("Create", "Event", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
@@ -217,9 +223,9 @@
             <div class="form-group">
                 @Html.Label("Color", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    <input disabled id="color"><br>
+                    <input disabled id="color" style="background-color:@Model.Color"><br>
                     <button id="color-picker" type="button" class="btn btn-default">Select color</button><br />
-                    @Html.HiddenFor(m=>m.Color, new { @id = "color-value", @Value = "#00ff00" })
+                    @Html.HiddenFor(m=>m.Color, new { @id = "color-value", @Value = @Model.Color })
                     @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -250,7 +256,8 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Create" class="btn btn-default" />
-                    @Html.ActionLink("Back to Calendars", "Index", "Calendar")
+                    @Html.ActionLink("Back to Calendars", "Index", "Calendar") | 
+                    @Html.ActionLink("Home", "Open", "Calendar", new { calendarID = Model.CalendarID }, null)
                 </div>
             </div>
         </div>

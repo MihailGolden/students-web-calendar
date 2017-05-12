@@ -47,5 +47,6 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Update", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index", new { id = Model.CalendarID})
+    @Html.ActionLink("Back to List", "Index", new { id = Model.CalendarID}) | 
+    @Html.ActionLink("Home", "Open", "Calendar", new { calendarID = Model.CalendarID }, null)
 </p>

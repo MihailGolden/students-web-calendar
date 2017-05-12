@@ -146,11 +146,11 @@ $(document).ready(function () {
                 $scope.timePeriod.endDate = endDate;
                 $scope.timePeriodStr = timePeriodStr;
 
-                //
+                /*
                 $scope.form = {};
                 $scope.form.startDateToSend = $scope.timePeriod.startDate.format("YYYY-MM-DD HH:mm");
                 $scope.form.endDateToSend = $scope.timePeriod.endDate.format("YYYY-MM-DD HH:mm");
-                //
+                */
 
                 $('#modal-new-event').modal({
                     show: true
@@ -812,8 +812,15 @@ function getScope(ctrlName) {
             });
         };
 
-        $scope.editEvent = function () {
+        $scope.editEvent = function (calendarID) {
             var eventForm = document.getElementById("eventForm");
+
+            document.getElementById("beginTime").value = $scope.timePeriod.startDate.format("YYYY-MM-DD HH:mm");
+            document.getElementById("endTime").value = $scope.timePeriod.endDate.format("YYYY-MM-DD HH:mm");
+            document.getElementById("calendarID").value = calendarID;
+            var cl = document.getElementById("color-value").defaultValue;
+            document.getElementById("color-value").value = cl;
+
             eventForm.submit();
         };
 

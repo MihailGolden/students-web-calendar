@@ -88,8 +88,12 @@
             </div>
         </div>
 
-        <div class="col-lg-4 text-left vcenter">
+        <div class="col-lg-2 text-left vcenter">
             <p>@DateTime.Now.ToString("dddd"), @DateTime.Now.ToLongDateString()</p>
+        </div>
+
+        <div class="col-lg-2 text-left vcenter">
+            <button type="button" class="btn btn-default" onclick="location.href='/Event/Index/'+@Model.ID">All events</button>
         </div>
 
         <div class="col-lg-4 text-right">
@@ -105,7 +109,7 @@
 
         <div class="row" style="margin-top:0px">
             <div class="col-lg-3 text-center">
-                <button class="btn btn-default btn-create-event" onclick="location.href='/Event/Create'">Create Event</button>
+                <button class="btn btn-default btn-create-event" onclick="location.href='/Event/Create?calendarID='+@Model.ID">Create Event</button>
             </div>
             <div class="col-lg-9">
             </div>
@@ -154,9 +158,12 @@
                                 <input disabled id="color" style="background-color:#00ff00"><br>
                             </div>
                             <input hidden name="color" id="color-value" defaultValue="#00ff00" value="#00ff00"><br>
-                            <input hidden name="beginTime" value="{{form.startDateToSend}}"><br>
-                            <input hidden name="endTime" value="{{form.endDateToSend}}"><br>
-                            <input hidden name="calendarID" value="@Model.ID"><br>
+                            
+                            <!--for edit-->
+                            <input id="beginTime" hidden name="beginTime" value=""><br>
+                            <input id="endTime" hidden name="endTime" value=""><br>
+                            <input id="calendarID" hidden name="calendarID" value=""><br>
+                            
                         </div>
 
                      </form>
@@ -167,7 +174,7 @@
 
                         <div class="modal-footer">
                             <button id="modal-btn-sendEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendEventInfo(@Model.ID)">Create</button>
-                            <button id="modal-btn-editEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="editEvent()">Edit</button>
+                            <button id="modal-btn-editEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="editEvent(@Model.ID)">Edit</button>
                         </div>
 </div>
             </div>
@@ -221,6 +228,8 @@
                 'hex');
             $('#color-value')[0].defaultValue = e.color.toString(
            'hex');
+            $('#color-value')[0].value = e.color.toString(
+'hex');
         });
     });
 </script>

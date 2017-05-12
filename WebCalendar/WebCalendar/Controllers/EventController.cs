@@ -80,12 +80,18 @@ namespace WebCalendar.Controllers
             return Json(events, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Create()
+        public ActionResult Create(int calendarID)
         {
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == calendarID).SingleOrDefault();
+
+            if (cal == null)
+                return new HttpStatusCodeResult(403);
+
             EventViewModel model = new EventViewModel();
             InitDropDownList(model);
             model.BeginTime = DateTime.Now;
             model.EndTime = DateTime.Now;
+            model.CalendarID = calendarID;
             return View(model);
         }
 
