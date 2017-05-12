@@ -64,6 +64,11 @@
         table-layout:fixed;
     }
 
+    #modal-new-event{
+          text-align: center;
+          vertical-align: middle;
+    }
+
 
 </style>
 
@@ -125,29 +130,50 @@
             </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="modal-new-event" role="dialog">
-        <div class="modal-dialog modal-sm">
+    <div class="modal fade" id="modal-new-event" role="dialog" tabindex="-1" aria-labelledby="create" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Event</h4>
+                    <h4 class="modal-title">New event</h4>
                 </div>
-                <input required id="event-title" type="text"><br />
+                <div class="modal-body">
+                    <form id="eventForm" class="form-horizontal"  method="post" action="/Event/Edit">
 
-                <input disabled id="color" style="background-color:#00ff00"><br>
-                <button id="cp" type="button" class="btn btn-default">Choose color</button><br />
-                <input hidden id="color-value" defaultValue="#00ff00" value="#00ff00"><br>
+                        <div class="form-group">
+                            <label class="control-label col-sm-5">Title:</label>
+                            <div class="col-sm-7">
+                                <input required name="title" id="event-title" type="text"><br />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-5">
+                                <button id="cp" type="button" class="btn btn-default">Choose color</button><br />
+                            </div>
+                            <div class="col-sm-7">
+                                <input disabled id="color" style="background-color:#00ff00"><br>
+                            </div>
+                            <input hidden name="color" id="color-value" defaultValue="#00ff00" value="#00ff00"><br>
+                            <input hidden name="beginTime" value="{{form.startDateToSend}}"><br>
+                            <input hidden name="endTime" value="{{form.endDateToSend}}"><br>
+                            <input hidden name="calendarID" value="@Model.ID"><br>
+                        </div>
 
+                     </form>
 
-                <label>When:</label>
-                <div ng-bind-template="{{timePeriodStr}}"></div>
-                <div class="modal-footer">
-                    <button id="modal-btn-sendEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendEventInfo(@Model.ID)">Create</button>
-                    <button id="modal-btn-editEvent" type="button" class="btn btn-default" data-dismiss="modal">Edit</button>
-                </div>
+                    <hr />
+                            <label>When:</label>
+                            <div ng-bind-template="{{timePeriodStr}}"></div>
+
+                        <div class="modal-footer">
+                            <button id="modal-btn-sendEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendEventInfo(@Model.ID)">Create</button>
+                            <button id="modal-btn-editEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="editEvent()">Edit</button>
+                        </div>
+</div>
             </div>
         </div>
     </div>
+
 
 
 
@@ -164,16 +190,22 @@
                     <table class="table table-bordered">
                         <tr class="row" ng-repeat="event in currentDateEvents">
                             <td>
-                                {{event.title}}
+                                <b>{{event.title}}</b>
                             </td>
                             <td>
-                                {{event.beginTime}}
+                                <i>{{event.beginTime}}</i>
                             </td>
                             <td>
-                                {{event.endTime}}
+                                <i>{{event.endTime}}</i>
                             </td>
                             <td>
-                                <a href="/Event/Details?id={{event.id}}">Details</a>
+                                <input size="3" disabled id="color" ng-style={'background-color':event.color}>
+                            </td>
+                            <td>
+                                <a class="btn btn-info btn-xs" href="/Event/Details?id={{event.id}}">Details</a>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger btn-xs" data-dismiss="modal" ng-click="deleteEvent(event.id)">Delete</button>
                             </td>
                         </tr>
                     </table>

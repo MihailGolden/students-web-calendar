@@ -84,7 +84,6 @@ namespace WebCalendar.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public ActionResult Create(EventViewModel ev)
         {
             Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
@@ -127,6 +126,14 @@ namespace WebCalendar.Controllers
             var model = DomainToModel.Map(ev);
             InitDropDownList(model);
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(EventViewModel ev)
+        {
+            InitDropDownList(ev);
+
+            return View("Create", ev);
         }
 
         [HttpPost]
@@ -173,7 +180,6 @@ namespace WebCalendar.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Delete(EventViewModel ev)
         {
             Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();

@@ -145,7 +145,7 @@
 </style>
 <h3>Create  Event</h3>
 <div class="content">
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Create", "Event", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.ID)

@@ -146,6 +146,12 @@ $(document).ready(function () {
                 $scope.timePeriod.endDate = endDate;
                 $scope.timePeriodStr = timePeriodStr;
 
+                //
+                $scope.form = {};
+                $scope.form.startDateToSend = $scope.timePeriod.startDate.format("YYYY-MM-DD HH:mm");
+                $scope.form.endDateToSend = $scope.timePeriod.endDate.format("YYYY-MM-DD HH:mm");
+                //
+
                 $('#modal-new-event').modal({
                     show: true
                 });
@@ -806,6 +812,27 @@ function getScope(ctrlName) {
             });
         };
 
+        $scope.editEvent = function () {
+            var eventForm = document.getElementById("eventForm");
+            eventForm.submit();
+        };
+
+        $scope.deleteEvent = function (eventID) {
+
+            var eventToDel = $scope.currentPageEvents.find(e => e.ID == eventID);
+
+            $http({
+                url: "/Event/Delete",
+                method: "POST",
+                data: eventToDel,
+            }).then(function mySucces(response) {
+                $scope.getEvents();
+                // location.reload(true);
+            }, function myError(response, ajaxOptions, throwError) {
+                alert('error');
+            });
+        };
+
         $scope.eventDetails = function (eventid) {
 
             $http({
@@ -902,9 +929,8 @@ function getScope(ctrlName) {
                                 eventObj.title = event.Title;
                                 eventObj.beginTime = beginTime;
                                 eventObj.endTime = endTime;
-
+                                eventObj.color = event.EventColor;
                                 events.push(eventObj);
-
                             }
 
                         });
