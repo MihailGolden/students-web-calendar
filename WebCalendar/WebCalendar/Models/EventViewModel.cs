@@ -16,10 +16,12 @@ namespace WebCalendar.Models
         public string Title { get; set; }
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+        public string Color { get; set; }
         [Required(ErrorMessage = "Enter Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy H:mm}")]
         [DataType(DataType.DateTime)]
         public DateTime BeginTime { get; set; }
+        [Required(ErrorMessage = "Enter End Time")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy H:mm}")]
         [DataType(DataType.DateTime)]
         public DateTime? EndTime { get; set; }
@@ -27,5 +29,7 @@ namespace WebCalendar.Models
         public int CalendarID { get; set; }
         public IQueryable Calendars { get; set; }
         public List<NotificationViewModel> Notifications { get; set; }
+        public bool Repeat { get; set; }
+        public int? OccurrenceID { get; set; }
     }
 }

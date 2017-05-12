@@ -3,13 +3,182 @@
 @{
     ViewBag.Title = "Create";
 }
-<h3 style="margin-left:23% ;text-align:left">Create  Event</h3>
+<link rel="stylesheet" href="~/Content/month-calendar.css">
+<style>
+    label {
+        padding: 0 auto;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        font-weight: 100;
+    }
+
+    #calendar-event {
+        margin-left: 53%;
+        width: 430px;
+        height: 480px;
+        overflow: hidden;
+        border: 1px solid #705e5e;
+    }
+
+    .header {
+        height: 50px;
+        width: 450px;
+        background: #705e5e;
+        color: white;
+        text-align: center;
+        position: relative;
+    }
+
+        .header h1 {
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            line-height: 50px;
+            font-weight: 100;
+            letter-spacing: 1px;
+        }
+
+    .month {
+        opacity: 1;
+    }
+
+    .separator {
+        height: 10px;
+        width: 100%;
+        display: block;
+        position: relative;
+    }
+
+    .back-toggle, .next-toggle {
+        position: absolute;
+        width: 0px;
+        height: 0px;
+        border-style: solid;
+        top: 50%;
+        margin-top: -7.5px;
+        cursor: pointer;
+    }
+
+    .back-toggle {
+        border-width: 8px;
+        border-color: transparent #ecf0f1 transparent transparent;
+        left: 20px;
+    }
+
+    .next-toggle {
+        border-width: 8px;
+        border-color: transparent transparent transparent #ecf0f1;
+        right: 45px;
+    }
+
+    .wrapper {
+        display: inline-block;
+        width: 60px;
+        padding: 10px;
+        text-align: center;
+        vertical-align: top;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 1);
+        position: relative;
+        color: slategrey;
+    }
+
+        .wrapper.current-month {
+            color: brown;
+        }
+
+    .d-name {
+        font-size: 9px;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        color: brown;
+        letter-spacing: .7px;
+    }
+
+    .d-number {
+        font-size: 24px;
+        letter-spacing: 1.5px;
+    }
+
+        .d-number.now {
+            color: #705e5e;
+        }
+
+        .d-number:hover {
+            /*border-radius: 90%;*/
+            color: rgba(160, 159, 160, 1);
+            /*border: 1px solid brown;
+     position: fixed;*/
+        }
+
+    .d-event {
+        list-style: none;
+        margin-top: 3px;
+        text-align: center;
+        height: 12px;
+        line-height: 6px;
+        overflow: hidden;
+    }
+
+        .d-event span {
+            vertical-align: top;
+            display: inline-block;
+            padding: 0;
+            margin: 0;
+            width: 5px;
+            height: 5px;
+            line-height: 5px;
+            margin: 0 1px;
+        }
+
+    .month.to.next {
+        animation: switcherFromMonth .6s ease-out;
+    }
+
+    .month.from.next {
+        animation: switcherToMonth .6s ease-in;
+    }
+
+    .month.to.back {
+        animation: switcherFromMonth .6s ease-out;
+    }
+
+    .month.from.back {
+        animation: switcherToMonth .6s ease-in;
+    }
+
+    .yellow {
+        background: rgba(249, 233, 0, 1);
+    }
+
+    .blue {
+        background: rgb(25, 128, 202);
+    }
+
+    .green {
+        background: rgb(0, 255, 33);
+    }
+
+    .red {
+        background: rgb(255, 0, 0);
+    }
+</style>
+<h3>Create  Event</h3>
+<div class="content">
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.ID)
 
-        <div class="form-horizontal">
+        <div class="left-content pull-left">
+            <div class="col-md-2"></div><div class="col-md-2"></div><div class="col-md-2"></div>
+            <div class="col-md-2"></div><div class="col-md-2"></div><div class="col-md-2"></div>
+            <div class="col-md-2"></div><div class="col-md-2"></div><div class="col-md-2"></div>
+            <div class="col-md-2"></div><div class="col-md-2"></div><div class="col-md-2"></div>
+            <div class="col-md-2"></div><div class="col-md-2"></div><div class="col-md-2"></div>
+            <div class="col-md-2"></div><div class="col-md-2"></div><div class="col-md-2"></div>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -20,8 +189,7 @@
                     @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                 </div>
             </div>
-
-
+            <br /> <br /><br />
             <div class="form-group">
                 @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -29,15 +197,15 @@
                     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                 </div>
             </div>
-
+            <br /> <br /><br />
             <div class="form-group">
                 @Html.LabelFor(model => model.BeginTime, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.BeginTime, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.BeginTime, "{0:dd/MM/yyyy H:mm}", new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.BeginTime, "", new { @class = "text-danger" })
                 </div>
             </div>
-
+            <br /> <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -45,48 +213,75 @@
                     @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
                 </div>
             </div>
-
+            <br /> <br />
+            <div class="form-group">
+                @Html.Label("Color", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input disabled id="color"><br>
+                    <button id="color-picker" type="button" class="btn btn-default">Select color</button><br />
+                    @Html.HiddenFor(m=>m.Color, new { @id = "color-value", @Value = "#00ff00" })
+                    @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br /> <br /><br />
             <div class="form-group">
                 @Html.Label("Calendar", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.CalendarID, (IEnumerable<SelectListItem>)Model.Calendars, new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.CalendarID, (IEnumerable<SelectListItem>)Model.Calendars, "Select", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.CalendarID, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div style="margin-left:16% ;text-align:left" class="form-group">
+            <br /> <br />
+            <div class="form-group">
+                @Html.Label("Repeat", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(model => model.Repeat, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Repeat, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+            <div style="margin-left:17% ;text-align:left" class="form-group">
                 <div class="col-md-10">
                     <div id="notification"></div>
                     <input id="addNotification" type="button" class="btn btn-primary" value="Add notification" />
                 </div>
             </div>
-
-
+            <br /> <br /><br /><br /><br /><br /><br />
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Create" class="btn btn-default" />
+                    @Html.ActionLink("Back to Calendars", "Index", "Calendar")
                 </div>
             </div>
         </div>
     }
-    <div>
-        @Html.ActionLink("Back to Calendars", "Index", "Calendar")
+    <div class="right-content">
+        <div id="calendar-event"></div>
     </div>
+</div>
 
-    <script>
-        $(function () {
-            var id = 0;
-            $('#addNotification').click(function () {
-                $.ajax({
-                    async: false,
-                    url: '/Event/CreateNotification/?id='+id,
-                    success: function (view) {
+<script src="~/Scripts/calendar-event.js"></script>
+<script>
+    $(function () {
+        var id = 0;
+        $('#addNotification').click(function () {
+            $.ajax({
+                async: false,
+                url: '/Event/CreateNotification/?id=' + id,
+                success: function (view) {
                     $('#addNotification').hide();
                     @{
                         Model.Notifications.Add(new WebCalendar.Models.NotificationViewModel());
                     }
-                    $('#notification').append('<div>'+ view + '</div>');
+                    $('#notification').append('<div>' + view + '</div>');
                 }
-                });
             });
         });
-    </script>
+        $('#color-picker').colorpicker().on('changeColor', function (e) {
+            $('#color')[0].style.backgroundColor = e.color.toString(
+                'hex');
+            $('#color-value')[0].value = e.color.toString(
+           'hex');
+        });
+    });
+</script>

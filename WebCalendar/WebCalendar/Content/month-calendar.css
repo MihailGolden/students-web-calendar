@@ -1,112 +1,17 @@
-﻿
-body {
- font-family:  Arial, sans-serif;
- font-weight: 100;
- color: rgba(255, 255, 255, 1);
- margin: 0;
- padding: 0;
-}
-/*.box {
-  height: 700px;
-  width: 450px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid brown;
-}*/
-#calendar-event {
-  margin: 0 auto;
-  width: 430px;
-  height: 550px;
-  overflow: hidden;
-  border: 1px solid brown;
-}
-
-.header {
-  height: 50px;
-  width: 450px;
-  background: brown;
-  text-align: center;
-  position:relative;
-}
-
-.header h1 {
-  margin: 0;
-  padding: 0;
-  font-size: 20px;
-  line-height: 50px;
-  font-weight: 100;
-  letter-spacing: 1px;
-}
-
-.month {
-  opacity: 1;
-}
-
-.separator {
-height: 10px;
-width:100%;
-display:block;
-position:relative;
-}
-.wrapper {
-  display: inline-block;
-  width: 60px;
-  padding: 10px;
-  text-align: center;
-  vertical-align: top;
-  cursor: pointer;
-  background: rgba(255, 255, 255, 1);
-  position: relative;
-  z-index: 100;
- color: brown;
-}
-
-.d-name {
-  font-size: 9px;
-  text-transform: uppercase;
-  margin-bottom: 5px;
-  color: brown;
-  letter-spacing: .7px;
-}
-
-.d-number {
-    font-size: 24px;
-    letter-spacing: 1.5px;
-}
-
-.d-number:hover {
-    /*border-radius: 90%;*/
-    color: rgba(160, 159, 160, 1);
-    /*border: 1px solid brown;
-    position: fixed;*/
+﻿@-webkit-keyframes switcherToMonth {
+    to {
+        opacity: 0;
     }
-.d-event {
-  list-style: none;
-  margin-top: 3px;
-  text-align: center;
-  height: 12px;
-  line-height: 6px;
-  overflow: hidden;
+}
+@-moz-keyframes switcherFromMonth {
+    from {
+        opacity: 0;
+    }
 }
 
-.d-event span {
-  vertical-align: top;
-  display: inline-block;
-  padding: 0;
-  margin: 0;
-  width: 5px;
-  height: 5px;
-  line-height: 5px;
-  margin: 0 1px;
+@keyframes switcherFromMonth{
+    from {
+        opacity: 0;
+    }
 }
-
-.yellow { background: rgba(249, 233, 0, 1); }
-.blue { background: rgb(25, 128, 202); }
-.green { background: rgb(0, 255, 33); }
-.red { background: rgb(255, 0, 0); }
-
-
-
 

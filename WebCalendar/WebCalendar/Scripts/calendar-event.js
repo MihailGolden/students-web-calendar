@@ -1,13 +1,15 @@
 ﻿(function () {
-    var now = moment().date();
+    var now = moment();
+    var countOfDays = 6;
 
     function MonthCalendar(events) {
         this.events = events;
         this.selector = document.querySelector('#calendar-event');
         this.firstDay = moment().date(1);
         this.events.forEach(function (event) {
-            event.startDate = moment(event.startDate);
-            event.endDate = moment(event.endDate);
+            event.BeginTime = moment(event.BeginTime);
+            event.EndTime = moment(event.EndTime);
+
         });
 
         this.draw = function () {
@@ -16,13 +18,30 @@
         };
 
         this.drawHeader = function () {
-            this.header = document.createElement('div');
-            this.header.className = 'header';
-            this.title = document.createElement('h1');
+            var ref = this;
+            if (!this.header) {
+                this.header = document.createElement('div');
+                this.header.className = 'header';
+                this.title = document.createElement('h1');
+                var nextToggle = document.createElement('div');
+                nextToggle.className = 'next-toggle';
+                nextToggle.addEventListener('click', function () {
+                    ref.next();
+                });
+                var backToggle = document.createElement('div');
+                backToggle.className = 'back-toggle';
+                backToggle.addEventListener('click', function () {
+                    ref.back();
+                });
+                this.header.appendChild(this.title);
+                this.header.appendChild(nextToggle);
+                this.header.appendChild(backToggle);
+                this.selector.appendChild(this.header);
+            }
             this.title.innerHTML = this.firstDay.format('MMMM YYYY');
-            this.header.appendChild(this.title);
-            this.selector.appendChild(this.header);
         };
+        this.next = function () { this.firstDay.add('months', 1); this.flag = true; this.draw();}
+        this.back = function () { this.firstDay.subtract('months', 1); this.flag = false; this.draw(); }
 
         this.drawDay = function (day) {
             if (!this.calWeek || day.day() === 0) {
@@ -31,14 +50,23 @@
                 this.calMonth.appendChild(this.calWeek);
             }
             var wrapper = document.createElement('div');
+            if(day.month() === this.firstDay.month()){
+                wrapper.className = 'wrapper current-month';
+            } else {
             wrapper.className = 'wrapper';
-
+            }
             var name = document.createElement('div');
             name.className = 'd-name';
             name.textContent = day.format('ddd');
 
             var number = document.createElement('div');
-            number.className = 'd-number';
+
+            if ((now.format("MM-DD-YYYY") === day.format("MM-DD-YYYY")) &&
+                wrapper.className == 'wrapper current-month') {
+                number.className = 'd-number now';
+            } else {
+                number.className = 'd-number';
+            }
             number.textContent = day.format('DD');
 
             var event = document.createElement('div');
@@ -77,37 +105,73 @@
             var clone = this.firstDay.clone().add('months', 1).subtract('days', 1);
             var day = clone.day();
 
-            if (day === 6) { return; }
+            if (day === countOfDays) { return; }
 
-            for (var i = day; i < 6; i++) {
+            for (var i = day; i < countOfDays; i++) {
                 this.drawDay(clone.add('days', 1));
             }
         };
 
         this.drawMonth = function () {
-            this.calMonth = document.createElement('div');
-            this.calMonth.className = 'month';
-            this.selector.appendChild(this.calMonth);
-            this.upToActualMonth();
-            this.actualMonth();
-            this.afterActualMonth();
+            var ref = this;
+            if (this.calMonth) {
+                this.month = this.calMonth;
+                this.month.className = 'month from ' + (ref.flag ? 'next' : 'back');
+                this.month.addEventListener('webkitAnimationEnd', function () {
+                    ref.month.parentNode.removeChild(ref.month);
+                    ref.calMonth = document.createElement('div');
+                    ref.calMonth.className = 'month';
+                    ref.upToActualMonth();
+                    ref.actualMonth();
+                    ref.afterActualMonth();
+                    ref.selector.appendChild(ref.calMonth);
+                    ref.calMonth.className = 'month to ' + (ref.flag ? 'next' : 'back');
+                });
+            }else{
+                this.calMonth = document.createElement('div');
+                this.calMonth.className = 'month';
+                this.selector.appendChild(this.calMonth);
+                this.upToActualMonth();
+                this.actualMonth();
+                this.afterActualMonth();
+            }
         };
 
         this.drawEvent = function (day, sel) {
             if (day.month() === this.firstDay.month()) {
                 var arrayEvents = this.events.filter(function (event) {
-                    return event.startDate.isSame(day, 'day') || event.endDate.isSame(day, 'day');
+                    return event.BeginTime.isSame(day, 'day') || event.EndTime.isSame(day, 'day');
                 });
                 arrayEvents.forEach(function (event) {
                     var elem = document.createElement('span');
-                    elem.className = event.color;
+                    elem.className = event.EventColor;
                     sel.appendChild(elem);
                 });
             }
-        };  
+        };
     }
-    var events = [{ id: 1, color: 'blue', startDate: '2017-04-17', endDate: '2017-04-19' }
-    , { id: 2, color: 'red', startDate: '2017-04-18', endDate: '2017-04-21' }];
+
+    var events = [];
+
     var calendar = new MonthCalendar(events);
     calendar.draw();
 })();
+function getData() {
+    let array = [];
+    let data;
+    $.ajax({
+        url: "/Event/List",
+        type: "GET",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        cache: false,
+        async: false,
+        success: function (result) {
+            data = result;
+        }
+    });
+    for (var s in data) {
+        array.push(data[s]);
+    }
+    return data;
+}

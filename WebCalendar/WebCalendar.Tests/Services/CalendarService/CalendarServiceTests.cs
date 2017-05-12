@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using WebCalendar.Contracts;
 using WebCalendar.Domain.Aggregate.Calendar;
+using WebCalendar.Domain.Exceptions;
 
 namespace WebCalendar.Tests.Services.CalendarService
 {
@@ -108,14 +109,14 @@ namespace WebCalendar.Tests.Services.CalendarService
             //Arrange
             var expected = new CalendarBuilder().WithUserID(USER_ID);
             SetUpUserService();
-            SetUpRepository();
+            SetUpRepository(expected);
             var service = this.kernel.Get<WebCalendar.Services.CalendarService>();
             //Act
             var actual = service.GetUserCalendars();
             //Assert
             Assert.IsNotNull(actual);
             Assert.IsTrue(actual.Count == 1);
-            Assert.ReferenceEquals(expected, actual[0]);
+            Assert.AreEqual(expected, actual[0]);
         }
 
         [TestMethod]
@@ -123,14 +124,14 @@ namespace WebCalendar.Tests.Services.CalendarService
         {
             //Arrange
             var expected = new CalendarBuilder().WithUserID(USER_ID);
-            SetUpRepository();
+            SetUpRepository(expected);
             var service = this.kernel.Get<WebCalendar.Services.CalendarService>();
             //Act
             var actual = service.GetCalendars;
             //Assert
             Assert.IsNotNull(actual);
             Assert.IsTrue(actual.Count == 1);
-            Assert.ReferenceEquals(expected, actual[0]);
+            Assert.AreEqual(expected, actual[0]);
         }
 
         [TestMethod]
@@ -160,6 +161,25 @@ namespace WebCalendar.Tests.Services.CalendarService
             //Act
             cal.Title = UPDATED_TITLE;
             service.Update(cal);
+        }
+
+        [TestMethod]
+        public void Update_ConversionExceptionForCalendar_ExceptionThrown()
+        {
+            //Arrange
+            Exception exception = null;
+            Calendar cal = new CalendarBuilder().Build();
+            SetUpRepository();
+            SetUpArgumentNullException();
+            var service = this.kernel.Get<WebCalendar.Services.CalendarService>();
+            //Act
+            try
+            {
+                service.Update(cal);
+            }
+            catch (ConversionException ex) { exception = ex; }
+            //Assert
+            VerifyExceptionThrown(exception, ExpectedExceptionMessages.CALENDAR_NOT_FOUND);
         }
 
         [TestMethod]
@@ -202,6 +222,19 @@ namespace WebCalendar.Tests.Services.CalendarService
             this.calendarRepositoryMock
                 .Setup(m => m.Entities)
                 .Returns(new Calendar[] { new CalendarBuilder().WithUserID(USER_ID) }.AsQueryable());
+        }
+
+        private void SetUpArgumentNullException()
+        {
+            this.calendarRepositoryMock.Setup(m =>
+               m.Update(It.IsAny<Calendar>()))
+               .Throws(new ArgumentNullException());
+        }
+
+        private void VerifyExceptionThrown(Exception exception, string msg)
+        {
+            Assert.IsNotNull(exception);
+            Assert.IsTrue(exception.Message.Equals(msg));
         }
 
         private void VerifyCreateCalendar(Times times)

@@ -6,21 +6,24 @@ using WebCalendar.Contracts;
 using WebCalendar.Hubs;
 using WebCalendar.Mappers;
 using WebCalendar.Models;
+using Web = WebCalendar.Domain.Aggregate.Calendar;
 
 namespace WebCalendar.Controllers
 {
     [Authorize]
     public class EventController : Controller
     {
-        IEventService service;
-        ICalendarService calService;
-        INotificationService notifyService;
+        private IEventService service;
+        private ICalendarService calService;
+        private INotificationService notifyService;
+        private IOccurrenceService occurService;
 
-        public EventController(IEventService service, ICalendarService calService, INotificationService notifyService)
+        public EventController(IEventService service, ICalendarService calService, INotificationService notifyService, IOccurrenceService occurService)
         {
             this.service = service;
             this.calService = calService;
             this.notifyService = notifyService;
+            this.occurService = occurService;
         }
 
         public void InitDropDownList(EventViewModel model)
@@ -47,15 +50,33 @@ namespace WebCalendar.Controllers
             return View();
         }
 
-        public JsonResult ListEvents(int id)
+        public JsonResult List()
         {
-            var events = this.service.GetEventsFromCalendar(id);
+            var events = this.service.GetEvents;
             return Json(events, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ListEventsInTimePeriod(int calendarId, DateTime start, DateTime end)
+        public ActionResult ListEvents(int id)
         {
-            var events = this.service.GetEventsFromCalendar(calendarId).Where(e => e.BeginTime >= start && e.EndTime <= end);
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == id).SingleOrDefault();
+
+            if (cal == null)
+                return new HttpStatusCodeResult(403);
+
+            var events = this.service.GetEventsFromCalendar(id);
+
+            return Json(events, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ListEventsInTimePeriod(int calendarId, DateTime start, DateTime end)
+        {
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == calendarId).SingleOrDefault();
+
+            if (cal == null)
+                return new HttpStatusCodeResult(403);
+
+            var events = this.service.GetEventsFromCalendar(calendarId).Where(e => e.BeginTime <= end && e.EndTime >= start);
+
             return Json(events, JsonRequestBehavior.AllowGet);
         }
 
@@ -63,6 +84,8 @@ namespace WebCalendar.Controllers
         {
             EventViewModel model = new EventViewModel();
             InitDropDownList(model);
+            model.BeginTime = DateTime.Now;
+            model.EndTime = DateTime.Now;
             return View(model);
         }
 
@@ -70,10 +93,21 @@ namespace WebCalendar.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult Create(EventViewModel ev)
         {
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
+
+            if (cal == null)
+                return new HttpStatusCodeResult(403);
+
             if (ModelState.IsValid)
             {
                 if (ev != null)
                 {
+                    if (ev.Repeat)
+                    {
+                        this.occurService.Create(new Domain.Aggregate.Occurrence.Occurrence() { Count = 1 });
+                        var last = this.occurService.GetOccurrences.OrderByDescending(o => o.ID).Take(1).Single();
+                        ev.OccurrenceID = last.ID;
+                    }
                     var domain = DomainToModel.Map(ev);
                     this.service.Create(domain);
                     if (ev.Notifications.Count > 0)
@@ -90,6 +124,12 @@ namespace WebCalendar.Controllers
         public ActionResult Update(int id)
         {
             var ev = this.service.Get(id);
+
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
+
+            if (cal == null)
+                return new HttpStatusCodeResult(403);
+
             var model = DomainToModel.Map(ev);
             InitDropDownList(model);
             return View(model);
@@ -99,8 +139,24 @@ namespace WebCalendar.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Update(EventViewModel ev)
         {
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
+
+            if (cal == null)
+                return new HttpStatusCodeResult(403);
+
             if (ModelState.IsValid)
             {
+                if (ev.Repeat)
+                {
+                    this.occurService.Create(new Domain.Aggregate.Occurrence.Occurrence() { Count = 1 });
+                    var last = this.occurService.GetOccurrences.OrderByDescending(o => o.ID).Take(1).Single();
+                    ev.OccurrenceID = last.ID;
+                }
+                if (!ev.Repeat && ev.OccurrenceID.HasValue)
+                {
+                    int id = ev.OccurrenceID.Value;
+                    this.occurService.Delete(id);
+                }
                 int calendarID = ev.CalendarID;
                 var domain = DomainToModel.Map(ev);
                 this.service.Update(domain);
@@ -112,6 +168,12 @@ namespace WebCalendar.Controllers
         public ActionResult Delete(int? id)
         {
             var ev = this.service.Get(id);
+
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
+
+            if (cal == null)
+                return new HttpStatusCodeResult(403);
+
             var model = DomainToModel.Map(ev);
             return View(model);
         }
@@ -120,11 +182,21 @@ namespace WebCalendar.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(EventViewModel ev)
         {
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
+
+            if (cal == null)
+                return new HttpStatusCodeResult(403);
+
             int calendarID = ev.CalendarID;
             var notify = this.notifyService.GetNotificationFromEvent(ev.ID);
             if (notify != null)
             {
                 this.notifyService.Delete(notify.ID);
+            }
+            if (ev.OccurrenceID != null)
+            {
+                int id = ev.OccurrenceID.Value;
+                this.occurService.Delete(id);
             }
             this.service.Delete(ev.ID);
             return RedirectToAction("Index", new { id = calendarID });
@@ -133,6 +205,12 @@ namespace WebCalendar.Controllers
         public ActionResult Details(int id)
         {
             var domain = this.service.Get(id);
+
+            Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == domain.CalendarID).SingleOrDefault();
+
+            if (cal == null)
+                return new HttpStatusCodeResult(403);
+
             var model = DomainToModel.Map(domain);
             return View(model);
         }

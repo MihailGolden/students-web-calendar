@@ -19,7 +19,14 @@ namespace WebCalendar.Tests.Services.EventService
                 Title = "Go to Work",
                 BeginTime = new DateTime(2017, 04, 27, 15, 30, 0),
                 EndTime = new DateTime(2017, 04, 27, 17, 30, 0),
-                Description = "working"
+                Description = "working",
+                CalendarID = 1,
+                EventColor = "green",
+                EveryDay = true,
+                EveryMonth = false,
+                EveryWeek = false,
+                EveryYear = false,
+                OccurrenceID = 1
             };
             this.events = new List<Event>() { ev };
         }
