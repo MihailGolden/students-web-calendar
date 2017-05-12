@@ -50,6 +50,12 @@ namespace WebCalendar.Controllers
             return View();
         }
 
+        public JsonResult List()
+        {
+            var events = this.service.GetEvents;
+            return Json(events, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult ListEvents(int id)
         {
             Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == id).SingleOrDefault();
