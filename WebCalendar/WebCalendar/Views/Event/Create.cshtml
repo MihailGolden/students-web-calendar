@@ -273,7 +273,7 @@
         var id = 0;
         $('#addNotification').click(function () {
             $.ajax({
-                async: false,
+                async: true,
                 url: '/Event/CreateNotification/?id=' + id,
                 success: function (view) {
                     $('#addNotification').hide();
