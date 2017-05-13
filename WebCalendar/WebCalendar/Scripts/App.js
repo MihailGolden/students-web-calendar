@@ -49,6 +49,10 @@ $(document).ready(function () {
         },
         stop: function () {
             var selectedElems = $(".ui-selected");
+
+            if (selectedElems.length == 0)
+                return;
+
             var $scope = getScope('calendarCtrl');
 
             var startDate, endDate, timePeriodStr;
@@ -145,12 +149,6 @@ $(document).ready(function () {
                 $scope.timePeriod.startDate = startDate;
                 $scope.timePeriod.endDate = endDate;
                 $scope.timePeriodStr = timePeriodStr;
-
-                /*
-                $scope.form = {};
-                $scope.form.startDateToSend = $scope.timePeriod.startDate.format("YYYY-MM-DD HH:mm");
-                $scope.form.endDateToSend = $scope.timePeriod.endDate.format("YYYY-MM-DD HH:mm");
-                */
 
                 $('#modal-new-event').modal({
                     show: true
