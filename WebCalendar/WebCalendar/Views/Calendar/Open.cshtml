@@ -83,7 +83,7 @@
             <span class="calendar-name">@Model.Title</span>
         </div>
 
-        <div class="col-lg-2">
+        <div class="col-lg-2 col-lg-offset-1">
             <button class="btn btn-default" ng-click="today()">Today</button>
             <div class="btn-group" role="group" aria-label="...">
                 <button type="button" class="btn btn-default" ng-click="subtractDate()"> < </button>
@@ -100,7 +100,7 @@
             <input type="checkbox" ng-model="getHolidaysBool"><label>with holidays</label>
         </div>
 
-        <div class="col-lg-2 text-left vcenter">
+        <div class="col-lg-2 col-lg-offset-1 text-left vcenter">
             <select class="form-control"
                     ng-model="selectedCountry"
                     ng-options="country.name for country in countries"></select>
@@ -112,7 +112,7 @@
                     <button type="button" class="btn btn-default" ng-click="nav('GridForWeek', 'week')">Week</button>
                     <button type="button" class="btn btn-default" ng-click="nav('GridForMonth', 'month')">Month</button>
                 </div>
-                <button type="button" class="btn btn-default" ng-click="nav('GridForShedule', 'schedule')">Schedule</button>
+                
             </div>
         </div>
     <hr />
