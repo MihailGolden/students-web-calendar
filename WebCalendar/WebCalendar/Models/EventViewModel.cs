@@ -18,12 +18,12 @@ namespace WebCalendar.Models
         public string Description { get; set; }
         public string Color { get; set; }
         [Required(ErrorMessage = "Enter Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy H:mm}")]
         [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd H:mm}")]
         public DateTime BeginTime { get; set; }
         [Required(ErrorMessage = "Enter End Time")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy H:mm}")]
         [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd H:mm}")]
         public DateTime? EndTime { get; set; }
         public string CalendarTitle { get; set; }
         public int CalendarID { get; set; }
