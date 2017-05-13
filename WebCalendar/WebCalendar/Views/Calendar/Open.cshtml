@@ -91,23 +91,30 @@
             </div>
         </div>
 
-        <div class="col-lg-2 text-left vcenter">
-            <p>@DateTime.Now.ToString("dddd"), @DateTime.Now.ToLongDateString()</p>
-        </div>
 
-        <div class="col-lg-2 text-left vcenter">
+        <div class="col-lg-1 text-left vcenter">
             <button type="button" class="btn btn-default" onclick="location.href='/Event/Index/'+@Model.ID">All events</button>
         </div>
 
-        <div class="col-lg-4 text-right">
-            <div class="btn-group bottom-left" role="group" aria-label="...">
-                <button type="button" class="btn btn-default" ng-click="nav('GridForDay', 'day')">Day</button>
-                <button type="button" class="btn btn-default" ng-click="nav('GridForWeek', 'week')">Week</button>
-                <button type="button" class="btn btn-default" ng-click="nav('GridForMonth', 'month')">Month</button>
-            </div>
-            <button type="button" class="btn btn-default" ng-click="nav('GridForShedule', 'schedule')">Schedule</button>
+        <div style="padding-left:70px;" class="col-lg-2 text-left vcenter">
+            <input type="checkbox" ng-model="getHolidaysBool"><label>with holidays</label>
         </div>
-    </div>
+
+        <div class="col-lg-2 text-left vcenter">
+            <select class="form-control"
+                    ng-model="selectedCountry"
+                    ng-options="country.name for country in countries"></select>
+        </div>
+
+            <div class="col-lg-3 text-right">
+                <div class="btn-group bottom-left" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" ng-click="nav('GridForDay', 'day')">Day</button>
+                    <button type="button" class="btn btn-default" ng-click="nav('GridForWeek', 'week')">Week</button>
+                    <button type="button" class="btn btn-default" ng-click="nav('GridForMonth', 'month')">Month</button>
+                </div>
+                <button type="button" class="btn btn-default" ng-click="nav('GridForShedule', 'schedule')">Schedule</button>
+            </div>
+        </div>
     <hr />
 
     <div class="row" style="margin-top:0px">
@@ -115,6 +122,7 @@
             <button class="btn btn-default btn-create-event" onclick="location.href='/Event/Create?calendarID='+@Model.ID">Create Event</button>
         </div>
         <div class="col-lg-9">
+            <span>@DateTime.Now.ToString("dddd"), @DateTime.Now.ToLongDateString()</span>
         </div>
     </div>
     <div class="row" style="margin-top:0px">
@@ -212,10 +220,10 @@
                                 <input size="3" disabled id="color" ng-style={'background-color':event.color}>
                             </td>
                             <td>
-                                <a class="btn btn-info btn-xs" href="/Event/Details?id={{event.id}}">Details</a>
+                                <a ng-show="event.id" class="btn btn-info btn-xs" href="/Event/Details?id={{event.id}}">Details</a>
                             </td>
                             <td>
-                                <button class="btn btn-danger btn-xs" data-dismiss="modal" ng-click="deleteEvent(event.id)">Delete</button>
+                                <button ng-show="event.id" class="btn btn-danger btn-xs" data-dismiss="modal" ng-click="deleteEvent(event.id)">Delete</button>
                             </td>
                         </tr>
                     </table>

@@ -493,7 +493,7 @@ function getScope(ctrlName) {
             return weekGrid;
         };
 
-
+        //grid for week period//
          /* $scope.generateDaysForGridWeek = function (events) {
 
               events.sort(function (a, b) { return (moment(a.BeginTime).format("YYYY-MM-DD") > moment(b.BeginTime).format("YYYY-MM-DD")) ? 1 : ((moment(b.BeginTime).format("YYYY-MM-DD") > moment(a.BeginTime).format("YYYY-MM-DD")) ? -1 : 0); });
@@ -772,7 +772,6 @@ function getScope(ctrlName) {
                         break;
                     }
 
-                
 
                 for (var i = 0; i < 24; i++)
                     arrGrid[i][c] = arrEvent[i];
@@ -849,21 +848,70 @@ function getScope(ctrlName) {
                 //alert('error');
             });
         };
-        
+
+        ///////holidays events
+        $scope.countries = [
+            {
+                name: 'Ukraine',
+                acronym: 'UA'
+            },
+            {
+                name: 'United States',
+                acronym:'US'
+            },
+            {
+                name: 'Russia',
+                acronym:'RU'
+            },
+            {
+                name: 'United States',
+                acronym: 'ES'
+            },
+            {
+                name: 'Italy',
+                acronym: 'IT'
+            },
+            {
+                name: 'France',
+                acronym: 'FR'
+            },
+            {
+                name: 'Japan',
+                acronym: 'JP'
+            },
+        ];
+
+        $scope.getHolidaysBool = false;
+        $scope.selectedCountry = $scope.countries[0];
+
+        $scope.$watch("getHolidaysBool", function () {
+            $scope.getEvents();
+        });
+
+        $scope.$watch("selectedCountry", function (newValue, oldValue) {
+            if ($scope.getHolidaysBool == true && oldValue != undefined)
+                $scope.getEvents();
+        });
+        ///////////////////////
+
         $scope.getEvents = function () {
 
             var sPeriod = moment($scope.currentDate);
             var ePeriod = moment($scope.currentDate);
+            var holidaysPeriod = 'month';
+
             switch ($scope.currentGrid) {
                 case 'day':
                     sPeriod.hour(0); sPeriod.minute(0);
                     ePeriod.hour(23); ePeriod.minute(59);
+                    holidaysPeriod = 'day'
                     break;
                 case 'week':
                     break;
                 case 'month':
                     sPeriod.date(1);
-                    ePeriod.date(ePeriod.daysInMonth()); 
+                    ePeriod.date(ePeriod.daysInMonth());
+                    holidaysPeriod = 'month'
                     break;
                 default:
                     alert("error: undefined grid");
@@ -876,17 +924,57 @@ function getScope(ctrlName) {
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             async: false,
-                            success: function (data) {
-                                $scope.currentPageEvents = data;
+                            success: function (eventsData) {
+                                $scope.currentPageEvents = eventsData;
+
+                                //params///
+                                var key = '904177ce-e90e-438d-a6fd-1a46682e70bd';
+                                var country = $scope.selectedCountry.acronym;
+                                var year = '2016';
+                                var month = $scope.currentDate.format("M");
+                                var day = $scope.currentDate.format("D");
+                                ///////////
+
+                                var url = 'https://holidayapi.com/v1/holidays?' + 'key=' + key + '&country=' + country + '&year=' + year + '&month=' + month;
+
+                                if (holidaysPeriod == 'day')
+                                    url += '&day=' + day;
+
+                                if ($scope.getHolidaysBool) {
+                                    $.ajax({
+                                        method: "GET",
+                                        url: url,
+                                        async: false,
+                                        success: function (holiEvents) {
+                                            holiEvents.holidays.forEach(function (event) {
+
+                                                var evObj = {};
+                                                evObj.Title = event.name;
+                                                evObj.BeginTime = moment(event.date);
+                                                evObj.BeginTime.year('2017');
+                                                evObj.BeginTime.hour(0);
+                                                evObj.BeginTime.minute(0);
+                                                evObj.EndTime = moment(event.date);
+                                                evObj.EndTime.year('2017');
+                                                evObj.EndTime.hour(23);
+                                                evObj.EndTime.minute(59);
+                                                evObj.EventColor = '#f45342';
+
+                                                $scope.currentPageEvents.push(evObj);
+                                            });
+                                        }
+                                    });
+                                }
+
                                 switch ($scope.currentGrid) {
                                     case 'day':
-                                        $scope.dataForGridDay = $scope.generateDayPageGrid(data);
+                                        $scope.dataForGridDay = $scope.generateDayPageGrid($scope.currentPageEvents);
                                         break;
                                     case 'week':
-                                        $scope.daysForGridWeek = $scope.generateDaysForGridWeek(data);
+                                        $scope.daysForGridWeek = $scope.generateDaysForGridWeek($scope.currentPageEvents);
                                         break;
                                     case 'month':
-                                        $scope.calMonthPage = $scope.generateCalMonthPage(data);
+                                        $scope.calMonthPage = $scope.generateCalMonthPage($scope.currentPageEvents);
                                         break;
                                     default:
                                         alert("error: undefined grid");
@@ -896,6 +984,7 @@ function getScope(ctrlName) {
 
                     };
 
+                    //grid navigation
                     $scope.nav = function (fileName, grid) {
                         $scope.fileName = fileName;
                         $scope.currentGrid = grid;
@@ -917,9 +1006,11 @@ function getScope(ctrlName) {
                         }
                     }
 
+
                     $scope.currentDateEvents = [];
 
 
+                    //events list in modal window
                     $scope.showEvents = function (year, month, day) {
                         var events = [];
                         var currDate = moment({ years: year, months: month - 1, days: day }).format("YYYY-MM-DD");
