@@ -167,9 +167,6 @@ var app = angular.module('calendarApp', ["ngSanitize"]);
 
         $scope.fileName = 'GridForDay';
 
-
-        $scope.fileName = 'GridForShedule';
-
         $scope.filePath = function () {
             return '/Calendar/GridHtml?fileName=' + $scope.fileName;
         };
