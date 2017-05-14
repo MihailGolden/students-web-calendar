@@ -3,21 +3,29 @@
 @{
     ViewBag.Title = "Calendar";
 }
+
+<link href="~/Content/custom.css" rel="stylesheet" />
 <script src="~/Scripts/angular.min.js"></script>
+
+<script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+<script src="/signalr/hubs"></script>
+
+
 <style>
     #show-events-btn {
-        background: none !important;
-        border: none;
-        padding: 0 !important;
-        /*optional*/
-        font-family: arial,sans-serif; /*input has OS specific font-family*/
-        color: #069;
-        text-decoration: underline;
-        cursor: pointer;
+        display: block;
+        border-radius: 50%;
+        behavior: url(PIE.htc);
+        background-color: deepskyblue;
+        border: 2px solid green;
+        color: navajowhite;
+        text-align: center;
+        font: 15px Arial, sans-serif;
+        margin-left: 75px;
     }
 
     .curr-day {
-        background-color: orangered;
+        border: 3px solid red !important;
     }
 
     .prev-month, .next-month {
@@ -27,92 +35,172 @@
     .gridEvent {
         background-color: greenyellow;
     }
+
+        .gridEvent.prev-month {
+            background-color: darkseagreen;
+        }
+
+        .gridEvent.next-month {
+            background-color: darkseagreen;
+        }
+
+    .jscolor {
+        z-index: 300;
+    }
+
+    #datetimepicker12 {
+        margin-right: 20px;
+    }
+
+    .tabCalGrid tr {
+        line-height: 105px;
+        min-height: 105px;
+        height: 55px;
+    }
+
+    .tabCalGrid td {
+        min-width: 100px;
+        width: 100px;
+        outline-width: 100px;
+    }
+
+    .tabCalGrid {
+        height: 100%;
+        table-layout: fixed;
+    }
+
+    #modal-new-event {
+        text-align: center;
+        vertical-align: middle;
+    }
 </style>
 
-<<<<<<< HEAD
-<div ng-app="calendarApp" ng-controller="calendarCtrl" ng-init="init(@Model.ID)" class="open-window">
+<div ng-app="calendarApp" ng-controller="calendarCtrl" ng-init="init(@Model.ID);getEvents();" class="open-window">
 
-=======
-
-@*@Html.Partial("CreateModal")*@
-
-<div ng-app="calendarApp" ng-controller="calendarCtrl" class="open-window">
-    {{getEvents(@Model.ID)}}
->>>>>>> adb14b9de475e9eab1ea2ebe88dc2938bbb67d8a
     <div class="row">
 
         <div class="col-lg-2 text-left">
             <span class="calendar-name">@Model.Title</span>
         </div>
 
-        <div class="col-lg-2">
-            <button class="btn btn-default">Today</button>
+        <div class="col-lg-2 col-lg-offset-1">
+            <button class="btn btn-default" ng-click="today()">Today</button>
             <div class="btn-group" role="group" aria-label="...">
                 <button type="button" class="btn btn-default" ng-click="subtractDate()"> < </button>
                 <button type="button" class="btn btn-default" ng-click="addDate()"> > </button>
             </div>
         </div>
 
-        <div class="col-lg-4 text-left vcenter">
-            <p>@DateTime.Now.ToString("dddd"), @DateTime.Now.ToLongDateString()</p>
+
+        <div class="col-lg-1 text-left vcenter">
+            <button type="button" class="btn btn-default" onclick="location.href='/Event/Index/'+@Model.ID">All events</button>
         </div>
 
-        <div class="col-lg-4 text-right">
+        <div style="padding-left:70px;" class="col-lg-2 text-left vcenter">
+            <input type="checkbox" ng-model="getHolidaysBool"><label>with holidays</label>
+        </div>
+
+<<<<<<< HEAD
+        <div class="col-lg-2 text-left vcenter">
+            <select class="form-control"
+                    ng-model="selectedCountry"
+                    ng-options="country.name for country in countries"></select>
+        </div>
+
+            <div class="col-lg-3 text-right">
+                <div class="btn-group bottom-left" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" ng-click="nav('GridForDay', 'day')">Day</button>
+                    <button type="button" class="btn btn-default" ng-click="nav('GridForWeek', 'week')">Week</button>
+                    <button type="button" class="btn btn-default" ng-click="nav('GridForMonth', 'month')">Month</button>
+                </div>
+                <button type="button" class="btn btn-default" ng-click="nav('GridForShedule', 'schedule')">Schedule</button>
+=======
+        <div class="col-lg-3 col-lg-offset-1 text-left vcenter">
+            <button type="button" class="btn btn-default" onclick="location.href='/Event/Index/'+@Model.ID">All events</button>
             <div class="btn-group bottom-left" role="group" aria-label="...">
                 <button type="button" class="btn btn-default" ng-click="nav('GridForDay', 'day')">Day</button>
                 <button type="button" class="btn btn-default" ng-click="nav('GridForWeek', 'week')">Week</button>
                 <button type="button" class="btn btn-default" ng-click="nav('GridForMonth', 'month')">Month</button>
+>>>>>>> 1b50bc553e9e0b1665d49749583ac0eeeaaef38e
             </div>
-            <button type="button" class="btn btn-default" ng-click="nav('GridForShedule', 'schedule')">Schedule</button>
         </div>
-    </div>
     <hr />
 
-    <div class="container-fluid">
-        <div class="row content" style="margin-top:0px">
-            <div class="col-lg-3 text-center">
-                <button class="btn btn-default btn-create-event" onclick="location.href='/Event/Create'">Create Event</button>
-            </div>
-            <div class="col-lg-9">
-                Элемент для выделения целого дня
-            </div>
+    <div class="row" style="margin-top:0px">
+        <div class="col-lg-3 text-center">
+            <button class="btn btn-default btn-create-event" onclick="location.href='/Event/Create?calendarID='+@Model.ID">Create Event</button>
         </div>
-        <div class="row content" style="margin-top:0px">
-            <div class="col-lg-3 text-center">
-                <div id="datetimepicker12"></div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#datetimepicker12').datetimepicker({
-                            inline: true,
-                            sideBySide: false
-                        });
-                    });
-                </script>
-            </div>
-            <div class="col-lg-9 selectable">
-                <div ng-include="filePath()"></div>
-            </div>
+        <div class="col-lg-9">
+            <span>@DateTime.Now.ToString("dddd"), @DateTime.Now.ToLongDateString()</span>
+        </div>
+    </div>
+    <div class="row" style="margin-top:0px">
+        <div class="col-lg-3 ">
+
+            <div id="datetimepicker12"></div>
+
+            <script type="text/javascript">
+                $(function () {
+                    $('#datetimepicker12').datetimepicker({
+                        inline: true,
+                        sideBySide: false
+                    })
+                });
+            </script>
+        </div>
+        <div class="col-lg-9 selectable ">
+            <div ng-include="filePath()"></div>
         </div>
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="modal-new-event" role="dialog">
-        <div class="modal-dialog modal-sm">
+    <div class="modal fade" id="modal-new-event" role="dialog" tabindex="-1" aria-labelledby="create" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Event</h4>
+                    <h4 class="modal-title">New event</h4>
                 </div>
-                <input required id="event-title" type="text"><br>
-                <label>When:</label>
-                <div ng-bind-template="{{timePeriodStr}}"></div>
-                <div class="modal-footer">
-                    <button id="modal-btn-sendEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendEventInfo(@Model.ID)">Create</button>
-                    <button id="modal-btn-editEvent" type="button" class="btn btn-default" data-dismiss="modal">Edit</button>
+                <div class="modal-body">
+                    <form id="eventForm" class="form-horizontal" method="post" action="/Event/Edit">
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-5">Title:</label>
+                            <div class="col-sm-7">
+                                <input required name="title" id="event-title" type="text"><br />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-5">
+                                <button id="cp" type="button" class="btn btn-default">Choose color</button><br />
+                            </div>
+                            <div class="col-sm-7">
+                                <input disabled id="color" style="background-color:#00ff00"><br>
+                            </div>
+                            <input hidden name="color" id="color-value" defaultValue="#00ff00" value="#00ff00"><br>
+
+                            <!--for edit-->
+                            <input id="beginTime" hidden name="beginTime" value=""><br>
+                            <input id="endTime" hidden name="endTime" value=""><br>
+                            <input id="calendarID" hidden name="calendarID" value=""><br>
+
+                        </div>
+
+                    </form>
+
+                    <hr />
+                    <label>When:</label>
+                    <div ng-bind-template="{{timePeriodStr}}"></div>
+
+                    <div class="modal-footer">
+                        <button id="modal-btn-sendEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendEventInfo(@Model.ID)">Create</button>
+                        <button id="modal-btn-editEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="editEvent(@Model.ID)">Edit</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 
 
 
@@ -129,27 +217,82 @@
                     <table class="table table-bordered">
                         <tr class="row" ng-repeat="event in currentDateEvents">
                             <td>
-                                {{event.title}}
+                                <b>{{event.title}}</b>
                             </td>
                             <td>
-                                {{event.beginTime}}
+                                <i>{{event.beginTime}}</i>
                             </td>
                             <td>
-                                {{event.endTime}}
+                                <i>{{event.endTime}}</i>
                             </td>
                             <td>
-                                <a href="/Event/Details?id={{event.id}}">Details</a>
+                                <input size="3" disabled id="color" ng-style={'background-color':event.color}>
+                            </td>
+                            <td>
+                                <a ng-show="event.id" class="btn btn-info btn-xs" href="/Event/Details?id={{event.id}}">Details</a>
+                            </td>
+                            <td>
+                                <button ng-show="event.id" class="btn btn-danger btn-xs" data-dismiss="modal" ng-click="deleteEvent(event.id)">Delete</button>
                             </td>
                         </tr>
                     </table>
                 </div>
-
-                </div>
+            </div>
         </div>
     </div>
-
-
-
-
 </div>
+<script>
+    $(function () {
+        $('#cp').colorpicker().on('changeColor', function (e) {
+            $('#color')[0].style.backgroundColor = e.color.toString(
+                'hex');
+            $('#color-value')[0].defaultValue = e.color.toString(
+           'hex');
+            $('#color-value')[0].value = e.color.toString(
+'hex');
+        });
+
+        var proxy = $.connection.notifyHub;
+        proxy.client.send = function (title, time) {
+            $('#dialog').modal({
+                show: true
+            });
+            var date = moment(time).format('MMMM Do YYYY, h:mm a');
+            $("#notifEvent").html(title);
+            $("#notifDate").html(date);
+
+
+        };
+        $.connection.hub.start().done(function () {
+            proxy.server.getInitialTime();
+        });
+
+    });
+</script>
+
+<!-- Modal notification -->
+<div id="dialog" title="Notification" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Notification</h4>
+            </div>
+            <div class="modal-body">
+                <div id="myDialogText">
+                    <label>Event:</label>
+                    <div id="notifEvent"></div><br />
+                    <label>When:</label>
+                    <div id="notifDate"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="~/Scripts/app.js"></script>
