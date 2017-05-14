@@ -33,6 +33,7 @@ namespace WebCalendar.Controllers
         }
 
         // GET: Event
+
         public ActionResult Index(int id)
         {
             var notifies = (from n in this.notifyService.GetNotifications

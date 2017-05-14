@@ -139,6 +139,8 @@ $(document).ready(function () {
                         endDate.format('Y');
 
                     break;
+
+
             }
 
             $scope.$apply(function () {
@@ -175,6 +177,10 @@ function getScope(ctrlName) {
         $scope.days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
         $scope.fileName = 'GridForDay';
+
+
+        $scope.fileName = 'GridForShedule';
+
         $scope.filePath = function () {
             return '/Calendar/GridHtml?fileName=' + $scope.fileName;
         };
@@ -867,8 +873,10 @@ function getScope(ctrlName) {
                     sPeriod.date(1);
                     ePeriod.date(ePeriod.daysInMonth()); 
                     break;
+                case 'schedule':
+                    break;
                 default:
-                    alert("error: undefined grid");
+                    console.log("error: undefined grid");
             }
 
                         $.ajax({
@@ -890,8 +898,11 @@ function getScope(ctrlName) {
                                     case 'month':
                                         $scope.calMonthPage = $scope.generateCalMonthPage(data);
                                         break;
+                                    case 'week':
+                                        $scope.daysForGridWeek = $scope.generateDaysForGridWeek(data);
+                                        break;
                                     default:
-                                        alert("error: undefined grid");
+                                        console.log("error: undefined grid");
                                 }
                             }
                         });
@@ -901,9 +912,7 @@ function getScope(ctrlName) {
                     $scope.nav = function (fileName, grid) {
                         $scope.fileName = fileName;
                         $scope.currentGrid = grid;
-
                         $scope.getEvents();
-
                     };
 
                     $scope.isDataLoaded = function (grid) {
@@ -914,8 +923,10 @@ function getScope(ctrlName) {
                                 return $scope.daysForGridWeek != undefined;
                             case 'month':
                                 return $scope.calMonthPage != undefined;
+                            case 'schedule':
+                                return $scope.daysForGridWeek != undefined;
                             default:
-                                alert("error: undefined grid");
+                                console.log("error: undefined grid");
                         }
                     }
 
