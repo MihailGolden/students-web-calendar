@@ -4,6 +4,11 @@
     ViewBag.Title = "Create";
 }
 <link rel="stylesheet" href="~/Content/month-calendar.css">
+
+<link rel="stylesheet" type="text/css" href="~/Content/jquery.datetimepicker.css" />
+<script src="~/Scripts/jquery.datetimepicker.min.js"></script>
+<script src="~/Scripts/jquery.datetimepicker.full.js"></script>
+
 <style>
     label {
         padding: 0 auto;
@@ -205,17 +210,17 @@
             </div>
             <br /> <br /><br />
             <div class="form-group">
-                @Html.LabelFor(model => model.BeginTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.BeginTime, htmlAttributes: new { @id = "beginDateTime", @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.BeginTime, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.BeginTime, new { htmlAttributes = new { @class = "form-control datetimepicker" } })
                     @Html.ValidationMessageFor(model => model.BeginTime, "", new { @class = "text-danger" })
                 </div>
             </div>
             <br /> <br />
             <div class="form-group">
-                @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @id = "endDateTime", @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control datetimepicker" } })
                     @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -255,7 +260,7 @@
             <br /> <br /><br /><br /><br /><br /><br />
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+                    <input type="submit" value="Create" class="btn btn-default"/>
                     @Html.ActionLink("Back to Calendars", "Index", "Calendar") | 
                     @Html.ActionLink("Home", "Open", "Calendar", new { calendarID = Model.CalendarID }, null)
                 </div>
@@ -284,11 +289,23 @@
                 }
             });
         });
+
         $('#color-picker').colorpicker().on('changeColor', function (e) {
             $('#color')[0].style.backgroundColor = e.color.toString(
                 'hex');
             $('#color-value')[0].value = e.color.toString(
            'hex');
         });
+
+        $('.datetimepicker').datetimepicker({
+            dateFormat: 'Y-m-d H:i'
+        });
+  
+      /*  window.dateRangeValidator = function(elem) {
+            elem.disabled = true;
+            var beginTime = $('#beginDateTime');
+            var endTime = $('#endDateTime');
+        }*/
+
     });
 </script>

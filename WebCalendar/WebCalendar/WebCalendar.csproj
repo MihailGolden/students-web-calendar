@@ -261,6 +261,7 @@
     <Content Include="Content\img\bootstrap-colorpicker\hue-horizontal.png" />
     <Content Include="Content\img\bootstrap-colorpicker\hue.png" />
     <Content Include="Content\img\bootstrap-colorpicker\saturation.png" />
+    <Content Include="Content\jquery.datetimepicker.css" />
     <Content Include="Content\month-calendar.css" />
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
@@ -385,6 +386,8 @@
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.datetimepicker.full.js" />
+    <Content Include="Scripts\jquery.datetimepicker.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />

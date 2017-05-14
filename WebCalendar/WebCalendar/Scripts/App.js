@@ -1,20 +1,5 @@
-﻿var calendar = {
-    init: function () {
-        var date = new Date();
-        var startDate = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
-        var monthNumber = date.getMonth();
-
-        function getMonthName(number) {
-            var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            return months[number];
-        }
-        $('.month').text(getMonthName(monthNumber));
-        $('div.col-md-1.table-bordered .row .col-md-1.table-bordered:contains("' + date.getDate() + '")').addClass('current-day');
-    }
-};
-
+﻿
 $(document).ready(function () {
-    calendar.init();
 
     $('#modal-new-event').on('hidden.bs.modal', function () {
         $("input").val('');
@@ -152,6 +137,12 @@ $(document).ready(function () {
                 $scope.timePeriod.endDate = endDate;
                 $scope.timePeriodStr = timePeriodStr;
 
+                ////////reset validation data
+                $scope.eventForm.title.$touched = false;
+                $scope.eventForm.$invalid = true;
+                $scope.title = "";
+                ////////
+
                 $('#modal-new-event').modal({
                     show: true
                 });
@@ -276,26 +267,6 @@ var app = angular.module('calendarApp', ["ngSanitize"]);
                 default:
                     $scope.currentDate.subtract(1, "days");
             }
-        };
-
-        $scope.getDayName = function () {
-            return $scope.currentDate.format("dddd");
-        };
-
-        $scope.getDate = function () {
-            return $scope.currentDate.format("D");
-        };
-
-        $scope.getMonth = function () {
-            return $scope.currentDate.format("M");
-        };
-
-        $scope.getMonthName = function () {
-            return $scope.currentDate.format("MMMM");
-        };
-
-        $scope.getYear = function () {
-            return $scope.currentDate.format("Y");
         };
 
         $scope.calendar = {
@@ -708,9 +679,28 @@ var app = angular.module('calendarApp', ["ngSanitize"]);
             return cal;
         };
 
-        $scope.eventInfo = function (elem) {
-            if (elem != undefined) {
-                location.href = '/Event/Details?id=' + elem;
+        $scope.eventInfo = function (eventId) {
+
+            if (eventId != undefined) {
+                var event = $scope.currentPageEvents.find(e => e.ID == eventId);
+
+                var beginTime = moment(event.BeginTime).format("YYYY-MM-DD HH:mm");
+                var endTime = moment(event.EndTime).format("YYYY-MM-DD HH:mm");
+
+                var eventObj = {}
+                eventObj.id = event.ID;
+                eventObj.title = event.Title;
+                eventObj.beginTime = beginTime;
+                eventObj.endTime = endTime;
+                eventObj.color = event.EventColor;
+
+                $scope.currentEvent = eventObj;
+
+                $('#modal-one-event').modal({
+                    show: true
+                });
+
+               // location.href = '/Event/Details?id=' + elem;
             }
 
         };
@@ -815,6 +805,7 @@ var app = angular.module('calendarApp', ["ngSanitize"]);
             });
         };
 
+        //edit in Create view
         $scope.editEvent = function (calendarID) {
             var eventForm = document.getElementById("eventForm");
 
@@ -870,7 +861,7 @@ var app = angular.module('calendarApp', ["ngSanitize"]);
                 acronym:'RU'
             },
             {
-                name: 'United States',
+                name: 'Spain',
                 acronym: 'ES'
             },
             {
@@ -1048,12 +1039,40 @@ var app = angular.module('calendarApp', ["ngSanitize"]);
                             show: true
                         });
 
-                        
                      //   event.stopImmediatePropagation();
                     }
-
-
     });
+
+    app.filter('dayName', function () {
+        return function (date) {
+            return date.format("dddd");
+        };
+    });
+
+    app.filter('date', function () {
+        return function (date) {
+            return date.format("D");
+        };
+    });
+
+    app.filter('month', function () {
+        return function (date) {
+            return date.format("M");
+        };
+    });
+
+    app.filter('monthName', function () {
+        return function (date) {
+            return date.format("MMMM");
+        };
+    });
+
+    app.filter('year', function () {
+        return function (date) {
+            return date.format("Y");
+        };
+    });
+
 
 $(function () {
     $('#Date').datetimepicker({
