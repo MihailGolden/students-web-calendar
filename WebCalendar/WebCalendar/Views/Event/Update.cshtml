@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = "Update";
 }
+<link rel="stylesheet" type="text/css" href="~/Content/jquery.datetimepicker.css" />
+<script src="~/Scripts/jquery.datetimepicker.min.js"></script>
+<script src="~/Scripts/jquery.datetimepicker.full.js"></script>
+
 <h3 style="margin-left:23% ;text-align:left">Update Event</h3>
 
 @using (Html.BeginForm())
@@ -33,7 +37,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.BeginTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BeginTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.BeginTime, new { htmlAttributes = new { @class = "form-control datetimepicker" } })
                 @Html.ValidationMessageFor(model => model.BeginTime, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -41,11 +45,19 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control datetimepicker" } })
                 @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <div class="form-group">
+            @Html.Label("Color", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input disabled id="color" style="background-color:@Model.Color"><br>
+                <button id="color-picker" type="button" class="btn btn-default">Select color</button><br />
+                @Html.HiddenFor(m => m.Color, new { @id = "color-value", @Value = @Model.Color })
+                @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
+            </div>
+        </div>
         <div class="form-group">
             @Html.Label("Calendar", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -72,3 +84,18 @@
     @Html.ActionLink("Back to List", "Index", new { id = Model.CalendarID}) |
     @Html.ActionLink("Home", "Open", "Calendar", new { calendarID = Model.CalendarID }, null)
 </div>
+<script>
+    $(function () {
+        $('#color-picker').colorpicker().on('changeColor', function (e) {
+            $('#color')[0].style.backgroundColor = e.color.toString(
+                'hex');
+            $('#color-value')[0].value = e.color.toString(
+           'hex');
+        });
+
+        $('.datetimepicker').datetimepicker({
+            dateFormat: 'Y-m-d H:i'
+        });
+
+    });
+</script>

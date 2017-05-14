@@ -5,7 +5,7 @@
 <div class="row">
     <div style="text-align: center" class="col-lg-12 table-bordered"
          ng-bind-template="{{getWeek().firstDay}}/{{getWeek().month1}} - {{getWeek().lastDay}}/{{getWeek().month2}},
-            {{getYear()}}">
+            {{currentDate | year}}">
     </div>
 </div>
 <div class="table-responsive" style="overflow: scroll; width: 760px; height: 450px;">

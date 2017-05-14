@@ -153,12 +153,16 @@
                     <h4 class="modal-title">New event</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="eventForm" class="form-horizontal" method="post" action="/Event/Edit">
+                    <form id="eventForm" name="eventForm" class="form-horizontal" method="post" action="/Event/Edit" novalidate>
 
                         <div class="form-group">
                             <label class="control-label col-sm-5">Title:</label>
                             <div class="col-sm-7">
-                                <input required name="title" id="event-title" type="text"><br />
+                                <input name="title" id="event-title" ng-model="title" class="form-control" type="text" min="3" required>
+                                <span style="color: red" ng-show="eventForm.title.$touched && eventForm.title.$invalid">
+                                    <span ng-show="eventForm.title.$error.required">Event title is required.</span>
+                                </span>
+                                <br />
                             </div>
                         </div>
                         <div class="form-group">
@@ -184,7 +188,7 @@
                     <div ng-bind-template="{{timePeriodStr}}"></div>
 
                     <div class="modal-footer">
-                        <button id="modal-btn-sendEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendEventInfo(@Model.ID)">Create</button>
+                        <button ng-disabled="eventForm.$invalid" id="modal-btn-sendEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="sendEventInfo(@Model.ID)">Create</button>
                         <button id="modal-btn-editEvent" type="button" class="btn btn-default" data-dismiss="modal" ng-click="editEvent(@Model.ID)">Edit</button>
                     </div>
                 </div>
@@ -230,7 +234,50 @@
                 </div>
             </div>
         </div>
+    </div>  
+
+
+
+
+    <!-- Modal (event description) -->
+    <div class="modal fade" tabindex="-1" id="modal-one-event" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Event</h4>
+                </div>
+                <div class="modal-body">
+
+                    <table class="table table-bordered">
+                        <tr class="row">
+                            <td>
+                                <b>{{currentEvent.title}}</b>
+                            </td>
+                            <td>
+                                <i>{{currentEvent.beginTime}}</i>
+                            </td>
+                            <td>
+                                <i>{{currentEvent.endTime}}</i>
+                            </td>
+                            <td>
+                                <input size="3" disabled id="color" ng-style={'background-color':currentEvent.color}>
+                            </td>
+                            <td>
+                                <a ng-show="currentEvent.id" class="btn btn-info btn-xs" href="/Event/Details?id={{currentEvent.id}}">Details</a>
+                            </td>
+                            <td>
+                                <button ng-show="currentEvent.id" class="btn btn-danger btn-xs" data-dismiss="modal" ng-click="deleteEvent(currentEvent.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
+
+
+
 </div>
 <script>
     $(function () {
