@@ -4,56 +4,59 @@
     ViewBag.Title = "Index";
 }
 <link href="~/Content/calendar-table.css" rel="stylesheet" />
+<--|<b>@Html.ActionLink("Home", "Open", "Calendar", new { calendarID = Model.First().CalendarID }, null)</b>|
 
 <h2 style="margin-left:43% ;text-align:left">Events</h2>
+    <table class="table scroll">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BeginTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndTime)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        @if (Model.First().Title != null)
+            {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BeginTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Update", new { id = item.ID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    </td>
+                </tr>
+            }
+        }
+    </table>
 
-<table class="table scroll">
-    <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BeginTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndTime)
-        </th>
-        <th></th>
-    </tr>
- </thead>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BeginTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndTime)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Update", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-            </td>
-        </tr>
-    }
-
-</table>
-
+<--|<b>@Html.ActionLink("Home", "Open", "Calendar", new { calendarID = Model.First().CalendarID }, null)</b>|
 
 <div class="row center-block" style="margin-left:43% ;text-align:left">
     <p>
-        @Html.ActionLink("Create New", "CreateEvent", "Event" , new { @class = "btn btn-primary" })
+        @Html.ActionLink("Create New", "Create", "Event", new { calendarID = Model.First().CalendarID }, new { @class = "btn btn-primary" })
     </p>
 </div>
 <div id="dialog" title="Notification"><div id="myDialogText"></div></div>

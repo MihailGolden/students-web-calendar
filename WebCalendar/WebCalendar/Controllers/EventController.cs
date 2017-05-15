@@ -42,7 +42,16 @@ namespace WebCalendar.Controllers
                             select new Notify() { Title = e.Title, Date = e.BeginTime }).OrderBy(d => d.Date).ToList();
             NotifyTime.Instance.GetDates(notifies);
             var events = this.service.GetEventsFromCalendar(id);
-            List<EventViewModel> list = DomainToModel.Map(events);
+            List<EventViewModel> list;
+            if (events.Count() > 0)
+            {
+                list = DomainToModel.Map(events);
+            }
+            else
+            {
+                list = new List<EventViewModel>();
+                list.Add(new EventViewModel() { CalendarID = id });
+            }
             return View(list);
         }
 
