@@ -28,24 +28,24 @@ namespace WebCalendar.Controllers
 
         public ActionResult Index()
         {
-            int calendarId;
-            var calendars = this.service.GetUserCalendars();
-            List<CalendarViewModel> list = DomainToModel.Map(calendars);
-            if (list.Count == 0)
-            {
-                CalendarViewModel newCalendar = new CalendarViewModel
-                {
-                    Title = "Calendar",
-                    Description = "Default calendar",
-                    UserID = this.userService.GetUserID(),
-                };
-                var domain = DomainToModel.Map(newCalendar);
-                this.service.Create(domain);
-                //return View();
+            //int calendarId;
+            //var calendars = this.service.GetUserCalendars();
+            //List<CalendarViewModel> list = DomainToModel.Map(calendars);
+            //if (list.Count == 0)
+            //{
+            //    CalendarViewModel newCalendar = new CalendarViewModel
+            //    {
+            //        Title = "Calendar",
+            //        Description = "Default calendar",
+            //        UserID = this.userService.GetUserID(),
+            //    };
+            //    var domain = DomainToModel.Map(newCalendar);
+            //    this.service.Create(domain);
+            //    //return View();
 
-                calendarId = GetCalendarId("Calendar");
-                return RedirectToAction("Open", new { calendarId = calendarId });
-            }
+            //    calendarId = GetCalendarId("Calendar");
+            //    return RedirectToAction("Open", new { calendarId = calendarId });
+            //}
             return View();
         }
 
