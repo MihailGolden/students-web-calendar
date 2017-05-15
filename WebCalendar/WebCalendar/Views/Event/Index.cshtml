@@ -4,7 +4,6 @@
     ViewBag.Title = "Index";
 }
 <link href="~/Content/calendar-table.css" rel="stylesheet" />
-<--|<b>@Html.ActionLink("Home", "Open", "Calendar", new { calendarID = Model.First().CalendarID }, null)</b>|
 
 <h2 style="margin-left:43% ;text-align:left">Events</h2>
 
@@ -50,12 +49,11 @@
     }
 
 </table>
-    <--|<b>@Html.ActionLink("Home", "Open", "Calendar", new { calendarID = Model.First().CalendarID }, null)</b>|
 
 
 <div class="row center-block" style="margin-left:43% ;text-align:left">
     <p>
-        @Html.ActionLink("Create New", "Create", "Event", new { calendarID = Model.First().CalendarID }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Create New", "CreateEvent", "Event" , new { @class = "btn btn-primary" })
     </p>
 </div>
 <div id="dialog" title="Notification"><div id="myDialogText"></div></div>

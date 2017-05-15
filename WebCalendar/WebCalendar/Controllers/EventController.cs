@@ -96,6 +96,15 @@ namespace WebCalendar.Controllers
             return View(model);
         }
 
+        public ActionResult CreateEvent()
+        {
+            EventViewModel model = new EventViewModel();
+            InitDropDownList(model);
+            model.BeginTime = DateTime.Now;
+            model.EndTime = DateTime.Now;
+            return View("Create", model);
+        }
+
         [HttpPost]
         public ActionResult Create(EventViewModel ev)
         {
@@ -170,6 +179,11 @@ namespace WebCalendar.Controllers
                 {
                     int id = ev.OccurrenceID.Value;
                     this.occurService.Delete(id);
+                }
+                if (ev.Notifications.Count > 0)
+                {
+                    ev.Notifications[0].EventID = this.service.GetEvents.LastOrDefault().ID;
+                    this.notifyService.Create(DomainToModel.Map(ev.Notifications[0]));
                 }
                 int calendarID = ev.CalendarID;
                 var domain = DomainToModel.Map(ev);
