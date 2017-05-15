@@ -37,7 +37,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.BeginTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BeginTime, new { htmlAttributes = new { @class = "form-control datetimepicker" } })
+                @Html.EditorFor(model => model.BeginTime, new { htmlAttributes = new { @id = "beginDateTime", @class = "form-control datetimepicker" } })
                 @Html.ValidationMessageFor(model => model.BeginTime, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -45,8 +45,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control datetimepicker" } })
+                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @id = "endDateTime", @class = "form-control datetimepicker" } })
                 @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+                <br /><span id="dateRangeInvalid" style="color:red;visibility:hidden">End date can't be less than begin date</span>
             </div>
         </div>
         <div class="form-group">
@@ -74,23 +75,23 @@
         </div>
         <div class="form-group">
             <div class="col-md-10">
-                <div  style="margin-left:21% ;text-align:left" id="notification"></div>
+                <div style="margin-left:21% ;text-align:left" id="notification"></div>
                 <input id="addNotification" type="button" style="margin-left:21% ;text-align:left" class="btn btn-primary" value="Add notification" />
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" onclick="dateRangeValidator(this)"/>
             </div>
         </div>
     </div>
-}
+    }
 
-<div>
-    @Html.ActionLink("Back to List", "Index", new { id = Model.CalendarID}) |
-    @Html.ActionLink("Home", "Open", "Calendar", new { calendarID = Model.CalendarID }, null)
-</div>
-<script>
+    <div>
+        @Html.ActionLink("Back to List", "Index", new { id = Model.CalendarID }) |
+        @Html.ActionLink("Home", "Open", "Calendar", new { calendarID = Model.CalendarID }, null)
+    </div>
+    <script>
     $(function () {
         var id = 0;
         $('#addNotification').click(function () {
@@ -117,5 +118,22 @@
             dateFormat: 'Y-m-d H:i'
         });
 
+        window.dateRangeValidator = function (elem) {
+
+            var beginTime = $('#beginDateTime').val();
+            var endTime = $('#endDateTime').val();
+
+            if (moment(endTime, "YYYY-MM-DD HH:mm") < moment(beginTime, "YYYY-MM-DD HH:mm")) {
+                event.preventDefault();
+                $('#dateRangeInvalid').css("visibility", 'visible');
+            }
+            else {
+                elem.disabled = false;
+
+                elem.form.submit();
+            }
+
+        }
+
     });
-</script>
+    </script>
