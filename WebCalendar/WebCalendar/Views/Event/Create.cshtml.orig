@@ -178,7 +178,7 @@
         Model.Color = "#00ff00";
     }
 
-    @using (Html.BeginForm("Create", "Event", FormMethod.Post, htmlAttributes: new { @id = "eventForm" }))
+    @using (Html.BeginForm("Create", "Event", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.ID)
@@ -222,7 +222,7 @@
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @id = "endDateTime", @class = "form-control datetimepicker" } })
                     @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
-                    <br /><span id="dateRangeInvalid" style="color:red;visibility:hidden">End date can't be less than begin date</span>
+                    <span id="dateRangeInvalid" style="visibility:hidden">danger</span>
                 </div>
             </div>
             <br /> <br />
@@ -261,9 +261,14 @@
             <br /> <br /><br /><br /><br /><br /><br />
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input id="submit" type="submit" value="Create" class="btn btn-default" onclick="dateRangeValidator(this)"/>
+<<<<<<< HEAD
+                    <input type="submit" value="Create" class="btn btn-default" onclick="dateRangeValidator(this)"/>
+                    @Html.ActionLink("Back to Calendars", "Index", "Calendar") | 
+=======
+                    <input type="submit" value="Create" class="btn btn-default" />
                     @Html.ActionLink("Back to Calendars", "Index", "Calendar") |
                     @if (Model.CalendarID != 0) { 
+>>>>>>> 634e4373170de28b3e77f1dcf4e77e6c6b65968d
                     @Html.ActionLink("Home", "Open", "Calendar", new { calendarID = Model.CalendarID }, null)
                 }</div>
             </div>
@@ -280,7 +285,7 @@
         var id = 0;
         $('#addNotification').click(function () {
             $.ajax({
-                async: false,
+                async: true,
                 url: '/Event/CreateNotification/?id=' + id,
                 success: function (view) {
                     $('#addNotification').hide();
@@ -302,23 +307,26 @@
         $('.datetimepicker').datetimepicker({
             dateFormat: 'Y-m-d H:i'
         });
-
-        window.dateRangeValidator = function (elem) {
-
+<<<<<<< HEAD
+  
+        window.dateRangeValidator = function(elem) {
+        /*    elem.disabled = true;
             var beginTime = $('#beginDateTime').val();
             var endTime = $('#endDateTime').val();
-
-            if (moment(endTime, "YYYY-MM-DD HH:mm") < moment(beginTime, "YYYY-MM-DD HH:mm")) {
-                event.preventDefault();
-                $('#dateRangeInvalid').css("visibility", 'visible');
-            }
-            else {
-                elem.disabled = false;
-
-                elem.form.submit();
-            }
+            if (moment(endTime) > moment(beginTime))
+                $('#dateRangeInvalid').css("visibility", 'visible');   
+            else
+                elem.click();*/
 
         }
+=======
+
+        /*  window.dateRangeValidator = function(elem) {
+              elem.disabled = true;
+              var beginTime = $('#beginDateTime');
+              var endTime = $('#endDateTime');
+          }*/
+>>>>>>> 634e4373170de28b3e77f1dcf4e77e6c6b65968d
 
     });
 </script>
