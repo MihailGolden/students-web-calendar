@@ -280,7 +280,7 @@
         var id = 0;
         $('#addNotification').click(function () {
             $.ajax({
-                async: true,
+                async: false,
                 url: '/Event/CreateNotification/?id=' + id,
                 success: function (view) {
                     $('#addNotification').hide();
