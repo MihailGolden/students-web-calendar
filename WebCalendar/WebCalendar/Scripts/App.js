@@ -128,6 +128,8 @@ $(document).ready(function () {
                         endDate.format('Y');
 
                     break;
+
+
             }
 
             $scope.$apply(function () {
@@ -155,7 +157,7 @@ function getScope(ctrlName) {
     return angular.element(sel).scope();
 }
 
-    var app = angular.module('calendarApp', []);
+var app = angular.module('calendarApp', ["ngSanitize"]);
     app.controller('calendarCtrl', function ($scope, $http) {
         $scope.hours = ["12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am",
             "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"
@@ -164,6 +166,7 @@ function getScope(ctrlName) {
         $scope.days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
         $scope.fileName = 'GridForDay';
+
         $scope.filePath = function () {
             return '/Calendar/GridHtml?fileName=' + $scope.fileName;
         };
@@ -904,8 +907,10 @@ function getScope(ctrlName) {
                     ePeriod.date(ePeriod.daysInMonth());
                     holidaysPeriod = 'month'
                     break;
+                case 'schedule':
+                    break;
                 default:
-                    alert("error: undefined grid");
+                    console.log("error: undefined grid");
             }
 
                         $.ajax({
@@ -967,8 +972,11 @@ function getScope(ctrlName) {
                                     case 'month':
                                         $scope.calMonthPage = $scope.generateCalMonthPage($scope.currentPageEvents);
                                         break;
+                                    case 'week':
+                                        $scope.daysForGridWeek = $scope.generateDaysForGridWeek(data);
+                                        break;
                                     default:
-                                        alert("error: undefined grid");
+                                        console.log("error: undefined grid");
                                 }
                             }
                         });
@@ -979,9 +987,7 @@ function getScope(ctrlName) {
                     $scope.nav = function (fileName, grid) {
                         $scope.fileName = fileName;
                         $scope.currentGrid = grid;
-
                         $scope.getEvents();
-
                     };
 
                     $scope.isDataLoaded = function (grid) {
@@ -992,8 +998,10 @@ function getScope(ctrlName) {
                                 return $scope.daysForGridWeek != undefined;
                             case 'month':
                                 return $scope.calMonthPage != undefined;
+                            case 'schedule':
+                                return $scope.daysForGridWeek != undefined;
                             default:
-                                alert("error: undefined grid");
+                                console.log("error: undefined grid");
                         }
                     }
 
