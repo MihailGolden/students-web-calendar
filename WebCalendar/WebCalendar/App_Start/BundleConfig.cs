@@ -37,7 +37,7 @@ namespace WebCalendar
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
-                      "~/Scripts/bootstrap-datetimepicker.js", "~/Scripts/angular.min.js",
+                      "~/Scripts/bootstrap-datetimepicker.js", "~/Scripts/angular.min.js", "~/Scripts/angular-sanitize.min.js",
                       "~/Scripts/app.js, ~/Script/calendar-event.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/Site.css",

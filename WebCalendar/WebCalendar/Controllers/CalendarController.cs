@@ -8,6 +8,7 @@ using WebCalendar.Models;
 namespace WebCalendar.Controllers
 {
     [Authorize]
+    //[ValidateAntiForgeryToken]
     public class CalendarController : Controller
     {
         private ICalendarService service;

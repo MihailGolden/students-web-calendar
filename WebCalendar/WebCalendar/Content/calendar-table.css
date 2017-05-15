@@ -1,13 +1,17 @@
 ﻿.modal-dialog {
-    height: 50%;
-    width: 25%;
+    height: 220px; 
+    width: 360px;
     align-items: center;
 }
 
 .modal-content {
     margin: 0 auto;
 }
-
+.modal-body {
+   height: 170px; 
+   width: 360px;
+   margin: 0 auto;
+}
 form {
     margin: 0 auto;
     width: 300px;
@@ -42,5 +46,4 @@ tr th:last-child {
 .btn.center {
     display: block;
     margin: 0 auto;
-    width: 9%;
 }

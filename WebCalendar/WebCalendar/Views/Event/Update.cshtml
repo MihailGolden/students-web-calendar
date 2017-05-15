@@ -73,6 +73,12 @@
             </div>
         </div>
         <div class="form-group">
+            <div class="col-md-10">
+                <div  style="margin-left:21% ;text-align:left" id="notification"></div>
+                <input id="addNotification" type="button" style="margin-left:21% ;text-align:left" class="btn btn-primary" value="Add notification" />
+            </div>
+        </div>
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
@@ -86,6 +92,20 @@
 </div>
 <script>
     $(function () {
+        var id = 0;
+        $('#addNotification').click(function () {
+            $.ajax({
+                async: true,
+                url: '/Event/CreateNotification/?id=' + id,
+                success: function (view) {
+                    $('#addNotification').hide();
+                    @{
+                        Model.Notifications.Add(new WebCalendar.Models.NotificationViewModel());
+                    }
+                    $('#notification').append('<div>' + view + '</div>');
+                }
+            });
+        });
         $('#color-picker').colorpicker().on('changeColor', function (e) {
             $('#color')[0].style.backgroundColor = e.color.toString(
                 'hex');

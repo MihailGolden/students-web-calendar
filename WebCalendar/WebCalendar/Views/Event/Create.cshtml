@@ -231,7 +231,7 @@
                 <div class="col-md-10">
                     <input disabled id="color" style="background-color:@Model.Color"><br>
                     <button id="color-picker" type="button" class="btn btn-default">Select color</button><br />
-                    @Html.HiddenFor(m=>m.Color, new { @id = "color-value", @Value = @Model.Color })
+                    @Html.HiddenFor(m => m.Color, new { @id = "color-value", @Value = @Model.Color })
                     @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -262,9 +262,10 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Create" class="btn btn-default" onclick="dateRangeValidator(this)"/>
-                    @Html.ActionLink("Back to Calendars", "Index", "Calendar") | 
+                    @Html.ActionLink("Back to Calendars", "Index", "Calendar") |
+                    @if (Model.CalendarID != 0) { 
                     @Html.ActionLink("Home", "Open", "Calendar", new { calendarID = Model.CalendarID }, null)
-                </div>
+                }</div>
             </div>
         </div>
     }
@@ -301,7 +302,7 @@
         $('.datetimepicker').datetimepicker({
             dateFormat: 'Y-m-d H:i'
         });
-  
+
         window.dateRangeValidator = function(elem) {
         /*    elem.disabled = true;
             var beginTime = $('#beginDateTime').val();

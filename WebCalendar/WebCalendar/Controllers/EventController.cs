@@ -33,6 +33,7 @@ namespace WebCalendar.Controllers
         }
 
         // GET: Event
+
         public ActionResult Index(int id)
         {
             var notifies = (from n in this.notifyService.GetNotifications
@@ -41,7 +42,16 @@ namespace WebCalendar.Controllers
                             select new Notify() { Title = e.Title, Date = e.BeginTime }).OrderBy(d => d.Date).ToList();
             NotifyTime.Instance.GetDates(notifies);
             var events = this.service.GetEventsFromCalendar(id);
-            List<EventViewModel> list = DomainToModel.Map(events);
+            List<EventViewModel> list;
+            if (events.Count() > 0)
+            {
+                list = DomainToModel.Map(events);
+            }
+            else
+            {
+                list = new List<EventViewModel>();
+                list.Add(new EventViewModel() { CalendarID = id });
+            }
             return View(list);
         }
 
@@ -93,6 +103,15 @@ namespace WebCalendar.Controllers
             model.EndTime = DateTime.Now;
             model.CalendarID = calendarID;
             return View(model);
+        }
+
+        public ActionResult CreateEvent()
+        {
+            EventViewModel model = new EventViewModel();
+            InitDropDownList(model);
+            model.BeginTime = DateTime.Now;
+            model.EndTime = DateTime.Now;
+            return View("Create", model);
         }
 
         [HttpPost]
@@ -169,6 +188,11 @@ namespace WebCalendar.Controllers
                 {
                     int id = ev.OccurrenceID.Value;
                     this.occurService.Delete(id);
+                }
+                if (ev.Notifications.Count > 0)
+                {
+                    ev.Notifications[0].EventID = this.service.GetEvents.LastOrDefault().ID;
+                    this.notifyService.Create(DomainToModel.Map(ev.Notifications[0]));
                 }
                 int calendarID = ev.CalendarID;
                 var domain = DomainToModel.Map(ev);
