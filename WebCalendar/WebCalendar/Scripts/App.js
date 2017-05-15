@@ -919,7 +919,7 @@ var app = angular.module('calendarApp', ["ngSanitize"]);
                                 "&end=" + ePeriod.format("YYYY-MM-DD HH:mm"),
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
-                            async: false,
+                            async: true,
                             success: function (eventsData) {
                                 $scope.currentPageEvents = eventsData;
 
@@ -940,7 +940,7 @@ var app = angular.module('calendarApp', ["ngSanitize"]);
                                     $.ajax({
                                         method: "GET",
                                         url: url,
-                                        async: false,
+                                        async: true,
                                         success: function (holiEvents) {
                                             holiEvents.holidays.forEach(function (event) {
 
