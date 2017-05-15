@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using WebCalendar.Contracts;
 using WebCalendar.Mappers;
 using WebCalendar.Models;
+using Ganss.XSS;
+using System;
 
 namespace WebCalendar.Controllers
 {
     [Authorize]
-    //[ValidateAntiForgeryToken]
     public class CalendarController : Controller
     {
         private ICalendarService service;
@@ -27,7 +29,35 @@ namespace WebCalendar.Controllers
 
         public ActionResult Index()
         {
+            //int calendarId;
+            //var calendars = this.service.GetUserCalendars();
+            //List<CalendarViewModel> list = DomainToModel.Map(calendars);
+            //if (list.Count == 0)
+            //{
+            //    CalendarViewModel newCalendar = new CalendarViewModel
+            //    {
+            //        Title = "Calendar",
+            //        Description = "Default calendar",
+            //        UserID = this.userService.GetUserID(),
+            //    };
+            //    var domain = DomainToModel.Map(newCalendar);
+            //    this.service.Create(domain);
+            //    //return View();
+
+            //    calendarId = GetCalendarId("Calendar");
+            //    return RedirectToAction("Open", new { calendarId = calendarId });
+            //}
             return View();
+        }
+
+
+        public int GetCalendarId(string name)
+        {
+            int calendarId;
+            var calendar = this.service.GetUserCalendars().FirstOrDefault(c => c.Title == name);
+            calendarId = calendar.ID;
+
+            return calendarId;
         }
 
         public ActionResult GridHtml(string fileName)
@@ -49,8 +79,19 @@ namespace WebCalendar.Controllers
             return View(model);
         }
 
+        [HttpPost]
         public JsonResult Create(CalendarViewModel cal)
         {
+            var sanitizer = new HtmlSanitizer();
+            if (!String.IsNullOrWhiteSpace(cal.Title))
+            {
+                cal.Title = sanitizer.Sanitize(cal.Title);
+            }
+            if (!String.IsNullOrWhiteSpace(cal.Description))
+            {
+                cal.Description = sanitizer.Sanitize(cal.Description);
+            }
+
             if (cal != null)
             {
                 cal.UserID = this.userService.GetUserID();
@@ -63,6 +104,16 @@ namespace WebCalendar.Controllers
         [HttpPost]
         public JsonResult Update(CalendarViewModel cal)
         {
+            var sanitizer = new HtmlSanitizer();
+            if (!String.IsNullOrWhiteSpace(cal.Title))
+            {
+                cal.Title = sanitizer.Sanitize(cal.Title);
+            }
+            if (!String.IsNullOrWhiteSpace(cal.Description))
+            {
+                cal.Description = sanitizer.Sanitize(cal.Description);
+            }
+
             if (cal != null)
             {
                 cal.UserID = this.userService.GetUserID();
