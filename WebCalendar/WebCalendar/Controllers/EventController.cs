@@ -7,6 +7,8 @@ using WebCalendar.Hubs;
 using WebCalendar.Mappers;
 using WebCalendar.Models;
 using Web = WebCalendar.Domain.Aggregate.Calendar;
+using Ganss.XSS;
+
 
 namespace WebCalendar.Controllers
 {
@@ -115,8 +117,19 @@ namespace WebCalendar.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(EventViewModel ev)
         {
+            var sanitizer = new HtmlSanitizer();
+            if (!String.IsNullOrWhiteSpace(ev.Title))
+            {
+                ev.Title = sanitizer.Sanitize(ev.Title);
+            }
+            if (!String.IsNullOrWhiteSpace(ev.Description))
+            {
+                ev.Description = sanitizer.Sanitize(ev.Description);
+            }
+
             Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
 
             if (cal == null)
@@ -171,6 +184,16 @@ namespace WebCalendar.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Update(EventViewModel ev)
         {
+            var sanitizer = new HtmlSanitizer();
+            if (!String.IsNullOrWhiteSpace(ev.Title))
+            {
+                ev.Title = sanitizer.Sanitize(ev.Title);
+            }
+            if (!String.IsNullOrWhiteSpace(ev.Description))
+            {
+                ev.Description = sanitizer.Sanitize(ev.Description);
+            }
+
             Web.Calendar cal = this.calService.GetUserCalendars().Where(c => c.ID == ev.CalendarID).SingleOrDefault();
 
             if (cal == null)

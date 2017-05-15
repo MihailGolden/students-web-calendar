@@ -5,11 +5,12 @@ using System.Web.Script.Serialization;
 using WebCalendar.Contracts;
 using WebCalendar.Mappers;
 using WebCalendar.Models;
+using Ganss.XSS;
+using System;
 
 namespace WebCalendar.Controllers
 {
     [Authorize]
-    //[ValidateAntiForgeryToken]
     public class CalendarController : Controller
     {
         private ICalendarService service;
@@ -78,8 +79,19 @@ namespace WebCalendar.Controllers
             return View(model);
         }
 
+        [HttpPost]
         public JsonResult Create(CalendarViewModel cal)
         {
+            var sanitizer = new HtmlSanitizer();
+            if (!String.IsNullOrWhiteSpace(cal.Title))
+            {
+                cal.Title = sanitizer.Sanitize(cal.Title);
+            }
+            if (!String.IsNullOrWhiteSpace(cal.Description))
+            {
+                cal.Description = sanitizer.Sanitize(cal.Description);
+            }
+
             if (cal != null)
             {
                 cal.UserID = this.userService.GetUserID();
@@ -92,6 +104,16 @@ namespace WebCalendar.Controllers
         [HttpPost]
         public JsonResult Update(CalendarViewModel cal)
         {
+            var sanitizer = new HtmlSanitizer();
+            if (!String.IsNullOrWhiteSpace(cal.Title))
+            {
+                cal.Title = sanitizer.Sanitize(cal.Title);
+            }
+            if (!String.IsNullOrWhiteSpace(cal.Description))
+            {
+                cal.Description = sanitizer.Sanitize(cal.Description);
+            }
+
             if (cal != null)
             {
                 cal.UserID = this.userService.GetUserID();
