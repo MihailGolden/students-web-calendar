@@ -919,7 +919,8 @@ function getScope(ctrlName) {
                                 $scope.currentPageEvents = eventsData;
 
                                 //params///
-                                var key = '904177ce-e90e-438d-a6fd-1a46682e70bd';
+                                //var key = '904177ce-e90e-438d-a6fd-1a46682e70bd';
+                                var key = 'c5f0f50c-0c98-443f-9159-95260c8065f5';
                                 var country = $scope.selectedCountry.acronym;
                                 var year = '2016';
                                 var month = $scope.currentDate.format("M");

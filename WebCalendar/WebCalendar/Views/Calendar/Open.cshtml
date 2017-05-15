@@ -16,12 +16,10 @@
         display: block;
         border-radius: 50%;
         behavior: url(PIE.htc);
-        background-color: deepskyblue;
         border: 2px solid green;
-        color: navajowhite;
+        color: black;
         text-align: center;
         font: 15px Arial, sans-serif;
-        margin-left: 75px;
     }
 
     .curr-day {
@@ -73,6 +71,17 @@
         text-align: center;
         vertical-align: middle;
     }
+
+    html { overflow-y: scroll !important; }
+    body { position: absolute !important; 
+    }
+
+    @@media (max-width: 1200px) {
+        #datetimepicker12 {
+            display: none;
+        }
+    }
+
 </style>
 
 <div ng-app="calendarApp" ng-controller="calendarCtrl" ng-init="init(@Model.ID);getEvents();" class="open-window">
