@@ -14,7 +14,7 @@
 
         <tr ng-repeat="r in dataForGridDay">
 
-            <td ng-repeat="e in r" ng-style={'background-color':e.color} class="{{e.class}}" data-hour="{{e.hour}}" data-id="{{e.id}}" data-title="{{e.titleAttr}}" ng-click="eventInfo(e.id)">
+            <td ng-repeat="e in r" style="width: 100px" ng-style={'background-color':e.color} class="{{e.class}}" data-hour="{{e.hour}}" data-id="{{e.id}}" data-title="{{e.titleAttr}}" ng-click="eventInfo(e.id)">
                 <span>{{e.title}}</span>
             </td>
 

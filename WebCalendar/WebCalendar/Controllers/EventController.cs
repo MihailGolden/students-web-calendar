@@ -117,7 +117,6 @@ namespace WebCalendar.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(EventViewModel ev)
         {
             var sanitizer = new HtmlSanitizer();
